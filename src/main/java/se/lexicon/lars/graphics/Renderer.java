@@ -10,8 +10,8 @@ import javafx.stage.Stage;
 
 public class Renderer extends Application {
 
-    public static final int windowWidth = 800;
-    public static final int windowHeight = 600;
+    public static final int windowWidth = 1024;
+    public static final int windowHeight = 768;
     public static Long startNanoTime = System.nanoTime();
     public static double elapsedTime;
 

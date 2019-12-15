@@ -50,6 +50,8 @@ public abstract class GameObject {
 
     protected abstract void render(GraphicsContext gc);
 
+    protected abstract void move();
+
     public double getPositionX() {
         return positionX;
     }
