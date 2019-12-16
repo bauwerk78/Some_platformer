@@ -13,7 +13,13 @@ import javafx.scene.input.KeyEvent;
 import java.util.ArrayList;
 
 public class PlayerCharacter extends GameObject {
+
     private Image image;
+    private double velocity;
+    private double gravity;
+    private double jumpSpeed;
+    private int tileSize = 16;
+
     ArrayList<String> input = new ArrayList<>();
 
 
@@ -47,25 +53,55 @@ public class PlayerCharacter extends GameObject {
     }
 
 
+
+
     @Override
     protected void init() {
-        setObjectWidth(50);
-        setObjectHeight(50);
+        setObjectWidth(16);
+        setObjectHeight(16);
+        setPositionX(7 * 16);
+        setPositionY(windowHeight - (10 * 16));
+        setJumpSpeed(-16);
+        setObjectSpeedX(100);
+        gravity = 200;
         setImage();
     }
 
     @Override
     protected void update() {
-
+        velocity += (gravity * elapsedTime);
+        setPositionY(getPositionY() + velocity);
+        if(getPositionY() > windowHeight - 2 * 16) {
+            setPositionY(windowHeight - 2 * 16);
+            velocity = 0;
+        }
     }
 
     @Override
     protected void render(GraphicsContext gc) {
-        gc.drawImage(image, 100, 100, getObjectWidth(), getObjectHeight());
+        //move(scene);
+        update();
+        gc.drawImage(image, getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
+    }
+
+    public void renderPlayer(GraphicsContext gc, Scene scene) {
+        move(scene);
+        update();
+        gc.drawImage(image, getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
     }
 
     @Override
-    protected void move() {
+    protected void move(Scene scene) {
+        getPlayerInput(scene);
+        if(input.contains("UP") && velocity == 0) {
+            velocity += jumpSpeed;
+        }
+        if(input.contains("LEFT")) {
+            setPositionX(getPositionX() - (getObjectSpeedX() * elapsedTime));
+        }
+        if(input.contains("RIGHT")) {
+            setPositionX(getPositionX() + (getObjectSpeedX() * elapsedTime));
+        }
 
     }
 
@@ -73,6 +109,12 @@ public class PlayerCharacter extends GameObject {
         image = new Image("file:Images/mario_rambo2.gif", getObjectWidth(), getObjectHeight(), false, false);
     }
 
+    public double getJumpSpeed() {
+        return jumpSpeed;
+    }
 
+    public void setJumpSpeed(double jumpSpeed) {
+        this.jumpSpeed = jumpSpeed;
+    }
 }//End of class.
 

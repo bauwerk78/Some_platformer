@@ -1,5 +1,6 @@
 package se.lexicon.lars.model;
 
+import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 
 public abstract class GameObject {
@@ -50,7 +51,7 @@ public abstract class GameObject {
 
     protected abstract void render(GraphicsContext gc);
 
-    protected abstract void move();
+    protected abstract void move(Scene scene);
 
     public double getPositionX() {
         return positionX;
