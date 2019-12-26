@@ -1,8 +1,8 @@
 package se.lexicon.lars.model;
 
-import static se.lexicon.lars.graphics.Renderer.windowWidth;
 import static se.lexicon.lars.graphics.Renderer.windowHeight;
 import static se.lexicon.lars.graphics.Renderer.elapsedTime;
+import static se.lexicon.lars.model.Level.TILESIZE;
 
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -14,11 +14,18 @@ import java.util.ArrayList;
 
 public class PlayerCharacter extends GameObject {
 
+    private final double fallSpeed = 150;
+    private final double jumpHeight = -25;
+
+
     private Image image;
-    private double velocity;
-    private double gravity;
-    private double jumpSpeed;
-    private int tileSize = 16;
+    private double velocity = 0;
+    private boolean goingRight = true;
+    private boolean playerJumping = false;
+    private boolean playerFalling = true;
+    private boolean playerGrounded = false;
+    private double tileX;
+    private double tileY;
 
     ArrayList<String> input = new ArrayList<>();
 
@@ -30,6 +37,19 @@ public class PlayerCharacter extends GameObject {
     public PlayerCharacter(double positionX, double positionY) {
         super(positionX, positionY);
         init();
+    }
+
+    @Override
+    protected void init() {
+        setObjectWidth(TILESIZE);
+        setObjectHeight(TILESIZE);
+        //Todo not working.
+        setTileX(TILESIZE * 2);
+        setTileY(windowHeight - TILESIZE * 10);
+        setPositionX(getTileX());
+        setPositionY(getTileY());
+        setObjectSpeedX(300);
+        setImage();
     }
 
     private void getPlayerInput(Scene scene) {
@@ -52,69 +72,106 @@ public class PlayerCharacter extends GameObject {
 
     }
 
-
-
-
     @Override
-    protected void init() {
-        setObjectWidth(16);
-        setObjectHeight(16);
-        setPositionX(7 * 16);
-        setPositionY(windowHeight - (10 * 16));
-        setJumpSpeed(-16);
-        setObjectSpeedX(100);
-        gravity = 200;
-        setImage();
+    protected void move(Scene scene) {
+        getPlayerInput(scene);
+        if (input.contains("UP") && isPlayerGrounded()) {
+            velocity += jumpHeight;
+            playerGrounded = false;
+            playerJumping = true;
+            setPositionY(getPositionY() + velocity);
+        }
+        if (input.contains("LEFT")) {
+            setPositionX(getPositionX() - (getObjectSpeedX() * elapsedTime));
+            goingRight = false;
+        }
+        if (input.contains("RIGHT")) {
+            setPositionX(getPositionX() + (getObjectSpeedX() * elapsedTime));
+            goingRight = true;
+        }
     }
 
     @Override
     protected void update() {
-        velocity += (gravity * elapsedTime);
-        setPositionY(getPositionY() + velocity);
-        if(getPositionY() > windowHeight - 2 * 16) {
-            setPositionY(windowHeight - 2 * 16);
-            velocity = 0;
+        if (!playerGrounded) {
+            velocity += (fallSpeed * elapsedTime);
+            setPositionY(getPositionY() + velocity);
         }
+        tileX = (int) ((int) ((getPositionX() + getObjectWidth() / 2) / TILESIZE));
+        tileY = (int) ((int) ((getPositionY() + getObjectHeight() / 2) / TILESIZE));
     }
 
     @Override
-    protected void render(GraphicsContext gc) {
-        //move(scene);
-        update();
-        gc.drawImage(image, getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
-    }
-
-    public void renderPlayer(GraphicsContext gc, Scene scene) {
+    public void render(GraphicsContext gc, Scene scene) {
         move(scene);
         update();
-        gc.drawImage(image, getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
-    }
-
-    @Override
-    protected void move(Scene scene) {
-        getPlayerInput(scene);
-        if(input.contains("UP") && velocity == 0) {
-            velocity += jumpSpeed;
-        }
-        if(input.contains("LEFT")) {
-            setPositionX(getPositionX() - (getObjectSpeedX() * elapsedTime));
-        }
-        if(input.contains("RIGHT")) {
-            setPositionX(getPositionX() + (getObjectSpeedX() * elapsedTime));
+        if (goingRight) {
+            gc.drawImage(image, getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
+        } else {
+            gc.drawImage(image, getPositionX() + getObjectWidth(), getPositionY(), -getObjectWidth(), getObjectHeight());
         }
 
     }
+
 
     public void setImage() {
-        image = new Image("file:Images/mario_rambo2.gif", getObjectWidth(), getObjectHeight(), false, false);
+        image = new Image("file:Images/mario_rambo3.gif", getObjectWidth(), getObjectHeight(), false, false);
     }
 
-    public double getJumpSpeed() {
-        return jumpSpeed;
+    public double getTileX() {
+        return tileX;
     }
 
-    public void setJumpSpeed(double jumpSpeed) {
-        this.jumpSpeed = jumpSpeed;
+    public void setTileX(int tileX) {
+        this.tileX = tileX;
+    }
+
+    public double getTileY() {
+        return tileY;
+    }
+
+    public void setTileY(int tileY) {
+        this.tileY = tileY;
+    }
+
+    public double getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(double velocity) {
+        this.velocity = velocity;
+    }
+
+    public boolean isPlayerJumping() {
+        return playerJumping;
+    }
+
+    public void setPlayerJumping(boolean playerJumping) {
+        this.playerJumping = playerJumping;
+    }
+
+    public boolean isPlayerFalling() {
+        return playerFalling;
+    }
+
+    public void setPlayerFalling(boolean playerFalling) {
+        this.playerFalling = playerFalling;
+    }
+
+    public boolean isGoingRight() {
+        return goingRight;
+    }
+
+    public void setGoingRight(boolean goingRight) {
+        this.goingRight = goingRight;
+    }
+
+    public boolean isPlayerGrounded() {
+        return playerGrounded;
+    }
+
+    public void setPlayerGrounded(boolean playerGrounded) {
+        this.playerGrounded = playerGrounded;
     }
 }//End of class.
 

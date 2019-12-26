@@ -47,11 +47,13 @@ public abstract class GameObject {
 
     protected abstract void init();
 
+    protected abstract void move(Scene scene);
+
     protected abstract void update();
 
-    protected abstract void render(GraphicsContext gc);
+    protected abstract void render(GraphicsContext gc, Scene scene);
 
-    protected abstract void move(Scene scene);
+
 
     public double getPositionX() {
         return positionX;

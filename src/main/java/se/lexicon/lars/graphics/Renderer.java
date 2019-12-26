@@ -2,13 +2,12 @@ package se.lexicon.lars.graphics;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.scene.Group;
-import javafx.scene.ParallelCamera;
-import javafx.scene.PerspectiveCamera;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
+import se.lexicon.lars.implementer.MainGame;
 import se.lexicon.lars.model.Level;
 import se.lexicon.lars.model.PlayerCharacter;
 
@@ -25,19 +24,32 @@ public class Renderer extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage stage) {
 
-        primaryStage.setTitle("Some Platformer");
+        stage.setTitle("Some Platformer");
         Group root = new Group();
         Scene mainScene = new Scene(root);
 
 
+        stage.setScene(mainScene);
+        stage.setResizable(false);
+        stage.sizeToScene();
 
-        primaryStage.setScene(mainScene);
-        primaryStage.setResizable(false);
-        primaryStage.sizeToScene();
+        Region nodeRegion = new Region();
 
-        PerspectiveCamera camera = new PerspectiveCamera(true);
+        SubScene cameraScene = new SubScene(nodeRegion, 200, 200);
+
+
+/*        ParallelCamera camera = new ParallelCamera();
+        cameraScene.setCamera(camera);
+        camera.setNearClip(0.1);
+        camera.setFarClip(1000);
+        camera.setScaleZ(0.5);
+        //camera.resize(50, 50);
+        root.getChildren().add(cameraScene);*/
+
+
+        /*PerspectiveCamera camera = new PerspectiveCamera(true);
         mainScene.setCamera(camera);
         camera.translateZProperty().set(-800);
         camera.setNearClip(0.1);
@@ -49,28 +61,26 @@ public class Renderer extends Application {
         //camera.setScaleZ(200);
         //camera.relocate(-100, -50);
         //camera.resize(50, 50);
-        camera.setFieldOfView(30);
+        camera.setFieldOfView(30);*/
 
         Canvas canvas = new Canvas(windowWidth, windowHeight);
         root.getChildren().add(canvas);
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        Level level = new Level();
-        PlayerCharacter player = new PlayerCharacter();
+        MainGame mainGame = new MainGame();
 
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 nanoTimer(currentNanoTime);
                 gc.clearRect(0, 0, windowWidth, windowHeight);
-                level.renderLevel(gc);
-                player.renderPlayer(gc, mainScene);
+                mainGame.mainLoop(gc, mainScene);
 
 
             }
         }.start();
 
-        primaryStage.show();
+        stage.show();
 
 
     }
