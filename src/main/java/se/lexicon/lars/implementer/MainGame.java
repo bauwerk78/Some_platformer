@@ -44,6 +44,7 @@ public class MainGame {
             }
         }
          //Going left
+        //TODO, player seems to be drawn to end of the map when close.
         if (!player.isGoingRight()) {
             if (getCollision(player.getTileX() - 1, player.getTileY())) {
                 if (player.getTileX() - 1 == 0) {

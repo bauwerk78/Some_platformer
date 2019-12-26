@@ -80,6 +80,8 @@ public class PlayerCharacter extends GameObject {
             playerGrounded = false;
             playerJumping = true;
             setPositionY(getPositionY() + velocity);
+            //TODO modify so you don't get constant jumping.
+            //input.clear();
         }
         if (input.contains("LEFT")) {
             setPositionX(getPositionX() - (getObjectSpeedX() * elapsedTime));
