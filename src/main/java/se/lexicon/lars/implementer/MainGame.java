@@ -1,6 +1,5 @@
 package se.lexicon.lars.implementer;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import se.lexicon.lars.model.Level;
@@ -16,6 +15,10 @@ public class MainGame {
     private boolean playerCollided;
     private double newXPosition;
     private double newYPosition;
+    private double oldXTile;
+    private double oldYTile;
+    private double collidingYPos;
+    private double collidingXPos;
 
     public MainGame() {
         init();
@@ -26,6 +29,7 @@ public class MainGame {
         player = new PlayerCharacter();
     }
 
+    //TODO checking one more position back so i can use 0 as 1 position wich makes it easier for collision detection.
     private boolean getCollision(double tileX, double tileY) {
         return level.getCollideAble(tileX, tileY);
     }
@@ -47,24 +51,22 @@ public class MainGame {
         //TODO, player seems to be drawn to end of the map when close.
         if (!player.isGoingRight()) {
             if (getCollision(player.getTileX() - 1, player.getTileY())) {
-                if (player.getTileX() - 1 == 0) {
-                    newXPosition = TILESIZE;
-                } else {
-                    newXPosition = (player.getTileX()) * (TILESIZE);
+                System.out.println("colliding going left: " + player.getTileX());
+                if(player.getPositionX() < (player.getTileX() - 1) * TILESIZE) {
+                    player.setPositionX((player.getTileX() - 1) * TILESIZE);
                 }
-                player.setPositionX(newXPosition);
-
+                //player.setPositionX(collidingXPos);
             }
-
         }
 
         //Going down
         if (!player.isPlayerGrounded()) {
             if (getCollision(player.getTileX(), player.getTileY() + 1)) {
-                if (player.getPositionY() + player.getObjectHeight() >= (player.getTileY() + 1) * TILESIZE) {
-                    newYPosition = windowHeight - player.getObjectHeight() - (player.getTileY() + 1) * TILESIZE;
-                    //System.out.println(newYPosition);
-                    player.setPositionY(windowHeight - newYPosition - player.getObjectHeight() - TILESIZE);
+                collidingYPos = (player.getTileY() + 1) * TILESIZE;
+                System.out.println("colliding " + collidingYPos);
+                if (player.getPositionY() + player.getObjectHeight() > (player.getTileY() + 1) * TILESIZE) {
+                    newYPosition = collidingYPos;
+                    player.setPositionY(newYPosition - TILESIZE);
                     player.setPlayerGrounded(true);
                     player.setPlayerJumping(false);
                     player.setVelocity(0);
@@ -78,16 +80,17 @@ public class MainGame {
         //TODO broken....
         //Going up
         if(player.isPlayerJumping()) {
-            player.setPlayerGrounded(false);
-            if (getCollision(player.getTileX(), player.getTileY() - 1)) {
-                //System.out.println("collision is true");
-                System.out.println(player.getPositionY() + " : " + (player.getTileY() - 1) * TILESIZE);
-                if (player.getPositionY() - TILESIZE <= (player.getTileY() - 1) * TILESIZE) {
-                    System.out.println("do we ever get here?");
-                    if (player.getTileY() - 1 == 0) {
+            System.out.println(player.getPositionY() + " : " + ((player.getTileY()) * TILESIZE));
+             if (getCollision(player.getTileX(), player.getTileY() - 1)) {
+                 oldXTile = player.getTileX();
+                 oldYTile = player.getTileY() - 1;
+                System.out.println("collision is true");
+                //System.out.println(player.getPositionY() + " : " + (player.getTileY() - 1) * TILESIZE + TILESIZE);
+                if (player.getPositionY() <= ((oldYTile) * TILESIZE)) {
+                    if (oldYTile == 0) {
                         newYPosition = TILESIZE;
                     } else {
-                        newYPosition = (player.getTileY() * TILESIZE) + TILESIZE;
+                        newYPosition = (oldYTile * TILESIZE) + TILESIZE;
                     }
                     player.setPositionY(newYPosition);
                     //player.setPlayerJumping(false);
@@ -99,7 +102,8 @@ public class MainGame {
     private void renderGame(GraphicsContext gc, Scene scene) {
         level.renderLevel(gc);
         player.render(gc, scene);
-        System.out.println(player.getTileX() + " : " + player.getTileY());
+        //System.out.println(player.getTileX() + " : " + player.getTileY());
+        //System.out.println(player.getPositionY() + " : " + ((player.getTileY()) * TILESIZE));
         //System.out.println(player.isPlayerGrounded());
         //System.out.println(player.getPositionX() + " : " + player.getPositionY());
         handlePlayerCollision((int) player.getTileX(), (int) player.getTileY());

@@ -1,6 +1,5 @@
 package se.lexicon.lars.model;
 
-import static se.lexicon.lars.graphics.Renderer.windowHeight;
 import static se.lexicon.lars.graphics.Renderer.elapsedTime;
 import static se.lexicon.lars.model.Level.TILESIZE;
 
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 
 public class PlayerCharacter extends GameObject {
 
-    private final double fallSpeed = 150;
+    private final double fallSpeed = 100;
     private final double jumpHeight = -25;
 
 
@@ -24,8 +23,8 @@ public class PlayerCharacter extends GameObject {
     private boolean playerJumping = false;
     private boolean playerFalling = true;
     private boolean playerGrounded = false;
-    private double tileX;
-    private double tileY;
+    private int tileX;
+    private int tileY;
 
     ArrayList<String> input = new ArrayList<>();
 
@@ -44,10 +43,10 @@ public class PlayerCharacter extends GameObject {
         setObjectWidth(TILESIZE);
         setObjectHeight(TILESIZE);
         //Todo not working.
-        setTileX(TILESIZE * 2);
-        setTileY(windowHeight - TILESIZE * 10);
-        setPositionX(getTileX());
-        setPositionY(getTileY());
+        setTileX(2);
+        setTileY(8);
+        setPositionX(getTileX() * TILESIZE);
+        setPositionY(getTileY() * TILESIZE);
         setObjectSpeedX(300);
         setImage();
     }
@@ -99,8 +98,11 @@ public class PlayerCharacter extends GameObject {
             velocity += (fallSpeed * elapsedTime);
             setPositionY(getPositionY() + velocity);
         }
-        tileX = (int) ((int) ((getPositionX() + getObjectWidth() / 2) / TILESIZE));
-        tileY = (int) ((int) ((getPositionY() + getObjectHeight() / 2) / TILESIZE));
+        double tempX;
+        double tempY;
+
+        tileX = (int) ((getPositionX() + getObjectWidth() / 2) / TILESIZE);
+        tileY = (int) (((getPositionY()) / TILESIZE));
     }
 
     @Override
@@ -120,7 +122,7 @@ public class PlayerCharacter extends GameObject {
         image = new Image("file:Images/mario_rambo3.gif", getObjectWidth(), getObjectHeight(), false, false);
     }
 
-    public double getTileX() {
+    public int getTileX() {
         return tileX;
     }
 
@@ -128,7 +130,7 @@ public class PlayerCharacter extends GameObject {
         this.tileX = tileX;
     }
 
-    public double getTileY() {
+    public int getTileY() {
         return tileY;
     }
 
