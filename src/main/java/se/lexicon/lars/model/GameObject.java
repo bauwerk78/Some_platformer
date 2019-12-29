@@ -2,6 +2,7 @@ package se.lexicon.lars.model;
 
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
+import se.lexicon.lars.implementer.MainGame;
 
 public abstract class GameObject {
 
@@ -47,11 +48,11 @@ public abstract class GameObject {
 
     protected abstract void init();
 
-    protected abstract void move(Scene scene);
+    protected abstract void move(Scene scene, MainGame mg);
 
-    protected abstract void update();
+    protected abstract void update(MainGame mg);
 
-    protected abstract void render(GraphicsContext gc, Scene scene);
+    protected abstract void render(GraphicsContext gc, Scene scene, MainGame mg);
 
 
 

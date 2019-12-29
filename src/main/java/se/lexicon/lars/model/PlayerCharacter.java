@@ -8,12 +8,14 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
+import se.lexicon.lars.implementer.MainGame;
 
 import java.util.ArrayList;
 
 public class PlayerCharacter extends GameObject {
 
-    private final double fallSpeed = 100;
+    private final double gravity = 100;
     private final double jumpHeight = -25;
 
 
@@ -23,8 +25,10 @@ public class PlayerCharacter extends GameObject {
     private boolean playerJumping = false;
     private boolean playerFalling = true;
     private boolean playerGrounded = false;
-    private int tileX;
-    private int tileY;
+    private double tileX;
+    private double tileY;
+    private double offX = 0;
+    private double offY = 0;
 
     ArrayList<String> input = new ArrayList<>();
 
@@ -43,8 +47,8 @@ public class PlayerCharacter extends GameObject {
         setObjectWidth(TILESIZE);
         setObjectHeight(TILESIZE);
         //Todo not working.
-        setTileX(2);
-        setTileY(8);
+        setTileX(3);
+        setTileY(9);
         setPositionX(getTileX() * TILESIZE);
         setPositionY(getTileY() * TILESIZE);
         setObjectSpeedX(300);
@@ -72,48 +76,92 @@ public class PlayerCharacter extends GameObject {
     }
 
     @Override
-    protected void move(Scene scene) {
+    protected void move(Scene scene, MainGame mg) {
+        //TODO broken movement, left right works fine but not when falling or jumping atm.
         getPlayerInput(scene);
+        //Player falling.
+        if (!mg.getCollision(getTileX(), getTileY() + 1)) {
+            playerGrounded = false;
+            velocity += gravity * elapsedTime;
+            offY += velocity;
+            if (offY > TILESIZE) {
+                tileY++;
+                offY = 0;
+                offY += velocity;
+            }
+        } else {
+            playerGrounded = true;
+            playerJumping = false;
+            offY = 0;
+            velocity = 0;
+        }
+
+        //Jumping
         if (input.contains("UP") && isPlayerGrounded()) {
             velocity += jumpHeight;
+            offY += velocity;
             playerGrounded = false;
             playerJumping = true;
-            setPositionY(getPositionY() + velocity);
-            //TODO modify so you don't get constant jumping.
-            //input.clear();
+            if (offY < TILESIZE) {
+                tileY--;
+                offY = 0;
+                offY += velocity;
+            }
+
         }
+
+
         if (input.contains("LEFT")) {
-            setPositionX(getPositionX() - (getObjectSpeedX() * elapsedTime));
             goingRight = false;
+            offX -= (getObjectSpeedX() * elapsedTime);
+            if (mg.getCollision(getTileX() - 1, getTileY()) && offX <= 0) {
+                offX = 0;
+            }
+            if (offX < -TILESIZE) {
+                tileX--;
+                offX = 0;
+            }
+
         }
         if (input.contains("RIGHT")) {
-            setPositionX(getPositionX() + (getObjectSpeedX() * elapsedTime));
             goingRight = true;
+            offX += (getObjectSpeedX() * elapsedTime);
+            if (mg.getCollision(getTileX() + 1, getTileY()) && offX >= 0) {
+                System.out.println("colliding right: ");
+                offX = 0;
+            }
+            if (offX > TILESIZE) {
+                tileX++;
+                offX = 0;
+            }
+
         }
+        //tileY = (int) (((getPositionY()) / TILESIZE));
+
+        setPositionY((getTileY() * TILESIZE) + offY);
+        setPositionX((getTileX() * TILESIZE) + offX);
+
     }
 
     @Override
-    protected void update() {
-        if (!playerGrounded) {
-            velocity += (fallSpeed * elapsedTime);
-            setPositionY(getPositionY() + velocity);
-        }
-        double tempX;
-        double tempY;
+    protected void update(MainGame mg) {
 
-        tileX = (int) ((getPositionX() + getObjectWidth() / 2) / TILESIZE);
-        tileY = (int) (((getPositionY()) / TILESIZE));
+
     }
 
     @Override
-    public void render(GraphicsContext gc, Scene scene) {
-        move(scene);
-        update();
+    public void render(GraphicsContext gc, Scene scene, MainGame mg) {
+        move(scene, mg);
+        update(mg);
+        gc.setFill(Color.RED);
+        gc.fillRect(getPositionX(), getPositionY(), TILESIZE, TILESIZE);
+/*
         if (goingRight) {
             gc.drawImage(image, getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
         } else {
             gc.drawImage(image, getPositionX() + getObjectWidth(), getPositionY(), -getObjectWidth(), getObjectHeight());
         }
+*/
 
     }
 
@@ -122,28 +170,36 @@ public class PlayerCharacter extends GameObject {
         image = new Image("file:Images/mario_rambo3.gif", getObjectWidth(), getObjectHeight(), false, false);
     }
 
-    public int getTileX() {
+    public double getOffX() {
+        return offX;
+    }
+
+    public void setOffX(double offX) {
+        this.offX = offX;
+    }
+
+    public double getOffY() {
+        return offY;
+    }
+
+    public void setOffY(double offY) {
+        this.offY = offY;
+    }
+
+    public double getTileX() {
         return tileX;
     }
 
-    public void setTileX(int tileX) {
+    public void setTileX(double tileX) {
         this.tileX = tileX;
     }
 
-    public int getTileY() {
+    public double getTileY() {
         return tileY;
     }
 
-    public void setTileY(int tileY) {
+    public void setTileY(double tileY) {
         this.tileY = tileY;
-    }
-
-    public double getVelocity() {
-        return velocity;
-    }
-
-    public void setVelocity(double velocity) {
-        this.velocity = velocity;
     }
 
     public boolean isPlayerJumping() {
