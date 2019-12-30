@@ -46,7 +46,6 @@ public class PlayerCharacter extends GameObject {
     protected void init() {
         setObjectWidth(TILESIZE);
         setObjectHeight(TILESIZE);
-        //Todo not working.
         setTileX(7);
         setTileY(2);
         setPositionX(getTileX() * TILESIZE);
@@ -82,13 +81,6 @@ public class PlayerCharacter extends GameObject {
         //Jumping and falling.
         velocity += (gravity * elapsedTime);
 
-        //Collided with tile beneath player.
-        if (mg.getCollision(getTileX(), getTileY() + 1) && offY >= 0) {
-            playerGrounded = true;
-            //playerJumping = false;
-            offY = 0;
-            velocity = 0;
-        }
         //Jumping
         if (input.contains("UP") && isPlayerGrounded()) {
             velocity += jumpHeight;
@@ -106,6 +98,16 @@ public class PlayerCharacter extends GameObject {
             }
         }
 
+        //Colliding with tile beneath player.
+        if (velocity > 0) {
+            if (mg.getCollision(getTileX(), getTileY() + 1) && offY >= 0) {
+                playerGrounded = true;
+                //playerJumping = false;
+                offY = 0;
+                velocity = 0;
+            }
+        }
+
         offY += velocity;
         //End of jumping and falling.
 
@@ -113,27 +115,25 @@ public class PlayerCharacter extends GameObject {
         if (input.contains("LEFT")) {
             goingRight = false;
             offX -= (getObjectSpeedX() * elapsedTime);
+            //Going left.
+
+            if (mg.getCollision(getTileX() - 1, getTileY()) && offX <= 0) {
+                System.out.println("colliding left: ");
+                offX = 0;
+            }
+
         }
 
         if (input.contains("RIGHT")) {
             goingRight = true;
             offX += (getObjectSpeedX() * elapsedTime);
-        }
+            //Going right.
 
-        //Going left.
-        if (!goingRight) {
-            if (mg.getCollision(getTileX() - 1, getTileY()) && offX <= 0) {
-                System.out.println("colliding left: ");
-                offX = 0;
-            }
-        }
-
-        //Going right.
-        if (goingRight) {
             if (mg.getCollision(getTileX() + 1, getTileY()) && offX >= 0) {
                 System.out.println("colliding right: ");
                 offX = 0;
             }
+
         }
         //End of right and left movement.
 
