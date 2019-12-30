@@ -35,9 +35,9 @@ public class Renderer extends Application {
         stage.setResizable(false);
         stage.sizeToScene();
 
-        Region nodeRegion = new Region();
+        /*Region nodeRegion = new Region();
 
-        SubScene cameraScene = new SubScene(nodeRegion, 200, 200);
+        SubScene cameraScene = new SubScene(nodeRegion, 200, 200);*/
 
 
 /*        ParallelCamera camera = new ParallelCamera();

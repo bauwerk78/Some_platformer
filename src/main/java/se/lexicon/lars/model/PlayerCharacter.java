@@ -47,8 +47,8 @@ public class PlayerCharacter extends GameObject {
         setObjectWidth(TILESIZE);
         setObjectHeight(TILESIZE);
         //Todo not working.
-        setTileX(3);
-        setTileY(9);
+        setTileX(7);
+        setTileY(2);
         setPositionX(getTileX() * TILESIZE);
         setPositionY(getTileY() * TILESIZE);
         setObjectSpeedX(300);
@@ -77,70 +77,89 @@ public class PlayerCharacter extends GameObject {
 
     @Override
     protected void move(Scene scene, MainGame mg) {
-        //TODO broken movement, left right works fine but not when falling or jumping atm.
         getPlayerInput(scene);
-        //Player falling.
-        if (!mg.getCollision(getTileX(), getTileY() + 1)) {
-            playerGrounded = false;
-            velocity += gravity * elapsedTime;
-            offY += velocity;
-            if (offY > TILESIZE) {
-                tileY++;
-                offY = 0;
-                offY += velocity;
-            }
-        } else {
+
+        //Jumping and falling.
+        velocity += (gravity * elapsedTime);
+
+        //Collided with tile beneath player.
+        if (mg.getCollision(getTileX(), getTileY() + 1) && offY >= 0) {
             playerGrounded = true;
-            playerJumping = false;
+            //playerJumping = false;
             offY = 0;
             velocity = 0;
         }
-
         //Jumping
         if (input.contains("UP") && isPlayerGrounded()) {
             velocity += jumpHeight;
-            offY += velocity;
             playerGrounded = false;
             playerJumping = true;
-            if (offY < TILESIZE) {
-                tileY--;
-                offY = 0;
-                offY += velocity;
-            }
-
         }
 
+        //Colliding upwards
+        if (velocity < 0) {
+            if (isPlayerJumping()) {
+                if (mg.getCollision(getTileX(), tileY - 1) && offY <= 0) {
+                    offY = 0;
+                    velocity = 0;
+                }
+            }
+        }
 
+        offY += velocity;
+        //End of jumping and falling.
+
+        //Right and left movement.
         if (input.contains("LEFT")) {
             goingRight = false;
             offX -= (getObjectSpeedX() * elapsedTime);
-            if (mg.getCollision(getTileX() - 1, getTileY()) && offX <= 0) {
-                offX = 0;
-            }
-            if (offX < -TILESIZE) {
-                tileX--;
-                offX = 0;
-            }
-
         }
+
         if (input.contains("RIGHT")) {
             goingRight = true;
             offX += (getObjectSpeedX() * elapsedTime);
+        }
+
+        //Going left.
+        if (!goingRight) {
+            if (mg.getCollision(getTileX() - 1, getTileY()) && offX <= 0) {
+                System.out.println("colliding left: ");
+                offX = 0;
+            }
+        }
+
+        //Going right.
+        if (goingRight) {
             if (mg.getCollision(getTileX() + 1, getTileY()) && offX >= 0) {
                 System.out.println("colliding right: ");
                 offX = 0;
             }
-            if (offX > TILESIZE) {
-                tileX++;
-                offX = 0;
-            }
-
         }
-        //tileY = (int) (((getPositionY()) / TILESIZE));
+        //End of right and left movement.
 
-        setPositionY((getTileY() * TILESIZE) + offY);
+        //Update positions.
+        if (offY > TILESIZE) {
+            tileY++;
+            offY = 0;
+        }
+
+        if (offY < -TILESIZE) {
+            tileY--;
+            offY = 0;
+        }
+
+        if (offX < -TILESIZE) {
+            tileX--;
+            offX = 0;
+        }
+
+        if (offX > TILESIZE) {
+            tileX++;
+            offX = 0;
+        }
+
         setPositionX((getTileX() * TILESIZE) + offX);
-
+        setPositionY((getTileY() * TILESIZE) + offY);
     }
 
     @Override
@@ -153,15 +172,13 @@ public class PlayerCharacter extends GameObject {
     public void render(GraphicsContext gc, Scene scene, MainGame mg) {
         move(scene, mg);
         update(mg);
-        gc.setFill(Color.RED);
-        gc.fillRect(getPositionX(), getPositionY(), TILESIZE, TILESIZE);
-/*
+        //gc.setFill(Color.RED);
+        //gc.fillRect(getPositionX(), getPositionY(), TILESIZE, TILESIZE);
         if (goingRight) {
             gc.drawImage(image, getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
         } else {
             gc.drawImage(image, getPositionX() + getObjectWidth(), getPositionY(), -getObjectWidth(), getObjectHeight());
         }
-*/
 
     }
 

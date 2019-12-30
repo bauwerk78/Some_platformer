@@ -12,7 +12,7 @@ public class MainGame {
 
     private Level level;
     private PlayerCharacter player;
-    private boolean playerCollided;
+    //private boolean playerCollided;
 
 
     public MainGame() {
