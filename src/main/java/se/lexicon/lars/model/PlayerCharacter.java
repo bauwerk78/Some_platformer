@@ -137,24 +137,24 @@ public class PlayerCharacter extends GameObject {
         //End of right and left movement.
 
         //Update positions.
-        if (offY > TILESIZE) {
+        if (offY > TILESIZE / 2f) {
             tileY++;
-            offY = 0;
+            offY -= TILESIZE;
         }
 
-        if (offY < -TILESIZE) {
+        if (offY < -TILESIZE / 2f) {
             tileY--;
-            offY = 0;
+            offY += TILESIZE;
         }
 
-        if (offX < -TILESIZE) {
+        if (offX < -TILESIZE / 2f) {
             tileX--;
-            offX = 0;
+            offX += TILESIZE;
         }
 
-        if (offX > TILESIZE) {
+        if (offX > TILESIZE / 2f) {
             tileX++;
-            offX = 0;
+            offX -= TILESIZE;
         }
 
         setPositionX((getTileX() * TILESIZE) + offX);
