@@ -48,9 +48,7 @@ public abstract class GameObject {
 
     protected abstract void init();
 
-    protected abstract void move(Scene scene, MainGame mg);
-
-    protected abstract void update(MainGame mg);
+    protected abstract void update(Scene scene, MainGame mg);
 
     protected abstract void render(GraphicsContext gc, Scene scene, MainGame mg);
 

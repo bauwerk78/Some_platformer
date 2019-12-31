@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
 import se.lexicon.lars.implementer.MainGame;
 
 import java.util.ArrayList;
@@ -20,7 +19,6 @@ public class PlayerCharacter extends GameObject {
 
 
     private Image image;
-    private double velocity = 0;
     private boolean goingRight = true;
     private boolean playerJumping = false;
     private boolean playerFalling = true;
@@ -51,6 +49,7 @@ public class PlayerCharacter extends GameObject {
         setPositionX(getTileX() * TILESIZE);
         setPositionY(getTileY() * TILESIZE);
         setObjectSpeedX(300);
+        setObjectSpeedY(0);
         setImage();
     }
 
@@ -75,40 +74,40 @@ public class PlayerCharacter extends GameObject {
     }
 
     @Override
-    protected void move(Scene scene, MainGame mg) {
+    protected void update(Scene scene, MainGame mg) {
         getPlayerInput(scene);
 
         //Jumping and falling.
-        velocity += (gravity * elapsedTime);
+        setObjectSpeedY(getObjectSpeedY() + (gravity * elapsedTime));
 
         //Jumping
         if (input.contains("UP") && isPlayerGrounded()) {
-            velocity += jumpHeight;
+            setObjectSpeedY(getObjectSpeedY() + jumpHeight);
             playerGrounded = false;
             playerJumping = true;
         }
 
         //Colliding upwards
-        if (velocity < 0) {
+        if (getObjectSpeedY() < 0) {
             if (isPlayerJumping()) {
                 if (mg.getCollision(getTileX(), tileY - 1) && offY <= 0) {
                     offY = 0;
-                    velocity = 0;
+                    setObjectSpeedY(0);
                 }
             }
         }
 
         //Colliding with tile beneath player.
-        if (velocity > 0) {
+        if (getObjectSpeedY() > 0) {
             if (mg.getCollision(getTileX(), getTileY() + 1) && offY >= 0) {
                 playerGrounded = true;
                 //playerJumping = false;
                 offY = 0;
-                velocity = 0;
+                setObjectSpeedY(0);
             }
         }
 
-        offY += velocity;
+        offY += getObjectSpeedY();
         //End of jumping and falling.
 
         //Right and left movement.
@@ -162,16 +161,10 @@ public class PlayerCharacter extends GameObject {
         setPositionY((getTileY() * TILESIZE) + offY);
     }
 
-    @Override
-    protected void update(MainGame mg) {
-
-
-    }
 
     @Override
     public void render(GraphicsContext gc, Scene scene, MainGame mg) {
-        move(scene, mg);
-        update(mg);
+        update(scene, mg);
         //gc.setFill(Color.RED);
         //gc.fillRect(getPositionX(), getPositionY(), TILESIZE, TILESIZE);
         if (goingRight) {
