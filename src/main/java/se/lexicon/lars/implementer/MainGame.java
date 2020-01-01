@@ -31,7 +31,7 @@ public class MainGame {
     private void renderGame(GraphicsContext gc, Scene scene) {
         level.renderLevel(gc);
         player.render(gc, scene, this);
-        System.out.println(player.getTileX() + " : " + player.getTileY());
+        //System.out.println(player.getTileX() + " : " + player.getTileY());
     }
 
     public void mainLoop(GraphicsContext gc, Scene scene) {

@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
 import se.lexicon.lars.implementer.MainGame;
 
 import java.util.ArrayList;
@@ -21,7 +22,6 @@ public class PlayerCharacter extends GameObject {
     private Image image;
     private boolean goingRight = true;
     private boolean playerJumping = false;
-    private boolean playerFalling = true;
     private boolean playerGrounded = false;
     private double tileX;
     private double tileY;
@@ -90,7 +90,7 @@ public class PlayerCharacter extends GameObject {
         //Colliding upwards
         if (getObjectSpeedY() < 0) {
             if (isPlayerJumping()) {
-                if (mg.getCollision(getTileX(), tileY - 1) && offY <= 0) {
+                if (mg.getCollision(tileX, tileY - 1) && offY <= 0) {
                     offY = 0;
                     setObjectSpeedY(0);
                 }
@@ -99,9 +99,8 @@ public class PlayerCharacter extends GameObject {
 
         //Colliding with tile beneath player.
         if (getObjectSpeedY() > 0) {
-            if (mg.getCollision(getTileX(), getTileY() + 1) && offY >= 0) {
+            if (mg.getCollision(tileX, tileY + 1) && offY >= 0) {
                 playerGrounded = true;
-                //playerJumping = false;
                 offY = 0;
                 setObjectSpeedY(0);
             }
@@ -114,9 +113,8 @@ public class PlayerCharacter extends GameObject {
         if (input.contains("LEFT")) {
             goingRight = false;
             offX -= (getObjectSpeedX() * elapsedTime);
-            //Going left.
 
-            if (mg.getCollision(getTileX() - 1, getTileY()) && offX <= 0) {
+            if (mg.getCollision(tileX - 1, tileY) && offX < 0) {
                 System.out.println("colliding left: ");
                 offX = 0;
             }
@@ -126,32 +124,33 @@ public class PlayerCharacter extends GameObject {
         if (input.contains("RIGHT")) {
             goingRight = true;
             offX += (getObjectSpeedX() * elapsedTime);
-            //Going right.
 
-            if (mg.getCollision(getTileX() + 1, getTileY()) && offX >= 0) {
+            if (mg.getCollision(tileX + 1, tileY) && offX > 0) {
                 System.out.println("colliding right: ");
                 offX = 0;
             }
 
         }
         //End of right and left movement.
-
+        System.out.println(offX);
         //Update positions.
+
+        //Down
         if (offY > TILESIZE / 2f) {
             tileY++;
             offY -= TILESIZE;
         }
-
+        //Up
         if (offY < -TILESIZE / 2f) {
             tileY--;
             offY += TILESIZE;
         }
-
+        // Left
         if (offX < -TILESIZE / 2f) {
             tileX--;
             offX += TILESIZE;
         }
-
+        //Right
         if (offX > TILESIZE / 2f) {
             tileX++;
             offX -= TILESIZE;
@@ -165,13 +164,13 @@ public class PlayerCharacter extends GameObject {
     @Override
     public void render(GraphicsContext gc, Scene scene, MainGame mg) {
         update(scene, mg);
-        //gc.setFill(Color.RED);
-        //gc.fillRect(getPositionX(), getPositionY(), TILESIZE, TILESIZE);
-        if (goingRight) {
+        gc.setFill(Color.RED);
+        gc.fillRect(getPositionX(), getPositionY(), TILESIZE, TILESIZE);
+  /*      if (goingRight) {
             gc.drawImage(image, getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
         } else {
             gc.drawImage(image, getPositionX() + getObjectWidth(), getPositionY(), -getObjectWidth(), getObjectHeight());
-        }
+        }*/
 
     }
 
@@ -218,14 +217,6 @@ public class PlayerCharacter extends GameObject {
 
     public void setPlayerJumping(boolean playerJumping) {
         this.playerJumping = playerJumping;
-    }
-
-    public boolean isPlayerFalling() {
-        return playerFalling;
-    }
-
-    public void setPlayerFalling(boolean playerFalling) {
-        this.playerFalling = playerFalling;
     }
 
     public boolean isGoingRight() {
