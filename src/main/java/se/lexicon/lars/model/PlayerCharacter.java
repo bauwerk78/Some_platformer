@@ -106,6 +106,10 @@ public class PlayerCharacter extends GameObject {
             }
         }
 
+ /*       if(mg.getCollision(tileX, tileY + 1) && offY == 0) {
+            if(offX)
+        }*/
+
         offY += getObjectSpeedY();
         //End of jumping and falling.
 
@@ -118,6 +122,7 @@ public class PlayerCharacter extends GameObject {
                 System.out.println("colliding left: ");
                 offX = 0;
             }
+
 
         }
 
