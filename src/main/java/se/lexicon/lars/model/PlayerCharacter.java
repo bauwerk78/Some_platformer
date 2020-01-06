@@ -42,9 +42,10 @@ public class PlayerCharacter extends GameObject {
 
     @Override
     protected void init() {
+        setiD("Player");
         setObjectWidth(TILESIZE);
         setObjectHeight(TILESIZE);
-        setTileX(7);
+        setTileX(4);
         setTileY(2);
         setPositionX(getTileX() * TILESIZE);
         setPositionY(getTileY() * TILESIZE);
@@ -78,11 +79,11 @@ public class PlayerCharacter extends GameObject {
         getPlayerInput(scene);
 
         //Jumping and falling.
-        setObjectSpeedY(getObjectSpeedY() + (gravity * elapsedTime));
 
         //Jumping
         if (input.contains("UP") && isPlayerGrounded()) {
             setObjectSpeedY(getObjectSpeedY() + jumpHeight);
+            //setObjectSpeedY(jumpHeight);
             playerGrounded = false;
             playerJumping = true;
         }
@@ -90,7 +91,9 @@ public class PlayerCharacter extends GameObject {
         //Colliding upwards
         if (getObjectSpeedY() < 0) {
             if (isPlayerJumping()) {
-                if (mg.getCollision(tileX, tileY - 1) && offY <= 0) {
+                /*if (mg.getCollision(tileX, tileY - 1) && offY <= 0) {*/
+                if ((mg.getCollision(Math.floor(getPositionX() / TILESIZE), Math.floor(getPositionY() / TILESIZE) - 1) && offY >= 0) ||
+                        (mg.getCollision(Math.ceil(getPositionX() / TILESIZE), Math.floor(getPositionY() / TILESIZE) - 1) && offY >= 0)) {
                     offY = 0;
                     setObjectSpeedY(0);
                 }
@@ -98,19 +101,28 @@ public class PlayerCharacter extends GameObject {
         }
 
         //Colliding with tile beneath player.
-        if (getObjectSpeedY() > 0) {
-            if (mg.getCollision(tileX, tileY + 1) && offY >= 0) {
-                playerGrounded = true;
-                offY = 0;
+        if (getObjectSpeedY() >= 0) {
+            if ((mg.getCollision(Math.floor((getPositionX()) / TILESIZE), tileY + 1)) ||
+                    (mg.getCollision(Math.ceil((getPositionX()) / TILESIZE), tileY + 1))) {
+
                 setObjectSpeedY(0);
+                playerGrounded = true;
+                playerJumping = false;
+                offY = 0;
+
+            } else {
+                playerGrounded = false;
             }
         }
-
- /*       if(mg.getCollision(tileX, tileY + 1) && offY == 0) {
-            if(offX)
-        }*/
-
+        //System.out.println(getObjectSpeedY());
         offY += getObjectSpeedY();
+        if(getObjectSpeedY() > 0 || getObjectSpeedY() < 0 || !isPlayerGrounded()) {
+            //System.out.println("meow");
+            setObjectSpeedY(getObjectSpeedY() + (gravity * elapsedTime));
+        }
+
+        System.out.println(offY);
+
         //End of jumping and falling.
 
         //Right and left movement.
@@ -137,7 +149,7 @@ public class PlayerCharacter extends GameObject {
 
         }
         //End of right and left movement.
-        System.out.println(offX);
+
         //Update positions.
 
         //Down
@@ -161,21 +173,21 @@ public class PlayerCharacter extends GameObject {
             offX -= TILESIZE;
         }
 
-        setPositionX((getTileX() * TILESIZE) + offX);
-        setPositionY((getTileY() * TILESIZE) + offY);
+        setPositionX((tileX * TILESIZE) + offX);
+        setPositionY((tileY * TILESIZE) + offY);
     }
 
 
     @Override
     public void render(GraphicsContext gc, Scene scene, MainGame mg) {
         update(scene, mg);
-        gc.setFill(Color.RED);
-        gc.fillRect(getPositionX(), getPositionY(), TILESIZE, TILESIZE);
-  /*      if (goingRight) {
+/*        gc.setFill(Color.RED);
+        gc.fillRect(getPositionX(), getPositionY(), TILESIZE, TILESIZE);*/
+        if (goingRight) {
             gc.drawImage(image, getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
         } else {
             gc.drawImage(image, getPositionX() + getObjectWidth(), getPositionY(), -getObjectWidth(), getObjectHeight());
-        }*/
+        }
 
     }
 

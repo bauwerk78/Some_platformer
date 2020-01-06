@@ -69,7 +69,7 @@ public class Level {
 
         }
     }
-    //TODO probably wrong
+
     public boolean getCollideAble(double x, double y) {
         return collideAble[(int) (y * levelW) + (int) x];
     }

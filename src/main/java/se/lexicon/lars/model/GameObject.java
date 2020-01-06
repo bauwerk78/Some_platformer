@@ -6,6 +6,7 @@ import se.lexicon.lars.implementer.MainGame;
 
 public abstract class GameObject {
 
+    private String iD;
     private double positionX = 0;
     private double positionY = 0;
     private double objectWidth;
@@ -100,5 +101,13 @@ public abstract class GameObject {
 
     public void setObjectSpeedY(double objectSpeedY) {
         this.objectSpeedY = objectSpeedY;
+    }
+
+    public String getiD() {
+        return iD;
+    }
+
+    public void setiD(String iD) {
+        this.iD = iD;
     }
 }

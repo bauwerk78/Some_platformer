@@ -1,0 +1,11 @@
+you need to split the whole thing into two cases
+if the player coordinate is exactly on an edge, so (pX / 64) * 64 == pX, then only tile you need to check is (pX / 64, pY / 64 + 1)
+if that's not solid, then you should fall
+oh, you're going from the center?
+yeah, ok, bit of a change
+if (pX / 64) * 64 == pX - 32, then you need to check one tile, at (pX / 64, pY / 64 + 1)
+otherwise you need to also check the tile (pX / 64 + 1, pY / 64 + 1)
+in the second case you're falling if both are empty, in the first one if it's empty you're falling
+if you don't want to split the two cases, you can also just check
+(floor((pX - 32) / 64.0f), pY / 64 + 1) and (ceil((pX - 32) / 64.0f), pY / 64 + 1)
+in case you're exactly on an edge, those two will be the same tile, and would still work
