@@ -33,7 +33,7 @@ public class Level {
     }
 
     private void setLevelImage() {
-        levelImage = new Image("file:Images/level3_64tile.png");
+        levelImage = new Image("file:Images/level3_64tile2.png");
         imageWidth = (int) levelImage.getWidth();
         imageHeight = (int) levelImage.getHeight();
     }
