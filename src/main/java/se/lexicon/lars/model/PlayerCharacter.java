@@ -121,7 +121,7 @@ public class PlayerCharacter extends GameObject {
             setObjectSpeedY(getObjectSpeedY() + (gravity * elapsedTime));
         }
 
-        System.out.println(offY);
+        //System.out.println(offY);
 
         //End of jumping and falling.
 

@@ -2,6 +2,7 @@ package se.lexicon.lars.implementer;
 
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
+import se.lexicon.lars.model.Camera;
 import se.lexicon.lars.model.Level;
 import se.lexicon.lars.model.PlayerCharacter;
 
@@ -12,6 +13,7 @@ public class MainGame {
 
     private Level level;
     private PlayerCharacter player;
+    private Camera camera;
     //private boolean playerCollided;
 
 
@@ -22,6 +24,7 @@ public class MainGame {
     public void init() {
         level = new Level();
         player = new PlayerCharacter();
+        camera = new Camera();
     }
 
     public boolean getCollision(double tileX, double tileY) {
@@ -31,7 +34,11 @@ public class MainGame {
     private void renderGame(GraphicsContext gc, Scene scene) {
         level.renderLevel(gc);
         player.render(gc, scene, this);
-        //System.out.println(player.getTileX() + " : " + player.getTileY());
+        camera.update(this, player, gc);
+
+
+
+        System.out.println(player.getTileX() + " : " + player.getTileY());
     }
 
     public void mainLoop(GraphicsContext gc, Scene scene) {
