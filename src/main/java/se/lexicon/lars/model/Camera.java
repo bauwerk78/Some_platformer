@@ -1,5 +1,8 @@
 package se.lexicon.lars.model;
 
+import javafx.scene.Group;
+import javafx.scene.ParallelCamera;
+import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import se.lexicon.lars.graphics.Renderer;
 import se.lexicon.lars.implementer.MainGame;
@@ -7,6 +10,7 @@ import se.lexicon.lars.implementer.MainGame;
 public class Camera {
 
     private String targetId;
+    private ParallelCamera camera;
     private double positionX;
     private double positionY;
     private double levelSizeX = Level.levelW * Level.TILESIZE;
@@ -19,63 +23,103 @@ public class Camera {
     private double offMinY = 0;
     private double offX;
     private double offY;
+    private boolean parallel = true;
+    private boolean init =  true;
+    private double oldXPosition;
 
-    private double camX;
-    private double camY;
+    private double camX = 0;
+    private double camY = 0;
 
 
-    public Camera() {
-        init();
+    public Camera(Group group, Scene scene, GraphicsContext gc) {
+        init(group, scene, gc);
     }
 
-    public void init() {
+    public void init(Group group, Scene scene, GraphicsContext gc) {
         this.targetId = "Player";
+        createCamera(group, scene);
+        if(!parallel) {
+        }
+    }
+
+    public void createCamera(Group group, Scene scene) {
+        camera = new ParallelCamera();
+        //group.getChildren().add(camera);
+        scene.setCamera(camera);
+
+
+
+        /*camera.setLayoutX(levelSizeX);
+        camera.setLayoutY(levelSizeY);*/
 
     }
 
-    public void update(MainGame mg, PlayerCharacter player, GraphicsContext gc) {
+    public void update(MainGame mg, PlayerCharacter player, GraphicsContext gc, Group group, Scene scene) {
         /*offX = (player.getPositionX() + player.getObjectWidth() / 2) - Renderer.windowWidth;
         offY = (player.getPositionY() + player.getObjectHeight() / 2) - Renderer.windowHeight;*/
-        camX = player.getPositionX() - fovX;
-        camY = player.getPositionY() - fovY;
+        /*camX = player.getPositionX() - fovX;
+        camY = player.getPositionY() - fovY;*/
 
 
-/*
-        if(camX > offMaxX) {
-            camX = offMaxX;
+        if(parallel) {
+            camX = (player.getPositionX() + player.getObjectWidth() / 2) - fovX / 2;
+            camY = (player.getPositionY() + player.getObjectHeight() / 2) - fovY / 2;
+            camera.relocate(camX, camY);
+            //camera.setTranslateX(camX);
+            //System.out.println(camera.getLayoutBounds());
 
         }
-        if (camX < offMinX) {
-            camX = offMinX;
-        }
-        if(camY > offMaxY) {
-            camY = offMaxY;
-        }
-        if(camY < offMinY) {
-            camY = offMinY;
-        }
-*/
+        if (!parallel) {
 
-/*        if(camX > offMaxX) {
-            camX = offMaxX;
-        } else if (camX < offMinX) {
-            camX = offMinX;
-        }
-        if(camY > offMaxY) {
-            camY = offMaxY;
-        } else if(camY < offMinY) {
-            camY = offMinY;
-        }*/
+/*            camX = (int) ((player.getPositionX()) - fovX / 2);
+            camY = (int) ((player.getPositionY()) - fovY / 2);*/
+/*            camX = (int) ((player.getPositionX()));
+            camY = (int) ((player.getPositionY()));*/
+
+            //System.out.println("offmaxx: " + offMaxX);
+            //System.out.println("offminx: " + offMinX);
+
+            if(player.getPositionX() > fovX) {
+                camX = fovX;
+                gc.translate(-fovX, 0);
+            }
+
+            if(player.getPositionX() < fovX) {
+                camX = 0;
+                gc.translate(camX, 0);
+            }
+
+            System.out.println(camX);
+/*            if(camX < fovX / 2) {
+                gc.translate(0,0);
+            }
+            if(camX > fovX / 2) {
+                gc.translate(-10, 0);
+            }*/
+ /*           if (camX > offMaxX) {
+                System.out.println("triggered");
+                camX = (int) offMaxX;
+            }
+            if (camX < offMinX) {
+                //System.out.println("triggered minx");
+                camX = (int) offMinX;
+            }
+ *//*           if(camX > offMinX) {
+                camX = 512;
+            }*//*
+            if (camY > offMaxY) {
+                camY = (int) offMaxY;
+            }
+            if (camY < offMinY) {
+                camY = (int) offMinY;
+            }*/
+
+            //gc.translate(-camX, 0);
 
 
-        if (camX > 0) {
-            gc.translate(-offMaxX, -offMinY);
-        } else if(camX < offMinX){
-            gc.translate(-offMinX, -offMinY);
+            System.out.println();
+
         }
-        //gc.translate(-camX, -offMaxY);
-        System.out.println("camX position: " + camX);
-        System.out.println("player position: " + player.getPositionX());
 
     }
 
@@ -111,19 +155,4 @@ public class Camera {
         this.offMinY = offMinY;
     }
 
-    public double getCamX() {
-        return camX;
-    }
-
-    public void setCamX(double camX) {
-        this.camX = camX;
-    }
-
-    public double getCamY() {
-        return camY;
-    }
-
-    public void setCamY(double camY) {
-        this.camY = camY;
-    }
 }

@@ -28,7 +28,7 @@ public class Renderer extends Application {
 
         stage.setTitle("Some Platformer");
         Group root = new Group();
-        Scene mainScene = new Scene(root);
+        Scene mainScene = new Scene(root, windowWidth, windowHeight);
 
 
         stage.setScene(mainScene);
@@ -63,19 +63,20 @@ public class Renderer extends Application {
         //camera.resize(50, 50);
         camera.setFieldOfView(30);*/
 
-        Canvas canvas = new Canvas(windowWidth, windowHeight);
+        Canvas canvas = new Canvas(windowWidth * 2, windowHeight * 2);
         root.getChildren().add(canvas);
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        MainGame mainGame = new MainGame();
+
+        MainGame mainGame = new MainGame(root, mainScene, gc);
 
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 nanoTimer(currentNanoTime);
-                //gc.clearRect(0, 0, windowWidth * 2, windowHeight * 2);
-                gc.clearRect(0, 0, windowWidth, windowHeight);
-                mainGame.mainLoop(gc, mainScene);
+                gc.clearRect(0, 0, windowWidth * 2, windowHeight * 2);
+                //gc.clearRect(0, 0, windowWidth, windowHeight);
+                mainGame.mainLoop(gc, mainScene, root);
 
 
             }
