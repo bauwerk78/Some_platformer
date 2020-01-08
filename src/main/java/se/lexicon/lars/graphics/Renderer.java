@@ -73,6 +73,7 @@ public class Renderer extends Application {
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 nanoTimer(currentNanoTime);
+                //gc.clearRect(0, 0, windowWidth * 2, windowHeight * 2);
                 gc.clearRect(0, 0, windowWidth, windowHeight);
                 mainGame.mainLoop(gc, mainScene);
 
