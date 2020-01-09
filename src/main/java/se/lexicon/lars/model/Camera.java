@@ -8,12 +8,16 @@ public class Camera {
 
     private String targetId;
     private ParallelCamera camera;
-/*    private double fovX = (Level.levelW * Level.TILESIZE) / 2d;
-    private double fovY = (Level.levelH * Level.TILESIZE) / 2d;*/
+    /*    private double fovX = (Level.levelW * Level.TILESIZE) / 2d;
+        private double fovY = (Level.levelH * Level.TILESIZE) / 2d;*/
     private double fovX = (Renderer.windowWidth) / 2d;
     private double fovY = (Renderer.windowHeight) / 2d;
     private double camX = 0;
     private double camY = 0;
+    private double targetX;
+    private double targetY;
+    private double camAccX = 0.1;
+    private double camAccY = 0.1;
 
 
     public Camera(Scene scene) {
@@ -34,14 +38,15 @@ public class Camera {
     }
 
     public void update(PlayerCharacter player) {
-/*        camX = (player.getPositionX() + player.getObjectWidth() / 2) - fovX / 2;
-        camY = (player.getPositionY() + player.getObjectHeight() / 2) - fovY / 2;*/
-        camX = (player.getPositionX() + player.getObjectWidth() / 2) - fovX;
-        camY = (player.getPositionY() + player.getObjectHeight() / 2) - fovY;
+        targetX = (player.getPositionX() + player.getObjectWidth() / 2) - fovX;
+        targetY = (player.getPositionY() + player.getObjectHeight() / 2) - fovY;
+
+        //Lerp calculation for smoother camera movement.
+        camX += (targetX - camX) * camAccX;
+        camY += (targetY - camY) * camAccY;
+
 
         camera.relocate(camX, camY);
-        //camera.setTranslateX(camX);
-        //System.out.println(camera.getLayoutBounds());
     }
 
 }//End of class.
