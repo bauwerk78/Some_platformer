@@ -9,3 +9,7 @@ in the second case you're falling if both are empty, in the first one if it's em
 if you don't want to split the two cases, you can also just check
 (floor((pX - 32) / 64.0f), pY / 64 + 1) and (ceil((pX - 32) / 64.0f), pY / 64 + 1)
 in case you're exactly on an edge, those two will be the same tile, and would still work
+
+
+https://gamedev.stackexchange.com/questions/138756/smooth-camera-movement-java
+
