@@ -2,6 +2,7 @@ package se.lexicon.lars.implementer;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import se.lexicon.lars.model.Camera;
 import se.lexicon.lars.model.Level;
@@ -15,34 +16,45 @@ public class MainGame {
     private Level level;
     private PlayerCharacter player;
     private Camera camera;
-    //private boolean playerCollided;
+    private Canvas canvas;
+    private GraphicsContext gc;
+    private boolean newLevel = true;
 
 
-    public MainGame(Group group, Scene scene, GraphicsContext gc) {
-        init(group, scene, gc);
+    public MainGame(Group group, Scene scene) {
+        init(group, scene);
     }
 
-    public void init(Group group, Scene scene, GraphicsContext gc) {
+    public void init(Group group, Scene scene) {
         level = new Level();
         player = new PlayerCharacter();
-        camera = new Camera(group, scene, gc );
+        camera = new Camera(scene);
+        initGraphics(group);
     }
 
     public boolean getCollision(double tileX, double tileY) {
         return level.getCollideAble(tileX, tileY);
     }
 
-    private void renderGame(GraphicsContext gc, Scene scene, Group group) {
+    private void renderGame(Scene scene) {
+        gc.clearRect(0, 0, windowWidth, windowHeight);
         level.renderLevel(gc);
         player.render(gc, scene, this);
-        camera.update(this, player, gc, group, scene);
-
-
-
+        camera.update(player);
         //System.out.println(player.getTileX() + " : " + player.getTileY());
     }
 
-    public void mainLoop(GraphicsContext gc, Scene scene, Group group) {
-        renderGame(gc, scene, group);
+    public void mainLoop(Scene scene) {
+        renderGame(scene);
     }
-}
+
+    public void initGraphics(Group group) {
+        canvas = new Canvas(levelW * TILESIZE, levelH * TILESIZE);
+        group.getChildren().add(canvas);
+        gc = canvas.getGraphicsContext2D();
+    }
+
+
+}//End of class
+
+

@@ -4,9 +4,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
-import static se.lexicon.lars.graphics.Renderer.windowWidth;
-import static se.lexicon.lars.graphics.Renderer.windowHeight;
-
 public class Level {
 
     public static int levelH;

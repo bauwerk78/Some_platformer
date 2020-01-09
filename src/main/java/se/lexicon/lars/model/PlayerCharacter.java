@@ -1,17 +1,16 @@
 package se.lexicon.lars.model;
 
-import static se.lexicon.lars.graphics.Renderer.elapsedTime;
-import static se.lexicon.lars.model.Level.TILESIZE;
-
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
 import se.lexicon.lars.implementer.MainGame;
 
 import java.util.ArrayList;
+
+import static se.lexicon.lars.graphics.Renderer.elapsedTime;
+import static se.lexicon.lars.model.Level.TILESIZE;
 
 public class PlayerCharacter extends GameObject {
 
@@ -116,7 +115,7 @@ public class PlayerCharacter extends GameObject {
         }
         //System.out.println(getObjectSpeedY());
         offY += getObjectSpeedY();
-        if(getObjectSpeedY() > 0 || getObjectSpeedY() < 0 || !isPlayerGrounded()) {
+        if (getObjectSpeedY() > 0 || getObjectSpeedY() < 0 || !isPlayerGrounded()) {
             //System.out.println("meow");
             setObjectSpeedY(getObjectSpeedY() + (gravity * elapsedTime));
         }

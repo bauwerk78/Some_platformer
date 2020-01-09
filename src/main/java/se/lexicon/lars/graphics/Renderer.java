@@ -2,14 +2,10 @@ package se.lexicon.lars.graphics;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.scene.*;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.Region;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import se.lexicon.lars.implementer.MainGame;
-import se.lexicon.lars.model.Level;
-import se.lexicon.lars.model.PlayerCharacter;
 
 public class Renderer extends Application {
 
@@ -63,20 +59,12 @@ public class Renderer extends Application {
         //camera.resize(50, 50);
         camera.setFieldOfView(30);*/
 
-        Canvas canvas = new Canvas(windowWidth * 2, windowHeight * 2);
-        root.getChildren().add(canvas);
-
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-
-
-        MainGame mainGame = new MainGame(root, mainScene, gc);
+        MainGame mainGame = new MainGame(root, mainScene);
 
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 nanoTimer(currentNanoTime);
-                gc.clearRect(0, 0, windowWidth * 2, windowHeight * 2);
-                //gc.clearRect(0, 0, windowWidth, windowHeight);
-                mainGame.mainLoop(gc, mainScene, root);
+                mainGame.mainLoop(mainScene);
 
 
             }
