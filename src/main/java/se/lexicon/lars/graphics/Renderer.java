@@ -35,38 +35,12 @@ public class Renderer extends Application {
 
         SubScene cameraScene = new SubScene(nodeRegion, 200, 200);*/
 
-
-/*        ParallelCamera camera = new ParallelCamera();
-        cameraScene.setCamera(camera);
-        camera.setNearClip(0.1);
-        camera.setFarClip(1000);
-        camera.setScaleZ(0.5);
-        //camera.resize(50, 50);
-        root.getChildren().add(cameraScene);*/
-
-
-        /*PerspectiveCamera camera = new PerspectiveCamera(true);
-        mainScene.setCamera(camera);
-        camera.translateZProperty().set(-800);
-        camera.setNearClip(0.1);
-        camera.setFarClip(1000);
-        //camera.setLayoutX(50);
-        //camera.setLayoutY(50);
-        //camera.setScaleX(1);
-        //camera.setScaleY(1);
-        //camera.setScaleZ(200);
-        //camera.relocate(-100, -50);
-        //camera.resize(50, 50);
-        camera.setFieldOfView(30);*/
-
         MainGame mainGame = new MainGame(root, mainScene);
 
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 nanoTimer(currentNanoTime);
                 mainGame.mainLoop(mainScene);
-
-
             }
         }.start();
 
