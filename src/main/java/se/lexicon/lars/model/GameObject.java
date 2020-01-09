@@ -6,7 +6,7 @@ import se.lexicon.lars.implementer.MainGame;
 
 public abstract class GameObject {
 
-    private String iD;
+    private String ID;
     private double positionX = 0;
     private double positionY = 0;
     private double objectWidth;
@@ -30,6 +30,8 @@ public abstract class GameObject {
         this.objectWidth = objectWidth;
         this.objectHeight = objectHeight;
     }
+
+
 
     public GameObject(double objectWidth, double objectHeight, double objectSpeedX, double objectSpeedY) {
         this.objectWidth = objectWidth;
@@ -103,11 +105,12 @@ public abstract class GameObject {
         this.objectSpeedY = objectSpeedY;
     }
 
-    public String getiD() {
-        return iD;
+    public String getID() {
+        return ID;
     }
 
-    public void setiD(String iD) {
-        this.iD = iD;
+    public void setID(String ID) {
+        this.ID = ID;
     }
+
 }

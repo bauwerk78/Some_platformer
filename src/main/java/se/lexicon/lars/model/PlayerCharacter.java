@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 import se.lexicon.lars.implementer.MainGame;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static se.lexicon.lars.graphics.Renderer.elapsedTime;
 import static se.lexicon.lars.model.Level.TILESIZE;
@@ -18,8 +19,12 @@ public class PlayerCharacter extends GameObject {
     private final double gravity = 100;
     private final double jumpHeight = -25;
 
+    List<Bullet> bullets = new ArrayList<>();
+    List<String> input = new ArrayList<>();
 
     private Image image;
+    private Bullet bullet;
+
     private boolean goingRight = true;
     private boolean playerJumping = false;
     private boolean playerGrounded = false;
@@ -27,8 +32,6 @@ public class PlayerCharacter extends GameObject {
     private double tileY;
     private double offX = 0;
     private double offY = 0;
-
-    ArrayList<String> input = new ArrayList<>();
 
 
     public PlayerCharacter() {
@@ -42,7 +45,7 @@ public class PlayerCharacter extends GameObject {
 
     @Override
     protected void init() {
-        setiD("Player");
+        setID("Player");
         setObjectWidth(TILESIZE);
         setObjectHeight(TILESIZE);
         setTileX(4);
@@ -150,7 +153,7 @@ public class PlayerCharacter extends GameObject {
         }
         //End of right and left movement.
 
-        //Update positions.
+        //Update player position.
 
         //Down
         if (offY > TILESIZE / 2f) {
@@ -175,12 +178,24 @@ public class PlayerCharacter extends GameObject {
 
         setPositionX((tileX * TILESIZE) + offX);
         setPositionY((tileY * TILESIZE) + offY);
+
+        if(input.contains("F")) {
+            if(goingRight) {
+                bullets.add(new Bullet(getPositionX() + getObjectWidth() - 6, getPositionY() + 15, true));
+            } else {
+                bullets.add(new Bullet(getPositionX() - 3, getPositionY() + 15, false));
+            }
+
+        }
     }
 
 
     @Override
     public void render(GraphicsContext gc, Scene scene, MainGame mg) {
         update(scene, mg);
+        for(Bullet bull : bullets) {
+            bull.render(gc, scene, mg);
+        }
 /*        gc.setFill(Color.RED);
         gc.fillRect(getPositionX(), getPositionY(), TILESIZE, TILESIZE);*/
         if (goingRight) {
