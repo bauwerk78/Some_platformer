@@ -23,7 +23,6 @@ public class PlayerCharacter extends GameObject {
     List<String> input = new ArrayList<>();
 
     private Image image;
-    private Bullet bullet;
 
     private boolean goingRight = true;
     private boolean playerJumping = false;

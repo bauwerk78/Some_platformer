@@ -29,7 +29,7 @@ public class Bullet extends GameObject {
         bulletId++;
         setObjectWidth(10);
         setObjectHeight(10);
-        bulletSpeed = 5;
+        bulletSpeed = 8;
     }
 
     @Override
