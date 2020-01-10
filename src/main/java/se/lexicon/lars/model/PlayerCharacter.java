@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import se.lexicon.lars.implementer.MainGame;
+import se.lexicon.lars.tools.Delayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,8 @@ public class PlayerCharacter extends GameObject {
     List<String> input = new ArrayList<>();
 
     private Image image;
+    private Delayer delayer = new Delayer();
+    private boolean bulletReady = true;
 
     private boolean goingRight = true;
     private boolean playerJumping = false;
@@ -66,6 +69,14 @@ public class PlayerCharacter extends GameObject {
                     }
                 });
 
+/*        new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent e) {
+                String code = e.getCode().toString();
+                if (!input.contains(code))
+                    input.add(code);
+            }
+        });*/
+
         scene.setOnKeyReleased(
                 new EventHandler<KeyEvent>() {
                     public void handle(KeyEvent e) {
@@ -88,6 +99,7 @@ public class PlayerCharacter extends GameObject {
             //setObjectSpeedY(jumpHeight);
             playerGrounded = false;
             playerJumping = true;
+            input.remove("UP");
         }
 
         //Colliding upwards
@@ -126,7 +138,7 @@ public class PlayerCharacter extends GameObject {
         //System.out.println(offY);
 
         //End of jumping and falling.
-
+        //Todo might be moving some pixel ahead in both directions showing a small stuttering movement when going far on the same level.
         //Right and left movement.
         if (input.contains("LEFT")) {
             goingRight = false;
@@ -178,15 +190,27 @@ public class PlayerCharacter extends GameObject {
         setPositionX((tileX * TILESIZE) + offX);
         setPositionY((tileY * TILESIZE) + offY);
 
-        if(input.contains("F")) {
+        //Start of player firing.
+
+        if(input.contains("F") && bulletReady) {
             if(goingRight) {
                 bullets.add(new Bullet(getPositionX() + getObjectWidth() - 6, getPositionY() + 15, true));
             } else {
                 bullets.add(new Bullet(getPositionX() - 3, getPositionY() + 15, false));
             }
-
+            bulletReady = false;
         }
+
+        if(!bulletReady) {
+            bulletReady = delayer.delayTimer(0.2);
+        }
+
+        //End of player firing.
+
+        System.out.println(input);
+
     }
+
 
 
     @Override
@@ -195,6 +219,7 @@ public class PlayerCharacter extends GameObject {
         for(Bullet bull : bullets) {
             bull.render(gc, scene, mg);
         }
+
 /*        gc.setFill(Color.RED);
         gc.fillRect(getPositionX(), getPositionY(), TILESIZE, TILESIZE);*/
         if (goingRight) {

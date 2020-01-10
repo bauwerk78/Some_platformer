@@ -4,10 +4,13 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import se.lexicon.lars.implementer.MainGame;
+import se.lexicon.lars.tools.Delayer;
 
 public class Bullet extends GameObject {
 
     private static int bulletId = 0;
+
+    Delayer delayer;
 
     private boolean goingRight;
     private double bulletSpeed;
@@ -21,6 +24,7 @@ public class Bullet extends GameObject {
         super(posX, posY);
         this.goingRight = direction;
         init();
+        delayer = new Delayer(2);
     }
 
 
@@ -32,6 +36,11 @@ public class Bullet extends GameObject {
         bulletSpeed = 8;
     }
 
+    private void reset() {
+        bulletId = 0;
+    }
+
+
     @Override
     protected void update(Scene scene, MainGame mg) {
         if (goingRight) {
@@ -39,12 +48,12 @@ public class Bullet extends GameObject {
         } else {
             setPositionX(getPositionX() - bulletSpeed);
         }
-
     }
 
     @Override
     protected void render(GraphicsContext gc, Scene scene, MainGame mg) {
         update(scene, mg);
+
         gc.setFill(Color.DARKRED);
         gc.fillRect(getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
     }
