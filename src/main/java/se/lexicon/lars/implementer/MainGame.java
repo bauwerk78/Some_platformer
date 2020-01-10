@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import se.lexicon.lars.model.Camera;
+import se.lexicon.lars.model.GameObject;
 import se.lexicon.lars.model.Level;
 import se.lexicon.lars.model.PlayerCharacter;
 
