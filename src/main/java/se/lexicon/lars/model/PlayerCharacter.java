@@ -10,6 +10,7 @@ import se.lexicon.lars.implementer.MainGame;
 import se.lexicon.lars.tools.Delayer;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static se.lexicon.lars.graphics.Renderer.elapsedTime;
@@ -21,6 +22,7 @@ public class PlayerCharacter extends GameObject {
     private final double jumpHeight = -25;
 
     List<Bullet> bullets = new ArrayList<>();
+    Iterator<Bullet> bulletIterator;
     List<String> input = new ArrayList<>();
 
     private Image image;
@@ -138,14 +140,14 @@ public class PlayerCharacter extends GameObject {
         //System.out.println(offY);
 
         //End of jumping and falling.
-        //Todo might be moving some pixel ahead in both directions showing a small stuttering movement when going far on the same level.
+        //Todo might be moving some pixel ahead in both directions showing a small stuttering movement when going in either left or right on the same Y level.
         //Right and left movement.
         if (input.contains("LEFT")) {
             goingRight = false;
             offX -= (getObjectSpeedX() * elapsedTime);
 
             if (mg.getCollision(tileX - 1, tileY) && offX < 0) {
-                System.out.println("colliding left: ");
+                //System.out.println("colliding left: ");
                 offX = 0;
             }
 
@@ -157,7 +159,7 @@ public class PlayerCharacter extends GameObject {
             offX += (getObjectSpeedX() * elapsedTime);
 
             if (mg.getCollision(tileX + 1, tileY) && offX > 0) {
-                System.out.println("colliding right: ");
+                //System.out.println("colliding right: ");
                 offX = 0;
             }
 
@@ -205,9 +207,11 @@ public class PlayerCharacter extends GameObject {
             bulletReady = delayer.delayTimer(0.2);
         }
 
+
+
         //End of player firing.
 
-        System.out.println(input);
+        //System.out.println(input);
 
     }
 
@@ -216,9 +220,19 @@ public class PlayerCharacter extends GameObject {
     @Override
     public void render(GraphicsContext gc, Scene scene, MainGame mg) {
         update(scene, mg);
-        for(Bullet bull : bullets) {
-            bull.render(gc, scene, mg);
+        bulletIterator =  bullets.iterator();
+        while(bulletIterator.hasNext()) {
+            Bullet bullet = bulletIterator.next();
+            if(bullet.isCollided()) {
+                bulletIterator.remove();
+            } else {
+                bullet.render(gc, scene, mg);
+            }
         }
+
+ /*       for(Bullet bull : bullets) {
+            bull.render(gc, scene, mg);
+        }*/
 
 /*        gc.setFill(Color.RED);
         gc.fillRect(getPositionX(), getPositionY(), TILESIZE, TILESIZE);*/

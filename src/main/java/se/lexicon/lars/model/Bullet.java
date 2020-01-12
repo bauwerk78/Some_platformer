@@ -13,6 +13,7 @@ public class Bullet extends GameObject {
     Delayer delayer;
 
     private boolean goingRight;
+    private boolean collided;
     private double bulletSpeed;
 
 
@@ -43,11 +44,35 @@ public class Bullet extends GameObject {
 
     @Override
     protected void update(Scene scene, MainGame mg) {
-        if (goingRight) {
-            setPositionX(getPositionX() + bulletSpeed);
-        } else {
-            setPositionX(getPositionX() - bulletSpeed);
+        if ((getPositionX() + getObjectWidth()) / Level.TILESIZE > Level.levelW - 1 || (getPositionX()) / Level.TILESIZE < 1 && !collided) {
+            collided = true;
+            System.out.println("bullet reached outer bounds");
+            return;
         }
+
+        if (goingRight && !collided) {
+            if (mg.getCollision(Math.floor((getPositionX() + getObjectWidth()) / Level.TILESIZE),
+                    Math.floor((getPositionY() + getObjectHeight() / 2) / Level.TILESIZE))) {
+                System.out.println("bullet colliding right");
+                //System.out.println("y position " + Math.floor((getPositionY() + getObjectHeight() / 2) / Level.TILESIZE));
+                collided = true;
+            } else {
+                setPositionX(getPositionX() + bulletSpeed);
+            }
+        }
+
+        if (!goingRight && !collided) {
+            if (mg.getCollision(Math.floor((getPositionX()) / Level.TILESIZE),
+                    Math.floor((getPositionY() + getObjectHeight() / 2) / Level.TILESIZE))) {
+                System.out.println("bullet colliding left");
+                //System.out.println("y position " + Math.floor((getPositionY() + getObjectHeight() / 2) / Level.TILESIZE));
+                collided = true;
+            } else {
+                setPositionX(getPositionX() - bulletSpeed);
+            }
+        }
+
+
     }
 
     @Override
@@ -62,7 +87,7 @@ public class Bullet extends GameObject {
         return bulletId;
     }
 
-    public static void setBulletId(int bulletId) {
-        Bullet.bulletId = bulletId;
+    public boolean isCollided() {
+        return collided;
     }
 }
