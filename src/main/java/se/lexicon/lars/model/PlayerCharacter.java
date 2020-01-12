@@ -52,8 +52,8 @@ public class PlayerCharacter extends GameObject {
         setID("Player");
         setObjectWidth(TILESIZE);
         setObjectHeight(TILESIZE);
-        setTileX(4);
-        setTileY(2);
+        setTileX(60);
+        setTileY(46);
         setPositionX(getTileX() * TILESIZE);
         setPositionY(getTileY() * TILESIZE);
         setObjectSpeedX(300);
@@ -178,10 +178,12 @@ public class PlayerCharacter extends GameObject {
             tileY--;
             offY += TILESIZE;
         }
+        System.out.println("offx before: " + offX);
         // Left
         if (offX < -TILESIZE / 2f) {
             tileX--;
             offX += TILESIZE;
+            System.out.println("offx after: " + offX);
         }
         //Right
         if (offX > TILESIZE / 2f) {
@@ -191,6 +193,7 @@ public class PlayerCharacter extends GameObject {
 
         setPositionX((tileX * TILESIZE) + offX);
         setPositionY((tileY * TILESIZE) + offY);
+
 
         //Start of player firing.
 

@@ -41,6 +41,7 @@ public class Camera {
         targetX = (player.getPositionX() + player.getObjectWidth() / 2) - fovX;
         targetY = (player.getPositionY() + player.getObjectHeight() / 2) - fovY;
 
+        //Adjusting so the camera don't show the outside of the level.
         if(targetX < 0) {
             targetX = 0;
         }

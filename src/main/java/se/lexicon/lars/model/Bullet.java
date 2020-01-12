@@ -46,15 +46,13 @@ public class Bullet extends GameObject {
     protected void update(Scene scene, MainGame mg) {
         if ((getPositionX() + getObjectWidth()) / Level.TILESIZE > Level.levelW - 1 || (getPositionX()) / Level.TILESIZE < 1 && !collided) {
             collided = true;
-            System.out.println("bullet reached outer bounds");
             return;
         }
 
         if (goingRight && !collided) {
             if (mg.getCollision(Math.floor((getPositionX() + getObjectWidth()) / Level.TILESIZE),
                     Math.floor((getPositionY() + getObjectHeight() / 2) / Level.TILESIZE))) {
-                System.out.println("bullet colliding right");
-                //System.out.println("y position " + Math.floor((getPositionY() + getObjectHeight() / 2) / Level.TILESIZE));
+                //System.out.println("bullet colliding right");
                 collided = true;
             } else {
                 setPositionX(getPositionX() + bulletSpeed);
@@ -64,8 +62,7 @@ public class Bullet extends GameObject {
         if (!goingRight && !collided) {
             if (mg.getCollision(Math.floor((getPositionX()) / Level.TILESIZE),
                     Math.floor((getPositionY() + getObjectHeight() / 2) / Level.TILESIZE))) {
-                System.out.println("bullet colliding left");
-                //System.out.println("y position " + Math.floor((getPositionY() + getObjectHeight() / 2) / Level.TILESIZE));
+                //System.out.println("bullet colliding left");
                 collided = true;
             } else {
                 setPositionX(getPositionX() - bulletSpeed);
