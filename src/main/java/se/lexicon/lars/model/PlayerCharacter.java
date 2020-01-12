@@ -194,6 +194,7 @@ public class PlayerCharacter extends GameObject {
 
         //Start of player firing.
 
+        //Regular bullet
         if(input.contains("F") && bulletReady) {
             if(goingRight) {
                 bullets.add(new Bullet(getPositionX() + getObjectWidth() - 6, getPositionY() + 15, true));

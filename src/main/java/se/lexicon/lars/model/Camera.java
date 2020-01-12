@@ -41,6 +41,20 @@ public class Camera {
         targetX = (player.getPositionX() + player.getObjectWidth() / 2) - fovX;
         targetY = (player.getPositionY() + player.getObjectHeight() / 2) - fovY;
 
+        if(targetX < 0) {
+            targetX = 0;
+        }
+        if(targetX > (Level.levelW * Level.TILESIZE) - Renderer.windowWidth) {
+            targetX = (Level.levelW * Level.TILESIZE) - Renderer.windowWidth;
+        }
+
+        if(targetY < 0) {
+            targetY = 0;
+        }
+        if(targetY > (Level.levelH * Level.TILESIZE) - Renderer.windowHeight) {
+            targetY = (Level.levelH * Level.TILESIZE) - Renderer.windowHeight;
+        }
+
         //Lerp calculation for smoother camera movement.
         camX += (targetX - camX) * camAccX;
         camY += (targetY - camY) * camAccY;

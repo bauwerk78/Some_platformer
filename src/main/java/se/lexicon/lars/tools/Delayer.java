@@ -15,6 +15,10 @@ public class Delayer {
         this.timeToDelay = timeToDelay;
     }
 
+    public void delayTimer() {
+        this.delayTimer(this.timeToDelay);
+    }
+
     public boolean delayTimer(double timeToDelay) {
         counter += elapsedTime;
         //System.out.println("counter: " + counter + " timeToDelay: " + timeToDelay);
