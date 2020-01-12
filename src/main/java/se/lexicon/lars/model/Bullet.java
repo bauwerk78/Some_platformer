@@ -10,8 +10,6 @@ public class Bullet extends GameObject {
 
     private static int bulletId = 0;
 
-    Delayer delayer;
-
     private boolean goingRight;
     private boolean collided;
     private double bulletSpeed;
@@ -25,7 +23,6 @@ public class Bullet extends GameObject {
         super(posX, posY);
         this.goingRight = direction;
         init();
-        delayer = new Delayer(2);
     }
 
 

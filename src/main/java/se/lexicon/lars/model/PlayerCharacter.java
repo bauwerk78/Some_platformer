@@ -52,8 +52,8 @@ public class PlayerCharacter extends GameObject {
         setID("Player");
         setObjectWidth(TILESIZE);
         setObjectHeight(TILESIZE);
-        setTileX(60);
-        setTileY(46);
+        setTileX(4);
+        setTileY(8);
         setPositionX(getTileX() * TILESIZE);
         setPositionY(getTileY() * TILESIZE);
         setObjectSpeedX(300);
