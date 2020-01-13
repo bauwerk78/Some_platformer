@@ -33,6 +33,7 @@ public class PlayerCharacter extends GameObject {
     private Image image;
     private Delayer delayer = new Delayer();
     private boolean bulletReady = true;
+    private boolean grenadeReady = true;
 
     private boolean goingRight = true;
     private boolean playerJumping = false;

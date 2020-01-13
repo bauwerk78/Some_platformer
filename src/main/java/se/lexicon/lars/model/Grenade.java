@@ -12,7 +12,7 @@ public class Grenade extends GameObject {
     private double gravity = 100;
     private double throwHeight = -50;
     private boolean goingRight;
-    private boolean grenadeThrown = true;
+    private boolean grenadeThrown;
     private boolean exploded;
     private boolean collided;
 
@@ -33,9 +33,9 @@ public class Grenade extends GameObject {
 
     @Override
     protected void update(Scene scene, MainGame mg) {
-        if(grenadeThrown) {
+        if(!grenadeThrown) {
             setObjectSpeedY(getObjectSpeedY() + throwHeight);
-            grenadeThrown = false;
+            grenadeThrown = true;
         }
         if ((getPositionX() + getObjectWidth()) / Level.TILESIZE > Level.levelW - 1 || (getPositionX()) / Level.TILESIZE < 1 && !collided) {
             collided = true;
@@ -44,7 +44,7 @@ public class Grenade extends GameObject {
 
         if (goingRight) {
             if(mg.getCollision(Math.floor(getPositionX() / Level.TILESIZE), Math.floor(getPositionY() / Level.TILESIZE))) {
-                System.out.println("collided right: ");
+                //System.out.println("collided right: ");
                 collided =  true;
             } else {
                 setPositionX(getPositionX() + (getObjectSpeedX() * fakeDeltaTime));
@@ -56,7 +56,8 @@ public class Grenade extends GameObject {
 
         if (!goingRight) {
             if(mg.getCollision(Math.floor(getPositionX() / Level.TILESIZE), Math.floor(getPositionY() / Level.TILESIZE))) {
-                System.out.println("collided left: ");
+                //System.out.println("collided left: ");
+                collided = true;
             } else {
                 setPositionX(getPositionX() - (getObjectSpeedX() * fakeDeltaTime));
                 setPositionY(getPositionY() + (getObjectSpeedY() * fakeDeltaTime));
