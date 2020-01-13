@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static se.lexicon.lars.graphics.Renderer.elapsedTime;
+//import static se.lexicon.lars.graphics.Renderer.elapsedTime;
 import static se.lexicon.lars.model.Level.TILESIZE;
 
 public class PlayerCharacter extends GameObject {
@@ -21,8 +21,13 @@ public class PlayerCharacter extends GameObject {
     private final double gravity = 100;
     private final double jumpHeight = -25;
 
+    //Using a constant since elapsed time resulted in jerky movement.
+    private final double elapsedTime = 0.015;
+
     List<Bullet> bullets = new ArrayList<>();
     Iterator<Bullet> bulletIterator;
+    List<Grenade> grenades = new ArrayList<>();
+    Iterator<Grenade> grenadeIterator;
     List<String> input = new ArrayList<>();
 
     private Image image;
@@ -52,8 +57,8 @@ public class PlayerCharacter extends GameObject {
         setID("Player");
         setObjectWidth(TILESIZE);
         setObjectHeight(TILESIZE);
-        setTileX(4);
-        setTileY(8);
+        setTileX(60);
+        setTileY(46);
         setPositionX(getTileX() * TILESIZE);
         setPositionY(getTileY() * TILESIZE);
         setObjectSpeedX(300);
@@ -140,12 +145,12 @@ public class PlayerCharacter extends GameObject {
         //System.out.println(offY);
 
         //End of jumping and falling.
-        //Todo might be moving some pixel ahead in both directions showing a small stuttering movement when going in either left or right on the same Y level.
+
+
         //Right and left movement.
         if (input.contains("LEFT")) {
             goingRight = false;
             offX -= (getObjectSpeedX() * elapsedTime);
-
             if (mg.getCollision(tileX - 1, tileY) && offX < 0) {
                 //System.out.println("colliding left: ");
                 offX = 0;
@@ -157,7 +162,6 @@ public class PlayerCharacter extends GameObject {
         if (input.contains("RIGHT")) {
             goingRight = true;
             offX += (getObjectSpeedX() * elapsedTime);
-
             if (mg.getCollision(tileX + 1, tileY) && offX > 0) {
                 //System.out.println("colliding right: ");
                 offX = 0;
@@ -178,12 +182,10 @@ public class PlayerCharacter extends GameObject {
             tileY--;
             offY += TILESIZE;
         }
-        System.out.println("offx before: " + offX);
         // Left
         if (offX < -TILESIZE / 2f) {
             tileX--;
             offX += TILESIZE;
-            System.out.println("offx after: " + offX);
         }
         //Right
         if (offX > TILESIZE / 2f) {
@@ -198,8 +200,8 @@ public class PlayerCharacter extends GameObject {
         //Start of player firing.
 
         //Regular bullet
-        if(input.contains("F") && bulletReady) {
-            if(goingRight) {
+        if (input.contains("F") && bulletReady) {
+            if (goingRight) {
                 bullets.add(new Bullet(getPositionX() + getObjectWidth() - 6, getPositionY() + 15, true));
             } else {
                 bullets.add(new Bullet(getPositionX() - 3, getPositionY() + 15, false));
@@ -207,11 +209,19 @@ public class PlayerCharacter extends GameObject {
             bulletReady = false;
         }
 
-        if(!bulletReady) {
+        if (!bulletReady) {
             bulletReady = delayer.delayTimer(0.2);
         }
 
-
+        //Grenade
+        if (input.contains("G")) {
+            //System.out.println("throwing grenade");
+            if (goingRight) {
+                grenades.add(new Grenade(getPositionX() + getObjectWidth() - 6, getPositionY() + 15, true));
+            } else {
+                grenades.add(new Grenade(getPositionX() - 3, getPositionY() + 15, false));
+            }
+        }
 
         //End of player firing.
 
@@ -220,23 +230,24 @@ public class PlayerCharacter extends GameObject {
     }
 
 
-
     @Override
     public void render(GraphicsContext gc, Scene scene, MainGame mg) {
         update(scene, mg);
-        bulletIterator =  bullets.iterator();
-        while(bulletIterator.hasNext()) {
+        bulletIterator = bullets.iterator();
+        while (bulletIterator.hasNext()) {
             Bullet bullet = bulletIterator.next();
-            if(bullet.isCollided()) {
+            if (bullet.isCollided()) {
                 bulletIterator.remove();
             } else {
                 bullet.render(gc, scene, mg);
             }
         }
 
- /*       for(Bullet bull : bullets) {
-            bull.render(gc, scene, mg);
-        }*/
+        grenadeIterator = grenades.iterator();
+        while (grenadeIterator.hasNext()) {
+            Grenade grenade = grenadeIterator.next();
+            grenade.render(gc, scene, mg);
+        }
 
 /*        gc.setFill(Color.RED);
         gc.fillRect(getPositionX(), getPositionY(), TILESIZE, TILESIZE);*/

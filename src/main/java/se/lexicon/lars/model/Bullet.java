@@ -13,6 +13,7 @@ public class Bullet extends GameObject {
     private boolean goingRight;
     private boolean collided;
     private double bulletSpeed;
+    private final double fakeDeltaTime = 0.015;
 
 
     public Bullet() {
@@ -31,7 +32,7 @@ public class Bullet extends GameObject {
         bulletId++;
         setObjectWidth(10);
         setObjectHeight(10);
-        bulletSpeed = 8;
+        bulletSpeed = 500;
     }
 
     private void reset() {
@@ -52,7 +53,7 @@ public class Bullet extends GameObject {
                 //System.out.println("bullet colliding right");
                 collided = true;
             } else {
-                setPositionX(getPositionX() + bulletSpeed);
+                setPositionX(getPositionX() + bulletSpeed * fakeDeltaTime);
             }
         }
 
@@ -62,7 +63,7 @@ public class Bullet extends GameObject {
                 //System.out.println("bullet colliding left");
                 collided = true;
             } else {
-                setPositionX(getPositionX() - bulletSpeed);
+                setPositionX(getPositionX() - bulletSpeed * fakeDeltaTime);
             }
         }
 
