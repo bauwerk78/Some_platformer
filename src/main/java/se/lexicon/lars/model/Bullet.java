@@ -12,6 +12,8 @@ public class Bullet extends GameObject {
 
     private boolean goingRight;
     private boolean collided;
+    private boolean collidedRight;
+    private boolean collidedDown;
     private double bulletSpeed;
     private final double fakeDeltaTime = 0.015;
 
