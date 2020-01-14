@@ -5,7 +5,6 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
 import se.lexicon.lars.implementer.MainGame;
 import se.lexicon.lars.tools.Delayer;
 
@@ -31,7 +30,8 @@ public class PlayerCharacter extends GameObject {
     List<String> input = new ArrayList<>();
 
     private Image image;
-    private Delayer delayer = new Delayer();
+    private Delayer bulletDelayer = new Delayer();
+    private Delayer grenadeDelayer = new Delayer();
     private boolean bulletReady = true;
     private boolean grenadeReady = true;
 
@@ -58,8 +58,8 @@ public class PlayerCharacter extends GameObject {
         setID("Player");
         setObjectWidth(TILESIZE);
         setObjectHeight(TILESIZE);
-        setTileX(60);
-        setTileY(46);
+        setTileX(4);
+        setTileY(6);
         setPositionX(getTileX() * TILESIZE);
         setPositionY(getTileY() * TILESIZE);
         setObjectSpeedX(300);
@@ -211,17 +211,22 @@ public class PlayerCharacter extends GameObject {
         }
 
         if (!bulletReady) {
-            bulletReady = delayer.delayTimer(0.2);
+            bulletReady = bulletDelayer.delayTimer(0.2);
         }
 
         //Grenade
-        if (input.contains("G")) {
+        if (input.contains("G") && grenadeReady) {
             //System.out.println("throwing grenade");
             if (goingRight) {
                 grenades.add(new Grenade(getPositionX() + getObjectWidth() - 6, getPositionY() + 15, true));
             } else {
                 grenades.add(new Grenade(getPositionX() - 3, getPositionY() + 15, false));
             }
+            grenadeReady = false;
+        }
+
+        if (!grenadeReady) {
+            grenadeReady = grenadeDelayer.delayTimer(1);
         }
 
         //End of player firing.

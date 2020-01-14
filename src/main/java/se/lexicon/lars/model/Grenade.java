@@ -9,8 +9,8 @@ public class Grenade extends GameObject {
 
     private final double fakeDeltaTime = 0.015;
 
-    private double gravity = 100;
-    private double throwHeight = -50;
+    private double gravity = 300;
+    private double throwHeight = -150;
     private boolean goingRight;
     private boolean grenadeThrown;
     private boolean exploded;
@@ -34,7 +34,7 @@ public class Grenade extends GameObject {
     @Override
     protected void update(Scene scene, MainGame mg) {
         if(!grenadeThrown) {
-            setObjectSpeedY(getObjectSpeedY() + throwHeight);
+            setObjectSpeedY(throwHeight);
             grenadeThrown = true;
         }
         if ((getPositionX() + getObjectWidth()) / Level.TILESIZE > Level.levelW - 1 || (getPositionX()) / Level.TILESIZE < 1 && !collided) {
@@ -67,7 +67,7 @@ public class Grenade extends GameObject {
         }
 
         //System.out.println(getPositionX() + " : " + getPositionY());
-
+        setObjectSpeedX(getObjectSpeedX() / 1.01);
         setObjectSpeedY(getObjectSpeedY() + (gravity * fakeDeltaTime));
 
     }
