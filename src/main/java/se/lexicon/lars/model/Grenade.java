@@ -6,6 +6,9 @@ import javafx.scene.paint.Color;
 import se.lexicon.lars.implementer.MainGame;
 import se.lexicon.lars.tools.Delayer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Grenade extends GameObject {
 
     private final double fakeDeltaTime = 0.015;
@@ -25,6 +28,7 @@ public class Grenade extends GameObject {
     public Grenade(double posX, double posY) {
         super(posX, posY);
     }
+
     public Grenade(double posX, double posY, boolean direction) {
         this(posX, posY);
         this.goingRight = direction;
@@ -48,9 +52,10 @@ public class Grenade extends GameObject {
         }
 
         if (goingRight) {
-            if(mg.getCollision(Math.floor(getPositionX() / Level.TILESIZE), Math.floor(getPositionY() / Level.TILESIZE))) {
+            if (mg.getCollision(Math.floor((getPositionX() + getObjectWidth()) / Level.TILESIZE), Math.floor((getPositionY() + getObjectHeight()) / Level.TILESIZE))) {
                 //System.out.println("collided right: ");
-                collided =  true;
+                collided = true;
+
             } else {
                 setPositionX(getPositionX() + (getObjectSpeedX() * fakeDeltaTime));
                 setPositionY(getPositionY() + (getObjectSpeedY() * fakeDeltaTime));
@@ -60,7 +65,7 @@ public class Grenade extends GameObject {
         }
 
         if (!goingRight) {
-            if(mg.getCollision(Math.floor(getPositionX() / Level.TILESIZE), Math.floor(getPositionY() / Level.TILESIZE))) {
+            if (mg.getCollision(Math.floor(getPositionX() / Level.TILESIZE), Math.floor((getPositionY() + getObjectHeight()) / Level.TILESIZE))) {
                 //System.out.println("collided left: ");
                 collided = true;
             } else {
@@ -72,16 +77,15 @@ public class Grenade extends GameObject {
         }
 
         //System.out.println(getPositionX() + " : " + getPositionY());
-        if(!exploded) {
-            exploded =  delayer.delayTimer(3);
-
+        if (!exploded) {
+            exploded = delayer.delayTimer(3);
         }
 
-        if(exploded & !renderExplosion & !explosionRendered) {
-            System.out.println("helloooooooo");
-            grenadeExplosion = new GrenadeExplosion(getPositionX(), getPositionY());
+        if (exploded & !renderExplosion & !explosionRendered) {
+            grenadeExplosion = new GrenadeExplosion(getPositionX(), getPositionY(), goingRight, getObjectWidth(), getObjectHeight());
             renderExplosion = true;
         }
+
         setObjectSpeedX(getObjectSpeedX() / 1.01);
         setObjectSpeedY(getObjectSpeedY() + (gravity * fakeDeltaTime));
 
@@ -90,12 +94,16 @@ public class Grenade extends GameObject {
     @Override
     protected void render(GraphicsContext gc, Scene scene, MainGame mg) {
         update(scene, mg);
-        if(renderExplosion) {
-            grenadeExplosion.render(gc,scene,mg);
+        if (renderExplosion) {
+            grenadeExplosion.render(gc, scene, mg);
+
+        }
+        if (!renderExplosion) {
+            gc.setFill(Color.DARKGREEN);
+            gc.fillOval(getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
+            //gc.fillRect(getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
         }
 
-        gc.setFill(Color.DARKGREEN);
-        gc.fillOval(getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
 
     }
 
@@ -121,5 +129,13 @@ public class Grenade extends GameObject {
 
     public void setRenderExplosion(boolean renderExplosion) {
         this.renderExplosion = renderExplosion;
+    }
+
+    public boolean isGoingRight() {
+        return goingRight;
+    }
+
+    public void setGoingRight(boolean goingRight) {
+        this.goingRight = goingRight;
     }
 }

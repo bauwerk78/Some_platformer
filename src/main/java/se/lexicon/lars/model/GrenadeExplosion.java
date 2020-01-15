@@ -25,8 +25,10 @@ public class GrenadeExplosion extends Grenade{
     private int currentTile = 0;
 
 
-    public GrenadeExplosion(double posX, double posY) {
-        super(posX, posY);
+    public GrenadeExplosion(double posX, double posY, boolean direction, double objWidth, double objHeight) {
+        super(posX, posY, direction);
+        setObjectWidth(objWidth);
+        setObjectHeight(objHeight);
         init();
     }
 
@@ -51,14 +53,21 @@ public class GrenadeExplosion extends Grenade{
 
         if(!nextFrame && !isExploded()) {
 
-            nextFrame = delayer.delayTimer(0.05);
+            nextFrame = delayer.delayTimer(0.03);
             if(nextFrame) {
                 //Todo fix rendering position
                 if(currentTile < numberOfFrames) {
-                    gc.drawImage(image, imageSrcPos[currentTile], 0, frameSize, frameSize,
-                            getPositionX(), getPositionY(), Level.TILESIZE, Level.TILESIZE);
-                    System.out.println("current tile: " + currentTile);
-                    System.out.println("imagesrcpos: " + imageSrcPos[currentTile]);
+                    if(isGoingRight()) {
+
+                        gc.drawImage(image, imageSrcPos[currentTile], 0, frameSize, frameSize,
+                                (getPositionX() + getObjectWidth() / 2) - (Level.TILESIZE / 2d), (getPositionY() + getObjectHeight() / 2) - (Level.TILESIZE / 2d), Level.TILESIZE, Level.TILESIZE);
+                    } else {
+                        gc.drawImage(image, imageSrcPos[currentTile], 0, frameSize, frameSize,
+                                (getPositionX() + getObjectWidth() / 2) - (Level.TILESIZE / 2d), (getPositionY() + getObjectHeight() / 2) - (Level.TILESIZE / 2d), Level.TILESIZE, Level.TILESIZE);
+                    }
+
+                    //System.out.println("current tile: " + currentTile);
+                    //System.out.println("imagesrcpos: " + imageSrcPos[currentTile]);
                     currentTile++;
                     nextFrame = false;
                 } else {

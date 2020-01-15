@@ -27,6 +27,8 @@ public class PlayerCharacter extends GameObject {
     Iterator<Bullet> bulletIterator;
     List<Grenade> grenades = new ArrayList<>();
     Iterator<Grenade> grenadeIterator;
+
+    //Player input.
     List<String> input = new ArrayList<>();
 
     private Image image;
@@ -252,7 +254,12 @@ public class PlayerCharacter extends GameObject {
         grenadeIterator = grenades.iterator();
         while (grenadeIterator.hasNext()) {
             Grenade grenade = grenadeIterator.next();
-            grenade.render(gc, scene, mg);
+            if(grenade.isExplosionRendered()) {
+                grenadeIterator.remove();
+            } else {
+                grenade.render(gc, scene, mg);
+            }
+
         }
 
 /*        gc.setFill(Color.RED);
