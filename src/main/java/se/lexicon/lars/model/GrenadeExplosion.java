@@ -14,7 +14,6 @@ public class GrenadeExplosion extends Grenade{
     private double srcX;
     private double srcY;
 
-    private boolean exploded;
     private boolean nextFrame;
 
     private double imageWidth;
@@ -22,7 +21,7 @@ public class GrenadeExplosion extends Grenade{
 
     private int[] imageSrcPos;
     private int numberOfFrames = 12;
-    private int frameSize = 8;
+    private int frameSize = 96;
     private int currentTile = 0;
 
 
@@ -49,20 +48,23 @@ public class GrenadeExplosion extends Grenade{
     @Override
     protected void render(GraphicsContext gc, Scene scene, MainGame mg) {
 
-        gc.drawImage(image, imageSrcPos[currentTile], imageSrcPos[currentTile], frameSize, frameSize,
-                getPositionX(), getPositionY(), Level.TILESIZE, Level.TILESIZE);
-        if(!nextFrame && !exploded) {
 
-            nextFrame = delayer.delayTimer(0.5);
+        if(!nextFrame && !isExploded()) {
+
+            nextFrame = delayer.delayTimer(0.05);
             if(nextFrame) {
-
+                //Todo fix rendering position
                 if(currentTile < numberOfFrames) {
-                    System.out.println("hello?");
+                    gc.drawImage(image, imageSrcPos[currentTile], 0, frameSize, frameSize,
+                            getPositionX(), getPositionY(), Level.TILESIZE, Level.TILESIZE);
+                    System.out.println("current tile: " + currentTile);
+                    System.out.println("imagesrcpos: " + imageSrcPos[currentTile]);
                     currentTile++;
                     nextFrame = false;
                 } else {
-                    System.out.println("exploded?");
-                    exploded = true;
+                    System.out.println("animation rendered.");
+                    setExplosionRendered(true);
+                    setRenderExplosion(false);
                 }
 
             }
@@ -73,7 +75,7 @@ public class GrenadeExplosion extends Grenade{
     private void setFrameSrcPositions() {
         imageSrcPos = new int[numberOfFrames];
         for (int i = 0; i < numberOfFrames; i++) {
-            imageSrcPos[i] = currentTile * frameSize;
+            imageSrcPos[i] = i * frameSize;
         }
     }
 

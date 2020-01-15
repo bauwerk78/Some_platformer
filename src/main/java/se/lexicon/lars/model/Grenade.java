@@ -19,6 +19,7 @@ public class Grenade extends GameObject {
     private boolean grenadeThrown;
     private boolean exploded;
     private boolean renderExplosion;
+    private boolean explosionRendered;
     private boolean collided;
 
     public Grenade(double posX, double posY) {
@@ -35,16 +36,12 @@ public class Grenade extends GameObject {
         setObjectWidth(20);
         setObjectHeight(20);
         setObjectSpeedX(300);
-        setObjectSpeedY(0);
+        setObjectSpeedY(throwHeight);
 
     }
 
     @Override
     protected void update(Scene scene, MainGame mg) {
-        if(!grenadeThrown) {
-            setObjectSpeedY(throwHeight);
-            grenadeThrown = true;
-        }
         if ((getPositionX() + getObjectWidth()) / Level.TILESIZE > Level.levelW - 1 || (getPositionX()) / Level.TILESIZE < 1 && !collided) {
             collided = true;
             return;
@@ -75,15 +72,14 @@ public class Grenade extends GameObject {
         }
 
         //System.out.println(getPositionX() + " : " + getPositionY());
-        if(grenadeThrown && !exploded) {
-            exploded =  delayer.delayTimer(5);
+        if(!exploded) {
+            exploded =  delayer.delayTimer(3);
 
         }
 
-        if(exploded) {
+        if(exploded & !renderExplosion & !explosionRendered) {
             System.out.println("helloooooooo");
             grenadeExplosion = new GrenadeExplosion(getPositionX(), getPositionY());
-            exploded = false;
             renderExplosion = true;
         }
         setObjectSpeedX(getObjectSpeedX() / 1.01);
@@ -101,5 +97,29 @@ public class Grenade extends GameObject {
         gc.setFill(Color.DARKGREEN);
         gc.fillOval(getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
 
+    }
+
+    public boolean isExploded() {
+        return exploded;
+    }
+
+    public void setExploded(boolean exploded) {
+        this.exploded = exploded;
+    }
+
+    public boolean isExplosionRendered() {
+        return explosionRendered;
+    }
+
+    public void setExplosionRendered(boolean explosionRendered) {
+        this.explosionRendered = explosionRendered;
+    }
+
+    public boolean isRenderExplosion() {
+        return renderExplosion;
+    }
+
+    public void setRenderExplosion(boolean renderExplosion) {
+        this.renderExplosion = renderExplosion;
     }
 }
