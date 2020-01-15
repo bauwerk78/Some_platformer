@@ -55,23 +55,16 @@ public class GrenadeExplosion extends Grenade{
 
             nextFrame = delayer.delayTimer(0.03);
             if(nextFrame) {
-                //Todo fix rendering position
                 if(currentTile < numberOfFrames) {
-                    if(isGoingRight()) {
-
-                        gc.drawImage(image, imageSrcPos[currentTile], 0, frameSize, frameSize,
-                                (getPositionX() + getObjectWidth() / 2) - (Level.TILESIZE / 2d), (getPositionY() + getObjectHeight() / 2) - (Level.TILESIZE / 2d), Level.TILESIZE, Level.TILESIZE);
-                    } else {
-                        gc.drawImage(image, imageSrcPos[currentTile], 0, frameSize, frameSize,
-                                (getPositionX() + getObjectWidth() / 2) - (Level.TILESIZE / 2d), (getPositionY() + getObjectHeight() / 2) - (Level.TILESIZE / 2d), Level.TILESIZE, Level.TILESIZE);
-                    }
+                    gc.drawImage(image, imageSrcPos[currentTile], 0, frameSize, frameSize,
+                            (getPositionX() + getObjectWidth() / 2) - (Level.TILESIZE / 2d), (getPositionY() + getObjectHeight() / 2) - (Level.TILESIZE / 2d), Level.TILESIZE, Level.TILESIZE);
 
                     //System.out.println("current tile: " + currentTile);
                     //System.out.println("imagesrcpos: " + imageSrcPos[currentTile]);
                     currentTile++;
                     nextFrame = false;
                 } else {
-                    System.out.println("animation rendered.");
+                    //System.out.println("animation rendered.");
                     setExplosionRendered(true);
                     setRenderExplosion(false);
                 }

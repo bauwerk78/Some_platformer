@@ -2,6 +2,7 @@ package se.lexicon.lars.model;
 
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import se.lexicon.lars.implementer.MainGame;
 import se.lexicon.lars.tools.Delayer;
@@ -15,6 +16,7 @@ public class Grenade extends GameObject {
 
     private Delayer delayer = new Delayer();
     private GrenadeExplosion grenadeExplosion;
+    private Image image;
 
     private double gravity = 300;
     private double throwHeight = -150;
@@ -41,6 +43,7 @@ public class Grenade extends GameObject {
         setObjectHeight(20);
         setObjectSpeedX(300);
         setObjectSpeedY(throwHeight);
+        image = new Image("file:Images/pixel_grenade_by_darkarts33_d4vigez-fullview.png");
 
     }
 
@@ -99,8 +102,9 @@ public class Grenade extends GameObject {
 
         }
         if (!renderExplosion) {
-            gc.setFill(Color.DARKGREEN);
-            gc.fillOval(getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
+            //gc.setFill(Color.DARKGREEN);
+            //gc.fillOval(getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
+            gc.drawImage(image, getPositionX(), getPositionY(), Level.TILESIZE / 2d - 10, Level.TILESIZE / 2d - 10);
             //gc.fillRect(getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
         }
 
