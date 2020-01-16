@@ -24,7 +24,7 @@ public class Grenade extends GameObject {
     private boolean grenadeThrown;
     private boolean exploded;
     private boolean renderExplosion;
-    private boolean explosionRendered;
+    private boolean done;
     private boolean collided;
 
     public Grenade(double posX, double posY) {
@@ -84,7 +84,7 @@ public class Grenade extends GameObject {
             exploded = delayer.delayTimer(3);
         }
 
-        if (exploded & !renderExplosion & !explosionRendered) {
+        if (exploded & !renderExplosion) {
             grenadeExplosion = new GrenadeExplosion(getPositionX(), getPositionY(), goingRight, getObjectWidth(), getObjectHeight());
             renderExplosion = true;
         }
@@ -98,10 +98,16 @@ public class Grenade extends GameObject {
     protected void render(GraphicsContext gc, Scene scene, MainGame mg) {
         update(scene, mg);
         if (renderExplosion) {
-            grenadeExplosion.render(gc, scene, mg);
+            if (!grenadeExplosion.isExplosionRendered()) {
+                grenadeExplosion.render(gc, scene, mg);
+            } else {
+                done =  true;
+            }
+
+
 
         }
-        if (!renderExplosion) {
+        if (!renderExplosion && !done) {
             //gc.setFill(Color.DARKGREEN);
             //gc.fillOval(getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
             gc.drawImage(image, getPositionX(), getPositionY(), Level.TILESIZE / 2d - 10, Level.TILESIZE / 2d - 10);
@@ -119,14 +125,6 @@ public class Grenade extends GameObject {
         this.exploded = exploded;
     }
 
-    public boolean isExplosionRendered() {
-        return explosionRendered;
-    }
-
-    public void setExplosionRendered(boolean explosionRendered) {
-        this.explosionRendered = explosionRendered;
-    }
-
     public boolean isRenderExplosion() {
         return renderExplosion;
     }
@@ -141,5 +139,9 @@ public class Grenade extends GameObject {
 
     public void setGoingRight(boolean goingRight) {
         this.goingRight = goingRight;
+    }
+
+    public boolean isDone() {
+        return done;
     }
 }

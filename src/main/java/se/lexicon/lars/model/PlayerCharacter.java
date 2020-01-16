@@ -254,7 +254,7 @@ public class PlayerCharacter extends GameObject {
         grenadeIterator = grenades.iterator();
         while (grenadeIterator.hasNext()) {
             Grenade grenade = grenadeIterator.next();
-            if(grenade.isExplosionRendered()) {
+            if(grenade.isDone()) {
                 grenadeIterator.remove();
             } else {
                 grenade.render(gc, scene, mg);
