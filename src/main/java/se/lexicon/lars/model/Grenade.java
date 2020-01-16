@@ -49,15 +49,23 @@ public class Grenade extends GameObject {
 
     @Override
     protected void update(Scene scene, MainGame mg) {
-        if ((getPositionX() + getObjectWidth()) / Level.TILESIZE > Level.levelW - 1 || (getPositionX()) / Level.TILESIZE < 1 && !collided) {
+/*        //Level max/min size collisions.
+        if ((getPositionX() + getObjectWidth()) / Level.TILESIZE > Level.levelW - 1) {
             collided = true;
-            return;
+            goingRight = false;
+            //return;
         }
+        if(getPositionX() / Level.TILESIZE < 1) {
+            collided = true;
+            goingRight = false;
+        }*/
+
 
         if (goingRight) {
             if (mg.getCollision(Math.floor((getPositionX() + getObjectWidth()) / Level.TILESIZE), Math.floor((getPositionY() + getObjectHeight()) / Level.TILESIZE))) {
                 //System.out.println("collided right: ");
                 collided = true;
+                goingRight = false;
 
             } else {
                 setPositionX(getPositionX() + (getObjectSpeedX() * fakeDeltaTime));
@@ -71,6 +79,7 @@ public class Grenade extends GameObject {
             if (mg.getCollision(Math.floor(getPositionX() / Level.TILESIZE), Math.floor((getPositionY() + getObjectHeight()) / Level.TILESIZE))) {
                 //System.out.println("collided left: ");
                 collided = true;
+                goingRight = true;
             } else {
                 setPositionX(getPositionX() - (getObjectSpeedX() * fakeDeltaTime));
                 setPositionY(getPositionY() + (getObjectSpeedY() * fakeDeltaTime));
@@ -101,20 +110,16 @@ public class Grenade extends GameObject {
             if (!grenadeExplosion.isExplosionRendered()) {
                 grenadeExplosion.render(gc, scene, mg);
             } else {
-                done =  true;
+                done = true;
             }
-
-
-
         }
+
         if (!renderExplosion && !done) {
             //gc.setFill(Color.DARKGREEN);
             //gc.fillOval(getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
             gc.drawImage(image, getPositionX(), getPositionY(), Level.TILESIZE / 2d - 10, Level.TILESIZE / 2d - 10);
             //gc.fillRect(getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
         }
-
-
     }
 
     public boolean isExploded() {

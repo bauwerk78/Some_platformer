@@ -73,11 +73,4 @@ public class GrenadeExplosion {
         return explosionRendered;
     }
 
-    public int getNumberOfFrames() {
-        return numberOfFrames;
-    }
-
-    public int getCurrentTile() {
-        return currentTile;
-    }
-}
+}//End of class.

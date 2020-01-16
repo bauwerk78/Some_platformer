@@ -158,8 +158,6 @@ public class PlayerCharacter extends GameObject {
                 //System.out.println("colliding left: ");
                 offX = 0;
             }
-
-
         }
 
         if (input.contains("RIGHT")) {
@@ -169,7 +167,6 @@ public class PlayerCharacter extends GameObject {
                 //System.out.println("colliding right: ");
                 offX = 0;
             }
-
         }
         //End of right and left movement.
 
@@ -198,7 +195,6 @@ public class PlayerCharacter extends GameObject {
 
         setPositionX((tileX * TILESIZE) + offX);
         setPositionY((tileY * TILESIZE) + offY);
-
 
         //Start of player firing.
 
@@ -254,7 +250,7 @@ public class PlayerCharacter extends GameObject {
         grenadeIterator = grenades.iterator();
         while (grenadeIterator.hasNext()) {
             Grenade grenade = grenadeIterator.next();
-            if(grenade.isDone()) {
+            if (grenade.isDone()) {
                 grenadeIterator.remove();
             } else {
                 grenade.render(gc, scene, mg);
