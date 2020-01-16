@@ -44,51 +44,35 @@ public class Grenade extends GameObject {
         setObjectSpeedX(300);
         setObjectSpeedY(throwHeight);
         image = new Image("file:Images/pixel_grenade_by_darkarts33_d4vigez-fullview.png");
-
     }
 
     @Override
     protected void update(Scene scene, MainGame mg) {
-/*        //Level max/min size collisions.
-        if ((getPositionX() + getObjectWidth()) / Level.TILESIZE > Level.levelW - 1) {
-            collided = true;
-            goingRight = false;
-            //return;
-        }
-        if(getPositionX() / Level.TILESIZE < 1) {
-            collided = true;
-            goingRight = false;
-        }*/
-
-
         if (goingRight) {
             if (mg.getCollision(Math.floor((getPositionX() + getObjectWidth()) / Level.TILESIZE), Math.floor((getPositionY() + getObjectHeight()) / Level.TILESIZE))) {
-                //System.out.println("collided right: ");
                 collided = true;
                 goingRight = false;
+                System.out.println(Math.floor((getPositionX() + getObjectWidth()) / Level.TILESIZE) + " " + Math.floor((getPositionY() + getObjectHeight()) / Level.TILESIZE));
+/*                if(Math.abs(((getPositionX() + getObjectWidth()) / Level.TILESIZE)) > Math.abs(((getPositionY() + getObjectHeight()) / Level.TILESIZE))) {
+
+                }*/
 
             } else {
                 setPositionX(getPositionX() + (getObjectSpeedX() * fakeDeltaTime));
                 setPositionY(getPositionY() + (getObjectSpeedY() * fakeDeltaTime));
             }
-            //System.out.println("right triggered");
-
         }
 
         if (!goingRight) {
             if (mg.getCollision(Math.floor(getPositionX() / Level.TILESIZE), Math.floor((getPositionY() + getObjectHeight()) / Level.TILESIZE))) {
-                //System.out.println("collided left: ");
                 collided = true;
                 goingRight = true;
             } else {
                 setPositionX(getPositionX() - (getObjectSpeedX() * fakeDeltaTime));
                 setPositionY(getPositionY() + (getObjectSpeedY() * fakeDeltaTime));
             }
-            //System.out.println("left triggered");
-
         }
 
-        //System.out.println(getPositionX() + " : " + getPositionY());
         if (!exploded) {
             exploded = delayer.delayTimer(3);
         }

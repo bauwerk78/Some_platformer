@@ -196,6 +196,7 @@ public class PlayerCharacter extends GameObject {
         setPositionX((tileX * TILESIZE) + offX);
         setPositionY((tileY * TILESIZE) + offY);
 
+        System.out.println(getPositionX() / TILESIZE + " " + getPositionY() / TILESIZE);
         //Start of player firing.
 
         //Regular bullet
