@@ -51,12 +51,12 @@ public class Grenade extends GameObject {
 
         //Collision detection.
         if (goingRight) {
-            if (mg.getCollisions((getPositionX() + getObjectWidth()) / Level.TILESIZE, (getPositionY() + getObjectHeight()) / Level.TILESIZE)) {
+            if (mg.getCollisions(Math.floor((getPositionX() + getObjectWidth()) / Level.TILESIZE), Math.floor((getPositionY() + getObjectHeight()) / Level.TILESIZE))) {
                 double rangeX = getPositionX();
                 double rangeY = getPositionY();
 
                 collided = true;
-                goingRight = false;
+                //goingRight = false;
             } else {
                 setPositionX(getPositionX() + (getObjectSpeedX() * fakeDeltaTime));
                 setPositionY(getPositionY() + (getObjectSpeedY() * fakeDeltaTime));

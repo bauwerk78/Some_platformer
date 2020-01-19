@@ -37,6 +37,10 @@ public class MainGame {
         return level.getCollideAble(tileX, tileY);
     }
 
+    public boolean getCollisions(double tileX, double tileY) {
+        return level.getCollideAbles(tileX, tileY);
+    }
+
     private void renderGame(Scene scene) {
         gc.clearRect(0, 0, windowWidth, windowHeight);
         level.renderLevel(gc);

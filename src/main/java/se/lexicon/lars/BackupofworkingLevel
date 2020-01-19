@@ -28,7 +28,6 @@ public class Level {
     public void init() {
         setLevelImage();
         setCollideAble();
-        setCollideAbles();
     }
 
     private void setLevelImage() {
@@ -69,46 +68,16 @@ public class Level {
         }
     }
 
-    private void setCollideAbles() {
-
-        levelW = imageWidth;
-        levelH = imageHeight;
-
-        collideAbles = new boolean[levelH][levelW];
-
-        for (int y = 0; y < levelH; y++) {
-            for (int x = 0; x < levelW; x++) {
-
-                if ((levelImage.getPixelReader().getArgb(x, y)) == 0xff000000) {
-                    collideAbles[y][x] = true;
-                } else
-                    collideAbles[y][x] = false;
-            }
-
-        }
-    }
-
     public boolean getCollideAble(double x, double y) {
+        if(collideAble[(int) (y * levelW) + (int) x]){
+            System.out.println("position x " + x + " position y " + y);
+        }
         return collideAble[(int) (y * levelW) + (int) x];
     }
 
-    public boolean getCollideAbles(double x, double y) {
-        if(collideAbles[(int)y][(int)x]) {
-            //X 4, Y 8
-            System.out.println(getCollideAbleX(x));
-            System.out.println("int tileX : " + (x));
-            System.out.println(getCollideAbleY(y));
-            System.out.println("int tileY : " + (y));
-
-        }
-        return collideAbles[(int)y][(int)x];
-    }
-    public double getCollideAbleX(double x) {
-        return x * TILESIZE;
-    }
-
-    public double getCollideAbleY(double y) {
-        return y * TILESIZE;
+    public boolean getCollideAbleX(double x, double y) {
+        if()
+        return true;
     }
 
 /*    public void getActualCollideAblePosition(double x, double y) {
