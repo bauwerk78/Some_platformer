@@ -76,6 +76,9 @@ public class Grenade extends GameObject {
             }
         }
 
+        if(mg.getCollisions((getPositionX() + getObjectWidth()) / (Level.TILESIZE), (getPositionY() + getObjectHeight()) / (Level.TILESIZE) + 1)) {
+            System.out.println("colliding down: ");
+        }
         //Explosion
         if (!exploded) {
             exploded = delayer.delayTimer(3);
