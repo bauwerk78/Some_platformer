@@ -51,6 +51,7 @@ public class Grenade extends GameObject {
 
         //Collision detection.
         if (goingRight) {
+            //TODO test with && if getpositionx and y are further right or down than the tile it is colliding with.
             if (mg.getCollisions((getPositionX() + getObjectWidth()) / Level.TILESIZE, (getPositionY() + getObjectHeight()) / Level.TILESIZE)) {
                 double rangeX = getPositionX();
                 double rangeY = getPositionY();

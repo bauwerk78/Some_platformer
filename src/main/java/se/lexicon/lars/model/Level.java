@@ -95,9 +95,9 @@ public class Level {
     public boolean getCollideAbles(double x, double y) {
         if(collideAbles[(int)y][(int)x]) {
             //X 4, Y 8
-            System.out.println(getCollideAbleX(x));
+            System.out.println("getcollidableX : " + getCollideAbleX(x));
             System.out.println("int tileX : " + (x));
-            System.out.println(getCollideAbleY(y));
+            System.out.println("getcollidableY: " + getCollideAbleY(y));
             System.out.println("int tileY : " + (y));
 
         }
