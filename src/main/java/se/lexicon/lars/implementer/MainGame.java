@@ -21,6 +21,9 @@ public class MainGame {
     private GraphicsContext gc;
     private boolean newLevel = true;
 
+    private double collidedPosX;
+    private double collidedPosY;
+
 
     public MainGame(Group group, Scene scene) {
         init(group, scene);
@@ -38,8 +41,15 @@ public class MainGame {
     }
 
     public boolean getCollisions(double tileX, double tileY) {
+        if(level.getCollideAbles(tileX, tileY)) {
+            setCollidedPosX((int)tileX * TILESIZE);
+            System.out.println("xpos: " + getCollidedPosX());
+            setCollidedPosY((int)tileY * TILESIZE);
+            System.out.println("ypos: " + getCollidedPosY());
+        }
         return level.getCollideAbles(tileX, tileY);
     }
+
 
     private void renderGame(Scene scene) {
         gc.clearRect(0, 0, windowWidth, windowHeight);
@@ -59,7 +69,21 @@ public class MainGame {
         gc = canvas.getGraphicsContext2D();
     }
 
+    public double getCollidedPosX() {
+        return collidedPosX;
+    }
 
+    public void setCollidedPosX(double collidedPosX) {
+        this.collidedPosX = collidedPosX;
+    }
+
+    public double getCollidedPosY() {
+        return collidedPosY;
+    }
+
+    public void setCollidedPosY(double collidedPosY) {
+        this.collidedPosY = collidedPosY;
+    }
 }//End of class
 
 

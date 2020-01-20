@@ -50,12 +50,12 @@ public class Grenade extends GameObject {
     protected void update(Scene scene, MainGame mg) {
 
         //Collision detection.
+        //System.out.println(Math.floor(((getPositionX() + getObjectWidth()) / (Level.TILESIZE) + 1) * Level.TILESIZE));
         if (goingRight) {
             //TODO test with && if getpositionx and y are further right or down than the tile it is colliding with.
-            if (mg.getCollisions((getPositionX() + getObjectWidth()) / Level.TILESIZE, (getPositionY() + getObjectHeight()) / Level.TILESIZE)) {
-                double rangeX = getPositionX();
-                double rangeY = getPositionY();
-
+            if (mg.getCollisions((getPositionX() + getObjectWidth()) / (Level.TILESIZE) + 1, (getPositionY() + getObjectHeight()) / Level.TILESIZE)
+                    && getPositionX() + getObjectWidth() >= mg.getCollidedPosX() - 1) {
+                System.out.println("collidedposx going right : " +  (mg.getCollidedPosX() - 1));
                 collided = true;
                 goingRight = false;
             } else {
@@ -65,7 +65,9 @@ public class Grenade extends GameObject {
         }
 
         if (!goingRight) {
-            if (mg.getCollisions(Math.floor(getPositionX() / Level.TILESIZE), Math.floor((getPositionY() + getObjectHeight()) / Level.TILESIZE))) {
+            if (mg.getCollisions((getPositionX()) / (Level.TILESIZE) - 1, (getPositionY() + getObjectHeight()) / Level.TILESIZE)
+                    && getPositionX() <= mg.getCollidedPosX() + Level.TILESIZE + 1) {
+                System.out.println("collidedposx going left :  " + (mg.getCollidedPosX() + Level.TILESIZE + 1));
                 collided = true;
                 goingRight = true;
             } else {
