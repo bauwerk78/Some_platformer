@@ -3,12 +3,8 @@ package se.lexicon.lars.model;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import se.lexicon.lars.implementer.MainGame;
 import se.lexicon.lars.tools.Delayer;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Grenade extends GameObject {
 
@@ -25,7 +21,7 @@ public class Grenade extends GameObject {
     private boolean exploded;
     private boolean renderExplosion;
     private boolean done;
-    private boolean collided;
+    private boolean grounded;
 
     public Grenade(double posX, double posY) {
         super(posX, posY);
@@ -48,34 +44,55 @@ public class Grenade extends GameObject {
 
     @Override
     protected void update(Scene scene, MainGame mg) {
-
+        //TODO perhaps initialize speedx as either positive or negative?!?!
+        //TODO might have to do a "full" else extra here on both right and left to get movement if there is no else in this statements.
         //Collision detection.
-        if (goingRight) {
+        if (goingRight && !grounded) {
             if (mg.getCollisions((getPositionX() + getObjectWidth()) / (Level.TILESIZE), (getPositionY() + getObjectHeight()) / Level.TILESIZE)) {
                 //System.out.println("collidedposx going right : " + (mg.getCollidedPosX() - 1));
-                collided = true;
-                goingRight = false;
+                if(!grounded) {
+                    goingRight = false;
+                }
+
             } else {
                 setPositionX(getPositionX() + (getObjectSpeedX() * fakeDeltaTime));
                 //setPositionY(getPositionY() + (getObjectSpeedY() * fakeDeltaTime));
             }
+        } else if (grounded) {
+            setPositionX(getPositionX() + (getObjectSpeedX() * fakeDeltaTime));
         }
 
-        if (!goingRight) {
+        if (!goingRight && !grounded) {
             if (mg.getCollisions((getPositionX() / Level.TILESIZE), (getPositionY() + getObjectHeight()) / Level.TILESIZE)) {
-                collided = true;
-                goingRight = true;
+                if(!grounded) {
+                    goingRight = true;
+                }
+
             } else {
                 setPositionX(getPositionX() - (getObjectSpeedX() * fakeDeltaTime));
                 //setPositionY(getPositionY() + (getObjectSpeedY() * fakeDeltaTime));
             }
+        } else if (grounded) {
+            setPositionX(getPositionX() + (getObjectSpeedX() * fakeDeltaTime));
         }
         //Colliding down.
         if (getObjectSpeedY() >= 0) {
             if ((mg.getCollisions(Math.floor(getPositionX() + getObjectWidth()) / Level.TILESIZE, Math.floor(getPositionY() + getObjectHeight()) / (Level.TILESIZE))
                     || (mg.getCollisions(Math.ceil(getPositionX() + getObjectWidth()) / Level.TILESIZE, Math.floor(getPositionY() + getObjectHeight()) / (Level.TILESIZE))))) {
-                //System.out.println("grenade position?: " + (getPositionY() + getObjectHeight()));
-                //System.out.println("grenade colliding tile: " + (getPositionY() + getObjectHeight()) / (Level.TILESIZE));
+
+                grounded = true;
+/*                if(getPositionY() + getObjectHeight() > Math.floor(getPositionY() + getObjectHeight()) / (Level.TILESIZE) * Level.TILESIZE) {
+                    setPositionY(getPositionY() - 2);
+                    grounded = true;
+                    setObjectSpeedY(0);
+                }*/
+                //Set half of both Y and X speed when bouncing on floor.
+                if (getObjectSpeedY() > 0) {
+                    setObjectSpeedY(-(getObjectSpeedY() / 2));
+                }
+                if (getObjectSpeedX() > 0) {
+                    setObjectSpeedX(-(getObjectSpeedX() / 2));
+                }
 
             } else {
                 setPositionY(getPositionY() + (getObjectSpeedY() * fakeDeltaTime));
@@ -104,6 +121,7 @@ public class Grenade extends GameObject {
 
         setObjectSpeedX(getObjectSpeedX() / 1.01);
         setObjectSpeedY(getObjectSpeedY() + (gravity * fakeDeltaTime));
+
     }
 
     @Override
