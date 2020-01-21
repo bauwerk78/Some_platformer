@@ -55,30 +55,50 @@ public class Grenade extends GameObject {
             //TODO test with && if getpositionx and y are further right or down than the tile it is colliding with.
             if (mg.getCollisions((getPositionX() + getObjectWidth()) / (Level.TILESIZE) + 1, (getPositionY() + getObjectHeight()) / Level.TILESIZE)
                     && getPositionX() + getObjectWidth() >= mg.getCollidedPosX() - 1) {
-                System.out.println("collidedposx going right : " +  (mg.getCollidedPosX() - 1));
+                System.out.println("collidedposx going right : " + (mg.getCollidedPosX() - 1));
                 collided = true;
                 goingRight = false;
             } else {
                 setPositionX(getPositionX() + (getObjectSpeedX() * fakeDeltaTime));
-                setPositionY(getPositionY() + (getObjectSpeedY() * fakeDeltaTime));
+                //setPositionY(getPositionY() + (getObjectSpeedY() * fakeDeltaTime));
             }
         }
 
         if (!goingRight) {
-            if (mg.getCollisions((getPositionX()) / (Level.TILESIZE) - 1, (getPositionY() + getObjectHeight()) / Level.TILESIZE)
-                    && getPositionX() <= mg.getCollidedPosX() + Level.TILESIZE + 1) {
-                System.out.println("collidedposx going left :  " + (mg.getCollidedPosX() + Level.TILESIZE + 1));
-                collided = true;
-                goingRight = true;
+            //TODO try subtracting the whole levelsize in combination with the collding position.
+            if (mg.getCollisions((getPositionX() / Level.TILESIZE) - 1, (getPositionY() + getObjectHeight()) / Level.TILESIZE)) {
+                if (getPositionX() >= mg.getCollidedPosX() + Level.TILESIZE + 1) {
+                    setPositionX(getPositionX() - (getObjectSpeedX() * fakeDeltaTime));
+                } else {
+                    System.out.println("collidedposx going left :  " + (mg.getCollidedPosX() + Level.TILESIZE + 1));
+                    collided = true;
+                    goingRight = true;
+                }
+
             } else {
                 setPositionX(getPositionX() - (getObjectSpeedX() * fakeDeltaTime));
-                setPositionY(getPositionY() + (getObjectSpeedY() * fakeDeltaTime));
+                //setPositionY(getPositionY() + (getObjectSpeedY() * fakeDeltaTime));
             }
         }
+        //TODO for all these checks, make sure you are actually checking one tile down, left or right, so it's not two tiles or more.
+        if (getObjectSpeedY() > 0) {
+            if (mg.getCollisions((getPositionX() + getObjectWidth()) / (Level.TILESIZE), (getPositionY() + getObjectHeight()) / (Level.TILESIZE) + 1)) {
+                System.out.println("grenade position?: " + (getPositionY() + getObjectHeight()));
+                if (getPositionY() + getObjectHeight() < mg.getCollidedPosY() - 1) {
+                    setPositionY(getPositionY() + (getObjectSpeedY() * fakeDeltaTime));
+                    System.out.println("hello?!?!");
+                } else {
+                    System.out.println("colliding down: ");
+                    setObjectSpeedY(0);
+                }
 
-        if(mg.getCollisions((getPositionX() + getObjectWidth()) / (Level.TILESIZE), (getPositionY() + getObjectHeight()) / (Level.TILESIZE) + 1)) {
-            System.out.println("colliding down: ");
+            } else {
+                setPositionY(getPositionY() + (getObjectSpeedY() * fakeDeltaTime));
+            }
+        } else {
+            setPositionY(getPositionY() + (getObjectSpeedY() * fakeDeltaTime));
         }
+
         //Explosion
         if (!exploded) {
             exploded = delayer.delayTimer(3);
