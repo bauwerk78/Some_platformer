@@ -16,6 +16,7 @@ public class Grenade extends GameObject {
 
     private double gravity = 300;
     private double throwHeight = -150;
+    private double lastPosX;
     private boolean goingRight;
     private boolean grenadeThrown;
     private boolean exploded;
@@ -40,47 +41,48 @@ public class Grenade extends GameObject {
         setObjectSpeedX(300);
         setObjectSpeedY(throwHeight);
         image = new Image("file:Images/pixel_grenade_by_darkarts33_d4vigez-fullview.png");
+        lastPosX = getPositionX();
+
     }
 
     @Override
     protected void update(Scene scene, MainGame mg) {
+
+
         //TODO perhaps initialize speedx as either positive or negative?!?!
         //TODO might have to do a "full" else extra here on both right and left to get movement if there is no else in this statements.
         //Collision detection.
-        if (goingRight && !grounded) {
+        if (goingRight) {
             if (mg.getCollisions((getPositionX() + getObjectWidth()) / (Level.TILESIZE), (getPositionY() + getObjectHeight()) / Level.TILESIZE)) {
                 //System.out.println("collidedposx going right : " + (mg.getCollidedPosX() - 1));
-                if(!grounded) {
-                    goingRight = false;
-                }
+                //System.out.println("going right triggered!");
+
+                goingRight = false;
 
             } else {
                 setPositionX(getPositionX() + (getObjectSpeedX() * fakeDeltaTime));
                 //setPositionY(getPositionY() + (getObjectSpeedY() * fakeDeltaTime));
             }
-        } else if (grounded) {
-            setPositionX(getPositionX() + (getObjectSpeedX() * fakeDeltaTime));
         }
 
-        if (!goingRight && !grounded) {
+
+        if (!goingRight) {
             if (mg.getCollisions((getPositionX() / Level.TILESIZE), (getPositionY() + getObjectHeight()) / Level.TILESIZE)) {
-                if(!grounded) {
-                    goingRight = true;
-                }
+                //System.out.println("going left triggered!");
+
+                goingRight = true;
 
             } else {
                 setPositionX(getPositionX() - (getObjectSpeedX() * fakeDeltaTime));
                 //setPositionY(getPositionY() + (getObjectSpeedY() * fakeDeltaTime));
             }
-        } else if (grounded) {
-            setPositionX(getPositionX() + (getObjectSpeedX() * fakeDeltaTime));
         }
         //Colliding down.
         if (getObjectSpeedY() >= 0) {
             if ((mg.getCollisions(Math.floor(getPositionX() + getObjectWidth()) / Level.TILESIZE, Math.floor(getPositionY() + getObjectHeight()) / (Level.TILESIZE))
                     || (mg.getCollisions(Math.ceil(getPositionX() + getObjectWidth()) / Level.TILESIZE, Math.floor(getPositionY() + getObjectHeight()) / (Level.TILESIZE))))) {
 
-                grounded = true;
+                //grounded = true;
 /*                if(getPositionY() + getObjectHeight() > Math.floor(getPositionY() + getObjectHeight()) / (Level.TILESIZE) * Level.TILESIZE) {
                     setPositionY(getPositionY() - 2);
                     grounded = true;
@@ -89,9 +91,14 @@ public class Grenade extends GameObject {
                 //Set half of both Y and X speed when bouncing on floor.
                 if (getObjectSpeedY() > 0) {
                     setObjectSpeedY(-(getObjectSpeedY() / 2));
+                    System.out.println("speedY: " + Math.abs(getObjectSpeedY()));
                 }
+                //TODO ????
                 if (getObjectSpeedX() > 0) {
-                    setObjectSpeedX(-(getObjectSpeedX() / 2));
+                    setObjectSpeedX((getObjectSpeedX() / 2));
+                    //System.out.println("speedX: " + Math.abs(getObjectSpeedX()));
+                } else {
+                    setObjectSpeedX((getObjectSpeedX() / 2));
                 }
 
             } else {
@@ -100,12 +107,13 @@ public class Grenade extends GameObject {
         } else {
             setPositionY(getPositionY() + (getObjectSpeedY() * fakeDeltaTime));
         }
+
         //Colliding up
         if (getObjectSpeedY() < 0) {
             if ((mg.getCollisions(Math.floor(getPositionX()) / Level.TILESIZE, Math.floor(getPositionY()) / (Level.TILESIZE))
                     || (mg.getCollisions(Math.ceil(getPositionX()) / Level.TILESIZE, Math.floor(getPositionY()) / (Level.TILESIZE))))) {
-                System.out.println("colliding up");
-                System.out.println(Math.abs(getObjectSpeedY()));
+                //System.out.println("colliding up");
+                //System.out.println(Math.abs(getObjectSpeedY()));
                 setObjectSpeedY(Math.abs(getObjectSpeedY()));
             }
         }
@@ -121,8 +129,8 @@ public class Grenade extends GameObject {
 
         setObjectSpeedX(getObjectSpeedX() / 1.01);
         setObjectSpeedY(getObjectSpeedY() + (gravity * fakeDeltaTime));
-
     }
+
 
     @Override
     protected void render(GraphicsContext gc, Scene scene, MainGame mg) {
