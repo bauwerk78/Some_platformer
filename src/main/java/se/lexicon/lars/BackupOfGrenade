@@ -62,14 +62,14 @@ public class Grenade extends GameObject {
         //Down
         collideAbles[3][0] = mg.getCollisions((getPositionX() / Level.TILESIZE), (getPositionY() + getObjectHeight()) / Level.TILESIZE + 1);
         collideAbles[3][1] = Math.floor((getPositionY()) / (Level.TILESIZE) + 1) * (Level.TILESIZE);
-        System.out.println((double) collideAbles[3][1]);
+        //System.out.println((double) collideAbles[3][1]);
     }
 
     @Override
     protected void update(Scene scene, MainGame mg) {
 
 
-        //Collision detection.
+        //Collision detection begins.
         checkCollideAbles(mg);
 
         if (goingRight) {
@@ -102,12 +102,6 @@ public class Grenade extends GameObject {
             if ((mg.getCollisions(Math.floor(getPositionX() + getObjectWidth()) / Level.TILESIZE, Math.floor(getPositionY() + getObjectHeight()) / (Level.TILESIZE))
                     || (mg.getCollisions(Math.ceil(getPositionX() + getObjectWidth()) / Level.TILESIZE, Math.floor(getPositionY() + getObjectHeight()) / (Level.TILESIZE))))) {
 
-                //grounded = true;
-/*                if(getPositionY() + getObjectHeight() > Math.floor(getPositionY() + getObjectHeight()) / (Level.TILESIZE) * Level.TILESIZE) {
-                    setPositionY(getPositionY() - 2);
-                    grounded = true;
-                    setObjectSpeedY(0);
-                }*/
                 //Set half of both Y and X speed when bouncing on floor.
                 if (getObjectSpeedY() > 0) {
                     setObjectSpeedY(-(getObjectSpeedY() / 2));
@@ -136,6 +130,7 @@ public class Grenade extends GameObject {
                 setPositionY(getPositionY() + (getObjectSpeedY() * fakeDeltaTime));
             }
         }
+
         //Explosion
         if (!exploded) {
             exploded = delayer.delayTimer(3);

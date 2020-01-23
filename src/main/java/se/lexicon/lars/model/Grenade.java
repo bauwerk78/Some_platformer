@@ -76,7 +76,7 @@ public class Grenade extends GameObject {
             if (mg.getCollisions((getPositionX() + getObjectWidth()) / (Level.TILESIZE), (getPositionY() + getObjectHeight()) / Level.TILESIZE)) {
                 //System.out.println("collidedposx going right : " + (mg.getCollidedPosX() - 1));
                 //System.out.println("going right triggered!");
-                if (!(boolean) collideAbles[3][0]) {
+                if ((boolean) collideAbles[1][0]) {
                     goingRight = false;
                 }
             } else {
@@ -89,7 +89,7 @@ public class Grenade extends GameObject {
         if (!goingRight) {
             if (mg.getCollisions((getPositionX() / Level.TILESIZE), (getPositionY() + getObjectHeight()) / Level.TILESIZE)) {
                 //System.out.println("going left triggered!");
-                if (!(boolean) collideAbles[3][0]) {
+                if ((boolean) collideAbles[0][0]) {
                     goingRight = true;
                 }
             } else {
