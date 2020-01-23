@@ -41,12 +41,6 @@ public class MainGame {
     }
 
     public boolean getCollisions(double tileX, double tileY) {
-        if(level.getCollideAbles(tileX, tileY)) {
-            setCollidedPosX((int)tileX * TILESIZE);
-            //System.out.println("xpos: " + getCollidedPosX());
-            setCollidedPosY((int)tileY * TILESIZE);
-            //System.out.println("ypos: " + getCollidedPosY());
-        }
         return level.getCollideAbles(tileX, tileY);
     }
 
