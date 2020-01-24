@@ -60,11 +60,15 @@ public class Grenade extends GameObject {
         collideAbles[1][0] = mg.getCollisions(((getPositionX() + getObjectWidth()) / Level.TILESIZE) + 1, (getPositionY() + getObjectHeight()) / Level.TILESIZE);
         if ((boolean) collideAbles[1][0]) {
             collideAbles[1][1] = Math.floor((getPositionX() + getObjectWidth()) / (Level.TILESIZE) + 1) * (Level.TILESIZE);
-            //System.out.println("colliding right: " + (double)collideAbles[1][1]);
+            System.out.println("colliding right: " + (double)collideAbles[1][1]);
         }
 
         //Up
         collideAbles[2][0] = mg.getCollisions((getPositionX() / Level.TILESIZE), (getPositionY() + getObjectHeight()) / Level.TILESIZE - 1);
+        if ((boolean) collideAbles[2][0]) {
+            collideAbles[2][1] = Math.floor((getPositionY()) / (Level.TILESIZE) - 1) * (Level.TILESIZE);
+            //System.out.println("colliding up: " + (double) collideAbles[2][1]);
+        }
         //Down
         collideAbles[3][0] = mg.getCollisions((getPositionX() / Level.TILESIZE), (getPositionY() + getObjectHeight()) / Level.TILESIZE + 1);
         if ((boolean) collideAbles[3][0]) {
@@ -80,42 +84,28 @@ public class Grenade extends GameObject {
 
         //Collision detection begins.
         checkCollideAbles(mg);
-        //System.out.println(goingRight);
+
         if (goingRight) {
-            if ((boolean) collideAbles[1][0] && getPositionX() + getObjectWidth() > (double)collideAbles[1][1] - 2) {
+            if ((boolean) collideAbles[1][0] && getPositionX() + getObjectWidth() > (double) collideAbles[1][1] - 2) {
+                setPositionX((double)collideAbles[1][1] - getObjectWidth());
                 System.out.println("yes");
                 goingRight = false;
-                //448X första höger maxvärde före kollision.
-/*                if(getPositionX() > (double)collideAbles[1][1]) {
-
-                    //System.out.println((double)collideAbles[1][1]);
-                    setPositionX((double)collideAbles[1][1]);
-                    goingRight = false;
-                }*/
-
-                //System.out.println("collidedposx going right : " + (mg.getCollidedPosX() - 1));
-                //System.out.println("going right triggered!");
-
-
-
             } else {
                 setPositionX(getPositionX() + (getObjectSpeedX() * fakeDeltaTime));
-                //setPositionY(getPositionY() + (getObjectSpeedY() * fakeDeltaTime));
             }
         }
 
 
         if (!goingRight) {
-            if ((boolean) collideAbles[0][0] && getPositionX() < (double)collideAbles[0][1] + 2) {
-                //System.out.println("going left triggered!");
+            if ((boolean) collideAbles[0][0] && getPositionX() < (double) collideAbles[0][1] + 2) {
                 System.out.println("no");
-                    goingRight = true;
+                goingRight = true;
 
             } else {
                 setPositionX(getPositionX() - (getObjectSpeedX() * fakeDeltaTime));
-                //setPositionY(getPositionY() + (getObjectSpeedY() * fakeDeltaTime));
             }
         }
+
         //Colliding down.
         if (getObjectSpeedY() > 0) {
             if ((mg.getCollisions(Math.floor(getPositionX() + getObjectWidth()) / Level.TILESIZE, Math.floor(getPositionY() + getObjectHeight()) / (Level.TILESIZE))
