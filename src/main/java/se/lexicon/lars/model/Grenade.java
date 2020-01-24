@@ -50,16 +50,17 @@ public class Grenade extends GameObject {
 
     private void checkCollideAbles(MainGame mg) {
         //Left
-        collideAbles[0][0] = mg.getCollisions((getPositionX()) / (Level.TILESIZE) - 1, (getPositionY() + getObjectHeight()) / Level.TILESIZE);
+        collideAbles[0][0] = mg.getCollisions((getPositionX() / Level.TILESIZE) - 1, (getPositionY() + getObjectHeight()) / Level.TILESIZE);
         if ((boolean) collideAbles[0][0]) {
-            collideAbles[0][1] = Math.ceil((getPositionX() + Level.TILESIZE) / (Level.TILESIZE) - 1) * (Level.TILESIZE);
+            collideAbles[0][1] = Math.ceil((getPositionX() / Level.TILESIZE) - 1) * (Level.TILESIZE);
+            //System.out.println("colliding left: " + (double)collideAbles[0][1]);
         }
-        //System.out.println((double)collideAbles[0][1]);
+
         //Right
         collideAbles[1][0] = mg.getCollisions(((getPositionX() + getObjectWidth()) / Level.TILESIZE) + 1, (getPositionY() + getObjectHeight()) / Level.TILESIZE);
         if ((boolean) collideAbles[1][0]) {
             collideAbles[1][1] = Math.floor((getPositionX() + getObjectWidth()) / (Level.TILESIZE) + 1) * (Level.TILESIZE);
-            System.out.println((double)collideAbles[1][1]);
+            //System.out.println("colliding right: " + (double)collideAbles[1][1]);
         }
 
         //Up
@@ -68,8 +69,9 @@ public class Grenade extends GameObject {
         collideAbles[3][0] = mg.getCollisions((getPositionX() / Level.TILESIZE), (getPositionY() + getObjectHeight()) / Level.TILESIZE + 1);
         if ((boolean) collideAbles[3][0]) {
             collideAbles[3][1] = Math.floor((getPositionY()) / (Level.TILESIZE) + 1) * (Level.TILESIZE);
+            //System.out.println("colliding down: " + (double) collideAbles[3][1]);
         }
-        //System.out.println((double) collideAbles[3][1]);
+
     }
 
     @Override
@@ -80,14 +82,16 @@ public class Grenade extends GameObject {
         checkCollideAbles(mg);
         //System.out.println(goingRight);
         if (goingRight) {
-            if ((boolean) collideAbles[1][0]) {
+            if ((boolean) collideAbles[1][0] && getPositionX() + getObjectWidth() > (double)collideAbles[1][1] - 2) {
                 System.out.println("yes");
+                goingRight = false;
                 //448X första höger maxvärde före kollision.
-                if(getPositionX() >= (double)collideAbles[1][1]) {
-                    System.out.println((double)collideAbles[1][1]);
+/*                if(getPositionX() > (double)collideAbles[1][1]) {
+
+                    //System.out.println((double)collideAbles[1][1]);
                     setPositionX((double)collideAbles[1][1]);
                     goingRight = false;
-                }
+                }*/
 
                 //System.out.println("collidedposx going right : " + (mg.getCollidedPosX() - 1));
                 //System.out.println("going right triggered!");
@@ -102,9 +106,9 @@ public class Grenade extends GameObject {
 
 
         if (!goingRight) {
-            if ((boolean) collideAbles[0][0]) {
+            if ((boolean) collideAbles[0][0] && getPositionX() < (double)collideAbles[0][1] + 2) {
                 //System.out.println("going left triggered!");
-
+                System.out.println("no");
                     goingRight = true;
 
             } else {

@@ -1,5 +1,6 @@
 package se.lexicon.lars.implementer;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -42,6 +43,16 @@ public class MainGame {
 
     public boolean getCollisions(double tileX, double tileY) {
         return level.getCollideAbles(tileX, tileY);
+    }
+
+    public boolean collisionDetection(Rectangle2D object1, Rectangle2D object2) {
+        if (object1.intersects(object2)) {
+            //System.out.println("collision detected.");
+            object2 = null;
+            object1 = null;
+            return true;
+        }
+        return false;
     }
 
 
