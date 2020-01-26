@@ -75,80 +75,59 @@ public class Grenade extends GameObject {
     private void checkCollideAbles(MainGame mg) {
 
         //Left
-
-        if (mg.getCollisions((getPositionX() / Level.TILESIZE) - 1, (getPositionY() + getObjectHeight()) / Level.TILESIZE)) {
-            collideAbles[0][0] = mg.getCollisions((getPositionX() / Level.TILESIZE) - 1, (getPositionY() + getObjectHeight()) / Level.TILESIZE);
-            collideAbles[0][1] = Math.ceil((getPositionX() / Level.TILESIZE) - 1) * (Level.TILESIZE);
-        } else if (mg.getCollisions((getPositionX() / Level.TILESIZE) - 1, (getPositionY()) / Level.TILESIZE)) {
-            collideAbles[0][0] = mg.getCollisions((getPositionX() / Level.TILESIZE) - 1, (getPositionY()) / Level.TILESIZE);
-            collideAbles[0][1] = Math.ceil((getPositionX() / Level.TILESIZE) - 1) * (Level.TILESIZE);
-        } else {
-            collideAbles[0][0] = mg.getCollisions((getPositionX() / Level.TILESIZE) - 1, (getPositionY()) / Level.TILESIZE);
-        }
-
-/*        if ((boolean) collideAbles[0][0]) {
+        collideAbles[0][0] = mg.getCollisions((getPositionX() / Level.TILESIZE) - 1, (getPositionY() + getObjectHeight()) / Level.TILESIZE);
+        if ((boolean) collideAbles[0][0]) {
             collideAbles[0][1] = Math.ceil((getPositionX() / Level.TILESIZE) - 1) * (Level.TILESIZE);
             //System.out.println("colliding left: " + (double)collideAbles[0][1]);
-        }*/
-
-        //Right
-        if (mg.getCollisions((getPositionX() / Level.TILESIZE) + 1, (getPositionY() + getObjectHeight()) / Level.TILESIZE)) {
-            collideAbles[1][0] = mg.getCollisions((getPositionX() / Level.TILESIZE) + 1, (getPositionY() + getObjectHeight()) / Level.TILESIZE);
-            collideAbles[1][1] = Math.floor((getPositionX() / Level.TILESIZE) + 1) * (Level.TILESIZE);
-        } else if (mg.getCollisions((getPositionX() / Level.TILESIZE) + 1, (getPositionY()) / Level.TILESIZE)) {
-            collideAbles[1][0] = mg.getCollisions((getPositionX() / Level.TILESIZE) + 1, (getPositionY()) / Level.TILESIZE);
-            collideAbles[1][1] = Math.floor((getPositionX() / Level.TILESIZE) + 1) * (Level.TILESIZE);
-        } else {
-            collideAbles[1][0] = mg.getCollisions((getPositionX() / Level.TILESIZE) + 1, (getPositionY()) / Level.TILESIZE);
         }
 
+        //Right
+        collideAbles[1][0] = mg.getCollisions(((getPositionX() + getObjectWidth()) / Level.TILESIZE) + 1, (getPositionY() + getObjectHeight()) / Level.TILESIZE);
 
-/*        collideAbles[1][0] = mg.getCollisions(((getPositionX() + getObjectWidth()) / Level.TILESIZE) + 1, (getPositionY() + getObjectHeight()) / Level.TILESIZE);
         if ((boolean) collideAbles[1][0]) {
             //System.out.println(((getPositionX() + getObjectWidth()) / Level.TILESIZE) + 1);
             collideAbles[1][1] = Math.floor((getPositionX() + getObjectWidth()) / (Level.TILESIZE) + 1) * (Level.TILESIZE);
             //System.out.println("colliding right: " + (double) collideAbles[1][1]);
-        }*/
+        }
 
         //Up
         //Y to collide with is 7
-        if (mg.getCollisions(((getPositionX() / Level.TILESIZE)), (getPositionY()) / (Level.TILESIZE) - 1)) {
-            collideAbles[2][0] = mg.getCollisions(((getPositionX() / Level.TILESIZE)), (getPositionY()) / (Level.TILESIZE) - 1);
+        if (mg.getCollisions(Math.floor((getPositionX() / Level.TILESIZE)), (getPositionY()) / (Level.TILESIZE) - 1)) {
+            collideAbles[2][0] = mg.getCollisions(Math.floor((getPositionX() / Level.TILESIZE)), (getPositionY()) / (Level.TILESIZE) - 1);
             collideAbles[2][1] = Math.ceil((getPositionY()) / (Level.TILESIZE) - 1) * (Level.TILESIZE);
-            //System.out.println("first");
+            System.out.println("first");
 
-        } else if (mg.getCollisions(((getPositionX() + getObjectWidth()) / Level.TILESIZE), (getPositionY()) / (Level.TILESIZE) - 1)) {
-            collideAbles[2][0] = mg.getCollisions(((getPositionX() + getObjectWidth()) / Level.TILESIZE), (getPositionY()) / (Level.TILESIZE) - 1);
+        } else if (mg.getCollisions(Math.ceil((getPositionX() / Level.TILESIZE)), (getPositionY()) / (Level.TILESIZE) - 1)) {
+            collideAbles[2][0] = mg.getCollisions(Math.ceil((getPositionX() / Level.TILESIZE)), (getPositionY()) / (Level.TILESIZE) - 1);
             collideAbles[2][1] = Math.ceil((getPositionY()) / (Level.TILESIZE) - 1) * (Level.TILESIZE);
-            //System.out.println("second");
+            System.out.println("second");
         } else {
-            collideAbles[2][0] = mg.getCollisions(((getPositionX() / Level.TILESIZE)), (getPositionY()) / (Level.TILESIZE) - 1);
+            collideAbles[2][0] = mg.getCollisions(Math.floor((getPositionX() / Level.TILESIZE)), (getPositionY()) / (Level.TILESIZE) - 1);
             //System.out.println("third");
         }
-/*        System.out.println((getPositionY()));
-        System.out.println(collideAbles[2][1]);*/
+        System.out.println((getPositionY()));
+        System.out.println(collideAbles[2][1]);
 /*        collideAbles[2][0] = mg.getCollisions((getPositionX() / Level.TILESIZE), (getPositionY() / Level.TILESIZE) - 1);
         if ((boolean) collideAbles[2][0]) {
             collideAbles[2][1] = Math.ceil((getPositionY()) / (Level.TILESIZE) - 1) * (Level.TILESIZE);
             //System.out.println("colliding up: " + (double) collideAbles[2][1]);
         }*/
         //Down
-        if (mg.getCollisions((getPositionX() / Level.TILESIZE), (getPositionY()) / (Level.TILESIZE) + 1)) {
-            collideAbles[3][0] = mg.getCollisions((getPositionX() / Level.TILESIZE), (getPositionY()) / (Level.TILESIZE) + 1);
-            collideAbles[3][1] = Math.floor((getPositionY()) / (Level.TILESIZE) + 1) * (Level.TILESIZE);
+        if (mg.getCollisions(Math.floor((getPositionX() / Level.TILESIZE)), (getPositionY() + getObjectHeight()) / (Level.TILESIZE) + 1)) {
+            collideAbles[3][0] = mg.getCollisions(Math.floor((getPositionX() / Level.TILESIZE)), (getPositionY() + getObjectHeight()) / (Level.TILESIZE) + 1);
+            collideAbles[3][1] = Math.floor((getPositionY() + getObjectHeight()) / (Level.TILESIZE) + 1) * (Level.TILESIZE);
 
-        } else if (mg.getCollisions(((getPositionX() + getObjectWidth()) / Level.TILESIZE), (getPositionY()) / (Level.TILESIZE) + 1)) {
-            collideAbles[3][0] = mg.getCollisions(((getPositionX() + getObjectWidth()) / Level.TILESIZE), (getPositionY()) / (Level.TILESIZE) + 1);
-            collideAbles[3][1] = Math.floor((getPositionY()) / (Level.TILESIZE) + 1) * (Level.TILESIZE);
+        } else if (mg.getCollisions(Math.ceil((getPositionX() / Level.TILESIZE)), (getPositionY() + getObjectHeight()) / (Level.TILESIZE) + 1)) {
+            collideAbles[3][0] = mg.getCollisions(Math.ceil((getPositionX() / Level.TILESIZE)), (getPositionY() + getObjectHeight()) / (Level.TILESIZE) + 1);
+            collideAbles[3][1] = Math.floor((getPositionY() + getObjectHeight()) / (Level.TILESIZE) + 1) * (Level.TILESIZE);
         } else {
-            collideAbles[3][0] = mg.getCollisions(((getPositionX() / Level.TILESIZE)), (getPositionY()) / (Level.TILESIZE) + 1);
+            collideAbles[3][0] = mg.getCollisions(Math.floor((getPositionX() / Level.TILESIZE)), (getPositionY() + getObjectHeight()) / (Level.TILESIZE) + 1);
         }
 
-
-/*        collideAbles[3][0] = mg.getCollisions((getPositionX() / Level.TILESIZE), (getPositionY() / (Level.TILESIZE) + 1));
+        //collideAbles[3][0] = mg.getCollisions((getPositionX() / Level.TILESIZE), (getPositionY() + getObjectHeight()) / (Level.TILESIZE) + 1);
         //System.out.println((getPositionX() / Level.TILESIZE) + " " + (getPositionY() + getObjectHeight()) / (Level.TILESIZE) + 1);
-        if ((boolean) collideAbles[3][0]) {
-            collideAbles[3][1] = Math.floor(getPositionY() / (Level.TILESIZE) + 1) * (Level.TILESIZE);
+/*        if ((boolean) collideAbles[3][0]) {
+            collideAbles[3][1] = Math.floor((getPositionY() + getObjectHeight()) / (Level.TILESIZE) + 1) * (Level.TILESIZE);
             System.out.println("colliding down: " + (double) collideAbles[3][1]);
         }*/
     }
@@ -159,7 +138,7 @@ public class Grenade extends GameObject {
         checkCollideAbles(mg);
 
         if (goingRight) {
-            if ((boolean) collideAbles[1][0] && getPositionX() + getObjectWidth() > (double) collideAbles[1][1] - 5) {
+            if ((boolean) collideAbles[1][0] && getPositionX() + getObjectWidth() > (double) collideAbles[1][1] - 10) {
                 //setPositionX((double) collideAbles[1][1] - getObjectWidth() - 10);
                 goingRight = false;
             } else {
@@ -181,8 +160,6 @@ public class Grenade extends GameObject {
             //System.out.println(getObjectSpeedY());
             if ((boolean) collideAbles[3][0] && getPositionY() + getObjectHeight() > (double) collideAbles[3][1] - 4) {
                 //setPositionY((double)collideAbles[3][1] - getObjectHeight());
-                //collideAbles[3][0] = null;
-                //collideAbles[3][1] = null;
                 //Set half of both Y and X speed when bouncing on floor.
                 if (getObjectSpeedY() > 0) {
                     setObjectSpeedY(-(getObjectSpeedY() / 2));

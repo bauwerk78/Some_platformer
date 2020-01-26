@@ -196,8 +196,7 @@ public class PlayerCharacter extends GameObject {
         setPositionX((tileX * TILESIZE) + offX);
         setPositionY((tileY * TILESIZE) + offY);
 
-        //System.out.println(getPositionX() / TILESIZE + " " + getPositionY() / TILESIZE);
-        //Start of player firing.
+        //Start of player firing weapons.
 
         //Regular bullet
         if (input.contains("F") && bulletReady) {
@@ -212,14 +211,23 @@ public class PlayerCharacter extends GameObject {
         if (!bulletReady) {
             bulletReady = bulletDelayer.delayTimer(0.2);
         }
+        //End of bullets.
 
         //Grenade
         if (input.contains("G") && grenadeReady) {
-            //System.out.println("throwing grenade");
             if (goingRight) {
-                grenades.add(new Grenade(getPositionX() + getObjectWidth() - 6, getPositionY() + 15, true));
-            } else {
-                grenades.add(new Grenade(getPositionX() - 3, getPositionY() + 15, false));
+                if (mg.getCollision(tileX + 1, tileY) && offX + getObjectWidth() >= 0) {
+                    grenades.add(new Grenade(getPositionX() + getObjectWidth() - 6, getPositionY() + 15, false));
+                } else {
+                    grenades.add(new Grenade(getPositionX() + getObjectWidth() - 6, getPositionY() + 15, true));
+                }
+            }
+            if (!goingRight) {
+                if (mg.getCollision(tileX - 1, tileY) && offX - getObjectWidth() <= 0) {
+                    grenades.add(new Grenade(getPositionX() - 3, getPositionY() + 15, true));
+                } else {
+                    grenades.add(new Grenade(getPositionX() - 3, getPositionY() + 15, false));
+                }
             }
             grenadeReady = false;
         }
@@ -228,7 +236,9 @@ public class PlayerCharacter extends GameObject {
             grenadeReady = grenadeDelayer.delayTimer(1);
         }
 
-        //End of player firing.
+        //End of grenade.
+
+        //End of player firing weapons.
 
         //System.out.println(input);
 
