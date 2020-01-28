@@ -5,12 +5,13 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import se.lexicon.lars.implementer.MainGame;
 import se.lexicon.lars.model.GameObject;
+import se.lexicon.lars.model.Level;
 import se.lexicon.lars.tools.Delayer;
 
 public class Santa extends GameObject {
 
-    private double positionX;
-    private double positionY;
+/*    private double positionX;
+    private double positionY;*/
 
     private Delayer delayer;
 
@@ -18,12 +19,13 @@ public class Santa extends GameObject {
     private int frameHeight = 72;
     private int frameWidth = 64;
     private int imageWidth = 704;
-    private int currentFrame;
+    private int currentFrame = 0;
     private int[] imageSrcPos = new int[imageWidth/frameWidth];
 
+    private boolean goingRight;
+
     public Santa(double posX, double posY) {
-        this.positionX = posX;
-        this.positionY = posY;
+        super(posX, posY);
         init();
 
 
@@ -47,7 +49,7 @@ public class Santa extends GameObject {
     }
 
     @Override
-    protected void render(GraphicsContext gc, Scene scene, MainGame mg) {
-
+    public void render(GraphicsContext gc, Scene scene, MainGame mg) {
+        gc.drawImage(image, imageSrcPos[0], 0, frameWidth, frameHeight, getPositionX(), getPositionY(), Level.TILESIZE, Level.TILESIZE);
     }
 }

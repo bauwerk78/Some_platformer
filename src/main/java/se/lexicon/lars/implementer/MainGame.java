@@ -9,6 +9,7 @@ import se.lexicon.lars.model.Camera;
 import se.lexicon.lars.model.GameObject;
 import se.lexicon.lars.model.Level;
 import se.lexicon.lars.model.PlayerCharacter;
+import se.lexicon.lars.model.enemies.Santa;
 
 import static se.lexicon.lars.graphics.Renderer.*;
 import static se.lexicon.lars.model.Level.*;
@@ -17,6 +18,7 @@ public class MainGame {
 
     private Level level;
     private PlayerCharacter player;
+    private Santa santa;
     private Camera camera;
     private Canvas canvas;
     private GraphicsContext gc;
@@ -34,6 +36,7 @@ public class MainGame {
         level = new Level();
         player = new PlayerCharacter();
         camera = new Camera(scene);
+        santa = new Santa(320, 256);
         initGraphics(group);
     }
 
@@ -60,6 +63,7 @@ public class MainGame {
         gc.clearRect(0, 0, windowWidth, windowHeight);
         level.renderLevel(gc);
         player.render(gc, scene, this);
+        santa.render(gc, scene, this);
         camera.update(player);
         //System.out.println(player.getTileX() + " : " + player.getTileY());
     }
