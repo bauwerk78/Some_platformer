@@ -10,11 +10,17 @@ import se.lexicon.lars.model.GameObject;
 import se.lexicon.lars.model.Level;
 import se.lexicon.lars.model.PlayerCharacter;
 import se.lexicon.lars.model.enemies.Santa;
+import se.lexicon.lars.tools.Randomize;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static se.lexicon.lars.graphics.Renderer.*;
 import static se.lexicon.lars.model.Level.*;
 
-public class MainGame {
+public class MainGame implements Randomize {
+
+    private List<Santa> santas = new ArrayList<>();
 
     private Level level;
     private PlayerCharacter player;
@@ -36,7 +42,10 @@ public class MainGame {
         level = new Level();
         player = new PlayerCharacter();
         camera = new Camera(scene);
-        santa = new Santa(320, 256);
+        for (int i = 1; i <= 10; i++) {
+            santas.add(new Santa(Randomize.randPositionX(1, 10), 2, Randomize.randBoolean()));
+        }
+        //santa = new Santa(320, 256);
         initGraphics(group);
     }
 
@@ -63,7 +72,10 @@ public class MainGame {
         gc.clearRect(0, 0, windowWidth, windowHeight);
         level.renderLevel(gc);
         player.render(gc, scene, this);
-        santa.render(gc, scene, this);
+        for(Santa sant : santas) {
+            sant.render(gc, scene, this);
+        }
+        //santa.render(gc, scene, this);
         camera.update(player);
         //System.out.println(player.getTileX() + " : " + player.getTileY());
     }
