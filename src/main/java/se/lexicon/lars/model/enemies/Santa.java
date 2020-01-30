@@ -82,6 +82,15 @@ public class Santa extends GameObject {
     @Override
     protected void update(Scene scene, MainGame mg) {
 
+
+        if(goingRight && !mg.getCollision(tileX + 1, tileY - 1) && mg.getCollision(tileX + 1, tileY) && offX <= 0) {
+            charJumping = true;
+        }
+
+        if(!goingRight && !mg.getCollision(tileX - 1, tileY - 1) && mg.getCollision(tileX - 1, tileY) && offX >= 0) {
+            charJumping = true;
+        }
+
         //Jumping
         if (charJumping && charGrounded) {
             setObjectSpeedY(getObjectSpeedY() + jumpHeight);
