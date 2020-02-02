@@ -100,7 +100,7 @@ public class PlayerCharacter extends GameObject {
     @Override
     protected void update(Scene scene, MainGame mg) {
         getPlayerInput(scene);
-
+        //System.out.println(offX);
         //Jumping and falling.
 
         //Jumping

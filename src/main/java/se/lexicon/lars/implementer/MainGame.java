@@ -42,7 +42,7 @@ public class MainGame implements Randomize {
         level = new Level();
         player = new PlayerCharacter();
         camera = new Camera(scene);
-        for (int i = 1; i <= 1; i++) {
+        for (int i = 1; i <= 10; i++) {
             santas.add(new Santa(Randomize.randPositionX(1, 10), 2, Randomize.randBoolean()));
         }
         //santa = new Santa(320, 256);

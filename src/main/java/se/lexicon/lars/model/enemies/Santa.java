@@ -9,6 +9,8 @@ import se.lexicon.lars.model.Level;
 import se.lexicon.lars.tools.Delayer;
 import se.lexicon.lars.tools.Randomize;
 
+import java.sql.SQLOutput;
+
 import static se.lexicon.lars.model.Level.TILESIZE;
 
 public class Santa extends GameObject implements Randomize {
@@ -81,84 +83,100 @@ public class Santa extends GameObject implements Randomize {
         }
     }
 
-    private boolean randomizeJumping() {
-        return Randomize.randBoolean();
-    }
-
     @Override
     protected void update(Scene scene, MainGame mg) {
 
-        if (goingRight & charGrounded  & (tileY - 2 != 0 || tileY - 1 != 0)) {
-            //If you can jump one tile up.
-            if (!mg.getCollision(tileX + 1, tileY - 1) & mg.getCollision(tileX + 1, tileY) & offX >= offXMaxRight) {
-                charJumping = randomizeJumping();
-                System.out.println("wtf1");
-            } else if (!mg.getCollision(tileX + 1, tileY) & mg.getCollision(tileX + 1, tileY - 1) & !mg.getCollision(tileX + 1, tileY - 2) & offX >= offXMaxRight) {
-                charJumping = randomizeJumping();
-                System.out.println("wtf2");
-            } else if (mg.getCollision(tileX + 1, tileY) & mg.getCollision(tileX + 1, tileY - 1) & !mg.getCollision(tileX + 1, tileY - 2) & offX >= offXMaxRight) {
-                charJumping = randomizeJumping();
-                System.out.println("wtf3");
-            } else {
-                charJumping = false;
-                //System.out.println("wtf4");
-            }
+        //System.out.println(offX);
+        //If going off the map upwards.
+        //Todo all the jumping, not working and need to shorten this with some algorithm.
+        if (goingRight & charGrounded & !(tileY - 3 <= 0 | tileY - 2 <= 0 | tileY - 1 <= 0)) {
+
+            //If you are going off the map going right.
+            if (tileX + 1 >= Level.levelW - 1) {
+                goingRight = false;
+
+            } else
+                //If all tiles are collidable going right that is above your supposed jumping height.
+                if (mg.getCollisions(tileX + 1, tileY) & mg.getCollisions(tileX + 1, tileY - 1) & mg.getCollisions(tileX + 1, tileY - 2)
+                        & mg.getCollisions(tileX + 1, tileY - 3) & offX + getObjectWidth() == offXMaxRight) {
+                    goingRight = false;
+                } else if (mg.getCollisions(tileX + 1, tileY) & mg.getCollisions(tileX + 1, tileY - 1) & mg.getCollisions(tileX + 1, tileY - 2) &
+                        !mg.getCollisions(tileX + 1, tileY - 3) & offX + getObjectWidth() == offXMaxRight) {
+                    charJumping = Randomize.randBoolean();
+                    if (!charJumping) {
+                        goingRight = false;
+                    }
+                } else if (mg.getCollisions(tileX + 1, tileY) & mg.getCollisions(tileX + 1, tileY - 1) & !mg.getCollisions(tileX + 1, tileY - 2) & offX + getObjectWidth() == offXMaxRight) {
+                    charJumping = Randomize.randBoolean();
+                    if (!charJumping) {
+                        goingRight = false;
+                    }
+                } else if (mg.getCollisions(tileX + 1, tileY) & !mg.getCollisions(tileX + 1, tileY - 1) & offX + getObjectWidth() == offXMaxRight) {
+                    charJumping = Randomize.randBoolean();
+                    if (!charJumping) {
+                        goingRight = false;
+                    }
+                } else if (mg.getCollisions(tileX + 1, tileY) & offX + getObjectWidth() == 0) {
+                    System.out.println("test");
+                    goingRight = false;
+                }
 
 
         }
 
-        if (!goingRight & charGrounded  & (tileY - 2 != 0 || tileY - 1 != 0)) {
-            //If you can jump one tile up.
-            if (!mg.getCollision(tileX - 1, tileY - 1) & mg.getCollision(tileX - 1, tileY) & offX <= offXMaxLeft) {
-                charJumping = randomizeJumping();
-                System.out.println("left1");
-            } else if (!mg.getCollision(tileX - 1, tileY) & mg.getCollision(tileX - 1, tileY - 1) & !mg.getCollision(tileX - 1, tileY - 2) & offX <= offXMaxLeft) {
-                charJumping = randomizeJumping();
-                System.out.println("left2");
-            } else if (mg.getCollision(tileX - 1, tileY) & mg.getCollision(tileX - 1, tileY - 1) & !mg.getCollision(tileX - 1, tileY - 2) & offX <= offXMaxLeft) {
-                charJumping = randomizeJumping();
-                System.out.println("left3");
-            } else {
-                charJumping = false;
-            }
+
+        if (!goingRight & charGrounded & !(tileY - 3 <= 0 | tileY - 2 <= 0 | tileY - 1 <= 0)) {
+            //If you can jump one tile up and tile right is collideable.
+            if (tileX - 1 <= 0) {
+                goingRight = true;
+            } else if (mg.getCollisions(tileX - 1, tileY) & !mg.getCollisions(tileX - 1, tileY - 1) & offX == offXMaxLeft) {
+                charJumping = Randomize.randBoolean();
+                if (!charJumping) {
+                    goingRight = true;
+                }
+            } else
+                //Two tiles up.
+                if (mg.getCollisions(tileX - 1, tileY) & !mg.getCollisions(tileX - 1, tileY - 2) & offX == offXMaxLeft) {
+                    charJumping = Randomize.randBoolean();
+                    if (!charJumping) {
+                        goingRight = true;
+                    }
+                } else if (!mg.getCollisions(tileX - 1, tileY) & mg.getCollisions(tileX - 1, tileY - 1) & offX == offXMaxLeft) {
+                    charJumping = Randomize.randBoolean();
+                } else if (!mg.getCollisions(tileX - 1, tileY) & mg.getCollisions(tileX - 1, tileY - 2) & offX == offXMaxLeft) {
+                    charJumping = Randomize.randBoolean();
+                } else if (mg.getCollisions(tileX - 1, tileY) & offX == 0) {
+                    goingRight = true;
+                }
+
         }
 
-
-/*        if(goingRight && ((!mg.getCollision(tileX + 1, tileY - 1) && mg.getCollision(tileX + 1, tileY) ||
-                (!mg.getCollision(tileX + 1, tileY) && mg.getCollision(tileX + 1, tileY - 2))) && offX <= 0)) {
-            charJumping = true;
-        }*/
-
-/*        if(!goingRight && !mg.getCollision(tileX - 1, tileY - 1) && mg.getCollision(tileX - 1, tileY) && offX >= 0) {
-            charJumping = true;
-        }*/
 
         //Jumping
         if (charJumping && charGrounded) {
             setObjectSpeedY(getObjectSpeedY() + jumpHeight);
             //setObjectSpeedY(jumpHeight);
             charGrounded = false;
-            //charJumping = false;
+            charJumping = false;
 
         }
 
         //Colliding upwards
-        if (getObjectSpeedY() < 0) {
+/*        if (getObjectSpeedY() < 0) {
             if (charJumping) {
-
-                if (mg.getCollision(tileX, tileY - 1) && offY <= 0) {
-                    System.out.println("colliding up?");
-                    if ((mg.getCollision(Math.floor(getPositionX() / TILESIZE), Math.floor(getPositionY() / TILESIZE) - 1) && offY >= 0) ||
-                            (mg.getCollision(Math.ceil(getPositionX() / TILESIZE), Math.floor(getPositionY() / TILESIZE) - 1) && offY >= 0)) {
-                        offY = 0;
-                        setObjectSpeedY(0);
-                    }
+                System.out.println("colliding up?");
+                if ((mg.getCollision(Math.floor(getPositionX() / TILESIZE), Math.floor(getPositionY() / TILESIZE) - 1) && offY >= 0) ||
+                        (mg.getCollision(Math.ceil(getPositionX() / TILESIZE), Math.floor(getPositionY() / TILESIZE) - 1) && offY >= 0)) {
+                    offY = 0;
+                    setObjectSpeedY(0);
                 }
             }
-        }
+        }*/
 
         //Colliding with tile beneath player.
-        if (getObjectSpeedY() >= 0) {
+        if (
+
+                getObjectSpeedY() >= 0) {
             if ((mg.getCollision(Math.floor((getPositionX()) / TILESIZE), tileY + 1)) ||
                     (mg.getCollision(Math.ceil((getPositionX()) / TILESIZE), tileY + 1))) {
 
@@ -172,8 +190,14 @@ public class Santa extends GameObject implements Randomize {
             }
         }
 
-        offY += getObjectSpeedY();
-        if (getObjectSpeedY() > 0 || getObjectSpeedY() < 0 || !charGrounded) {
+        offY +=
+
+                getObjectSpeedY();
+        if (
+
+                getObjectSpeedY() > 0 ||
+
+                        getObjectSpeedY() < 0 || !charGrounded) {
 
             setObjectSpeedY(getObjectSpeedY() + (gravity * elapsedTime));
         }
@@ -185,22 +209,28 @@ public class Santa extends GameObject implements Randomize {
         if (!goingRight) {
 
             offX -= (getObjectSpeedX() * elapsedTime);
-            if (mg.getCollision(tileX - 1, tileY) && offX < 0) {
+/*            if (mg.getCollision(tileX - 1, tileY) && offX < 0) {
+                if (tileX - 1 <= 0) {
+                    goingRight = true;
+                }
                 //System.out.println("colliding left: ");
-                offX = 0;
-                goingRight = true;
-            }
+                //offX = 0;
+                //goingRight = true;
+            }*/
         }
 
         //Going right
         if (goingRight) {
 
             offX += (getObjectSpeedX() * elapsedTime);
-            if (mg.getCollision(tileX + 1, tileY) && offX > 0) {
+/*            if (mg.getCollision(tileX + 1, tileY) && offX > 0) {
+                if (tileX + 1 >= Level.levelW - 1) {
+                    goingRight = false;
+                }
                 //System.out.println("colliding right: ");
-                offX = 0;
-                goingRight = false;
-            }
+                //offX = 0;
+                //goingRight = false;
+            }*/
         }
         //End of right and left movement.
 
@@ -228,6 +258,7 @@ public class Santa extends GameObject implements Randomize {
         }
 
         setPositionX((tileX * TILESIZE) + offX);
+
         setPositionY((tileY * TILESIZE) + offY);
     }
 
