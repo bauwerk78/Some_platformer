@@ -9,8 +9,6 @@ import se.lexicon.lars.model.Level;
 import se.lexicon.lars.tools.Delayer;
 import se.lexicon.lars.tools.Randomize;
 
-import java.sql.SQLOutput;
-
 import static se.lexicon.lars.model.Level.TILESIZE;
 
 public class Santa extends GameObject implements Randomize {
@@ -84,7 +82,7 @@ public class Santa extends GameObject implements Randomize {
     }
 
     private void checkJumpingConditions(MainGame mg) {
-        if (goingRight && charGrounded && !(tileY - 3 <= 0 | tileY - 2 <= 0 | tileY - 1 <= 0) && !mg.getCollisions(tileX, tileY - 1)) {
+        if (goingRight && charGrounded && !(tileY - 3 <= 0 | tileY - 2 <= 0 | tileY - 1 <= 0 | tileY <= 0) && !mg.getCollisions(tileX, tileY - 1)) {
 
             //If you are going off the map going right.
             if (tileX + 1 >= Level.levelW - 1) {
@@ -107,9 +105,9 @@ public class Santa extends GameObject implements Randomize {
         }
 
 
-        if (!goingRight && charGrounded && !(tileY - 3 <= 0 | tileY - 2 <= 0 | tileY - 1 <= 0) && !mg.getCollisions(tileX, tileY - 1)) {
+        if (!goingRight && charGrounded && !(tileY - 3 <= 0 | tileY - 2 <= 0 | tileY - 1 <= 0 | tileY <= 0) && !mg.getCollisions(tileX, tileY - 1)) {
 
-            //If you are going off the map going right.
+            //If you are going off the map going left.
             if (tileX - 1 <= 0) {
                 goingRight = true;
                 return;
@@ -119,7 +117,7 @@ public class Santa extends GameObject implements Randomize {
             if (mg.getCollisions(tileX - 1, tileY)) {
                 charJumping = Randomize.randBoolean();
                 if (!charJumping) {
-                    goingRight = false;
+                    goingRight = true;
                 }
                 return;
             }
@@ -148,7 +146,7 @@ public class Santa extends GameObject implements Randomize {
         //Colliding upwards
         if (getObjectSpeedY() < 0) {
             if (charJumping) {
-                System.out.println("colliding up?");
+                //System.out.println("colliding up?");
                 if ((mg.getCollision(Math.floor(getPositionX() / TILESIZE), Math.floor(getPositionY() / TILESIZE) - 1) && offY >= 0) ||
                         (mg.getCollision(Math.ceil(getPositionX() / TILESIZE), Math.floor(getPositionY() / TILESIZE) - 1) && offY >= 0)) {
                     offY = 0;

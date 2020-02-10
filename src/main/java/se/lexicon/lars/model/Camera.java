@@ -33,8 +33,8 @@ public class Camera {
     public void createCamera(Scene scene) {
         camera = new ParallelCamera();
         scene.setCamera(camera);
-        //camera.setScaleX(2);
-        //camera.setScaleY(2);
+        camera.setScaleX(4);
+        camera.setScaleY(4);
     }
 
     public void update(PlayerCharacter player) {
