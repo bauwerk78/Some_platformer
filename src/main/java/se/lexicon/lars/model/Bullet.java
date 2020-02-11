@@ -76,7 +76,7 @@ public class Bullet extends GameObject {
     protected void render(GraphicsContext gc, Scene scene, MainGame mg) {
         update(scene, mg);
 
-        gc.setFill(Color.DARKSLATEGREY);
+        gc.setFill(Color.GREENYELLOW);
         gc.fillRect(getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
     }
 

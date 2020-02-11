@@ -18,6 +18,7 @@ public class Camera {
     private double targetY;
     private double camAccX = 0.1;
     private double camAccY = 0.1;
+    private double scaling = 1;
 
 
     public Camera(Scene scene) {
@@ -33,8 +34,8 @@ public class Camera {
     public void createCamera(Scene scene) {
         camera = new ParallelCamera();
         scene.setCamera(camera);
-        camera.setScaleX(1.5);
-        camera.setScaleY(1.5);
+        camera.setScaleX(scaling);
+        camera.setScaleY(scaling);
     }
 
     public void update(PlayerCharacter player) {

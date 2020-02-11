@@ -5,6 +5,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import se.lexicon.lars.graphics.Background;
 import se.lexicon.lars.model.Camera;
 import se.lexicon.lars.model.GameObject;
 import se.lexicon.lars.model.Level;
@@ -28,6 +29,7 @@ public class MainGame implements Randomize {
     private Camera camera;
     private Canvas canvas;
     private GraphicsContext gc;
+    private Background background = new Background();
     private boolean newLevel = true;
 
     private double collidedPosX;
@@ -85,9 +87,11 @@ public class MainGame implements Randomize {
     }
 
     public void initGraphics(Group group) {
+        background.init(group);
         canvas = new Canvas(levelW * TILESIZE, levelH * TILESIZE);
         group.getChildren().add(canvas);
         gc = canvas.getGraphicsContext2D();
+
     }
 
     public double getCollidedPosX() {
