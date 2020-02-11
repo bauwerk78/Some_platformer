@@ -16,8 +16,8 @@ public class Santa extends GameObject implements Randomize {
 /*    private double positionX;
     private double positionY;*/
 
-    private final double gravity = 50;
-    private final double jumpHeight = -15;
+    private final double gravity = 20;
+    private final double jumpHeight = -9;
 
     //Using a constant since elapsed time resulted in jerky movement.
     private final double elapsedTime = 0.015;
@@ -45,16 +45,12 @@ public class Santa extends GameObject implements Randomize {
     public Santa(double posX, double posY) {
         super(posX, posY);
         init();
-
-
     }
 
     public Santa(double posX, double posY, boolean goingRight) {
         super(posX, posY);
         this.goingRight = goingRight;
         init();
-
-
     }
 
     public Santa(int tileX, int tileY, boolean goingRight) {
@@ -63,8 +59,6 @@ public class Santa extends GameObject implements Randomize {
         this.tileX = tileX;
         this.tileY = tileY;
         init();
-
-
     }
 
     @Override
@@ -82,12 +76,15 @@ public class Santa extends GameObject implements Randomize {
     }
 
     private void checkJumpingConditions(MainGame mg) {
-        if (goingRight && charGrounded && !(tileY - 3 <= 0 | tileY - 2 <= 0 | tileY - 1 <= 0 | tileY <= 0) && !mg.getCollisions(tileX, tileY - 1)) {
+        if (goingRight && charGrounded && !(tileY - 3 <= 0 | tileY - 2 <= 0 | tileY - 1 <= 0 | tileY <= 0) &&
+                !mg.getCollisions(tileX, tileY - 1)) {
+
             //If you are going off the map going right.
             if (tileX + 1 >= Level.levelW - 1) {
                 goingRight = false;
                 return;
             }
+
             if (mg.getCollisions(tileX + 1, tileY)) {
                 charJumping = Randomize.randBoolean();
                 if (!charJumping) {
@@ -95,19 +92,23 @@ public class Santa extends GameObject implements Randomize {
                 }
                 return;
             }
+
             if (!mg.getCollisions(tileX + 1, tileY + 1)) {
                 charJumping = Randomize.randBoolean();
             }
+
         }
 
 
-        if (!goingRight && charGrounded && !(tileY - 3 <= 0 | tileY - 2 <= 0 | tileY - 1 <= 0 | tileY <= 0) && !mg.getCollisions(tileX, tileY - 1)) {
+        if (!goingRight && charGrounded && !(tileY - 3 <= 0 | tileY - 2 <= 0 | tileY - 1 <= 0 | tileY <= 0) &&
+                !mg.getCollisions(tileX, tileY - 1)) {
 
             //If you are going off the map going left.
             if (tileX - 1 <= 0) {
                 goingRight = true;
                 return;
             }
+
             if (mg.getCollisions(tileX - 1, tileY)) {
                 charJumping = Randomize.randBoolean();
                 if (!charJumping) {
@@ -115,9 +116,11 @@ public class Santa extends GameObject implements Randomize {
                 }
                 return;
             }
+            // && offX == offXMaxLeft
             if (!mg.getCollisions(tileX - 1, tileY + 1)) {
                 charJumping = Randomize.randBoolean();
             }
+
         }
     }
 
@@ -135,6 +138,7 @@ public class Santa extends GameObject implements Randomize {
         //Colliding upwards
         if (getObjectSpeedY() < 0) {
             if (charJumping) {
+                //System.out.println("colliding up?");
                 if ((mg.getCollision(Math.floor(getPositionX() / TILESIZE), Math.floor(getPositionY() / TILESIZE) - 1) && offY >= 0) ||
                         (mg.getCollision(Math.ceil(getPositionX() / TILESIZE), Math.floor(getPositionY() / TILESIZE) - 1) && offY >= 0)) {
                     offY = 0;
@@ -176,10 +180,10 @@ public class Santa extends GameObject implements Randomize {
         if (goingRight) {
             offX += (getObjectSpeedX() * elapsedTime);
         }
+
         //End of right and left movement.
 
         //Update player position.
-
         //Down
         if (offY > TILESIZE / 2f) {
             tileY++;
@@ -202,7 +206,6 @@ public class Santa extends GameObject implements Randomize {
         }
 
         setPositionX((tileX * TILESIZE) + offX);
-
         setPositionY((tileY * TILESIZE) + offY);
     }
 
