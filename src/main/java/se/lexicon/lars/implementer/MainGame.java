@@ -5,9 +5,8 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import se.lexicon.lars.graphics.Background;
+import se.lexicon.lars.graphics.ScrollingBackground;
 import se.lexicon.lars.model.Camera;
-import se.lexicon.lars.model.GameObject;
 import se.lexicon.lars.model.Level;
 import se.lexicon.lars.model.PlayerCharacter;
 import se.lexicon.lars.model.enemies.Santa;
@@ -29,7 +28,7 @@ public class MainGame implements Randomize {
     private Camera camera;
     private Canvas canvas;
     private GraphicsContext gc;
-    private Background background = new Background();
+    private ScrollingBackground scrollingBackground = new ScrollingBackground();
     private boolean newLevel = true;
 
     private double collidedPosX;
@@ -71,7 +70,7 @@ public class MainGame implements Randomize {
 
 
     private void renderGame(Scene scene) {
-        gc.clearRect(0, 0, windowWidth, windowHeight);
+        gc.clearRect(0, 0, levelW * TILESIZE, levelH * TILESIZE);
         level.renderLevel(gc);
         player.render(gc, scene, this);
         for(Santa sant : santas) {
@@ -87,7 +86,7 @@ public class MainGame implements Randomize {
     }
 
     public void initGraphics(Group group) {
-        background.init(group);
+        scrollingBackground.init(group);
         canvas = new Canvas(levelW * TILESIZE, levelH * TILESIZE);
         group.getChildren().add(canvas);
         gc = canvas.getGraphicsContext2D();

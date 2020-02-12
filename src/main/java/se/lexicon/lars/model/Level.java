@@ -33,6 +33,7 @@ public class Level {
 
     private void setLevelImage() {
         levelImage = new Image("file:Images/level_64tile_128x12.png");
+        //levelImage = new Image("file:Images/level3_64tile3_64x48.png");
         imageWidth = (int) levelImage.getWidth();
         imageHeight = (int) levelImage.getHeight();
     }
@@ -41,7 +42,7 @@ public class Level {
         for (int y = 0; y < levelH; y++) {
             for (int x = 0; x < levelW; x++) {
                 if (collideAble[(int) ((y * levelW) + x)]) {
-                    gc.setFill(Color.BLACK);
+                    gc.setFill(Color.LIGHTGRAY);
                 } else {
                     gc.setFill(Color.TRANSPARENT);
                 }

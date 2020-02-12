@@ -281,7 +281,7 @@ public class PlayerCharacter extends GameObject {
 
 
     public void setImage() {
-        image = new Image("file:Images/mario_rambo3.gif", getObjectWidth(), getObjectHeight(), false, false);
+        image = new Image("file:Images/PlayerCharacter/Rocky.png", getObjectWidth(), getObjectHeight(), false, false);
     }
 
     public double getOffX() {
