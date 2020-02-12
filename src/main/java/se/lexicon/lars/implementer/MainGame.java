@@ -5,6 +5,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.ImageView;
 import se.lexicon.lars.graphics.ScrollingBackground;
 import se.lexicon.lars.model.Camera;
 import se.lexicon.lars.model.Level;
@@ -68,8 +69,20 @@ public class MainGame implements Randomize {
         return false;
     }
 
+    private void updateScrollingBackground() {
+        if(isPlayerGoingRight() && !isPlayerStandingStill()) {
+            scrollingBackground.setImageView2PosX(scrollingBackground.getImageView2PosX() - scrollingBackground.getSpeedXImage2() * elapsedTime);
+            scrollingBackground.update();
+        }
+        if(!isPlayerGoingRight() && !isPlayerStandingStill()) {
+            scrollingBackground.setImageView2PosX(scrollingBackground.getImageView2PosX() + scrollingBackground.getSpeedXImage2() * elapsedTime);
+            scrollingBackground.update();
+        }
+
+    }
 
     private void renderGame(Scene scene) {
+        System.out.println(player.getPositionX());
         gc.clearRect(0, 0, levelW * TILESIZE, levelH * TILESIZE);
         level.renderLevel(gc);
         player.render(gc, scene, this);
@@ -77,6 +90,7 @@ public class MainGame implements Randomize {
             sant.render(gc, scene, this);
         }
         //santa.render(gc, scene, this);
+        updateScrollingBackground();
         camera.update(player);
         //System.out.println(player.getTileX() + " : " + player.getTileY());
     }
@@ -91,6 +105,14 @@ public class MainGame implements Randomize {
         group.getChildren().add(canvas);
         gc = canvas.getGraphicsContext2D();
 
+    }
+
+    public boolean isPlayerGoingRight() {
+        return player.isGoingRight();
+    }
+
+    public boolean isPlayerStandingStill() {
+        return player.isStandingStill();
     }
 
     public double getCollidedPosX() {

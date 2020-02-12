@@ -38,6 +38,7 @@ public class PlayerCharacter extends GameObject {
     private boolean grenadeReady = true;
 
     private boolean goingRight = true;
+    private boolean standingStill;
     private boolean playerJumping = false;
     private boolean playerGrounded = false;
     private double tileX;
@@ -57,7 +58,7 @@ public class PlayerCharacter extends GameObject {
 
     @Override
     protected void init() {
-        setID("Player");
+        setID("Player1");
         setObjectWidth(TILESIZE);
         setObjectHeight(TILESIZE);
         setTileX(4);
@@ -154,19 +155,21 @@ public class PlayerCharacter extends GameObject {
         if (input.contains("LEFT")) {
             goingRight = false;
             offX -= (getObjectSpeedX() * elapsedTime);
+            standingStill = false;
             if (mg.getCollision(tileX - 1, tileY) && offX < 0) {
                 //System.out.println("colliding left: ");
                 offX = 0;
             }
-        }
-
-        if (input.contains("RIGHT")) {
+        } else if (input.contains("RIGHT")) {
             goingRight = true;
             offX += (getObjectSpeedX() * elapsedTime);
+            standingStill = false;
             if (mg.getCollision(tileX + 1, tileY) && offX > 0) {
                 //System.out.println("colliding right: ");
                 offX = 0;
             }
+        } else {
+            standingStill = true;
         }
         //End of right and left movement.
 
@@ -338,6 +341,10 @@ public class PlayerCharacter extends GameObject {
 
     public void setPlayerGrounded(boolean playerGrounded) {
         this.playerGrounded = playerGrounded;
+    }
+
+    public boolean isStandingStill() {
+        return standingStill;
     }
 }//End of class.
 
