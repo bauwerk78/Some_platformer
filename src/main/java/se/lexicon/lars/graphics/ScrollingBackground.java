@@ -24,8 +24,8 @@ public class ScrollingBackground {
     private ImageView imageView2 = new ImageView();
     private ImageView imageView3 = new ImageView();
     private ImageView imageView4 = new ImageView();
-    private double imageView2PosX;
-    private double speedXImage2 = 10;
+    private double secondLayerPosX;
+    private double secondLayerScrollSpeed = 10;
     private int direction;
 
 
@@ -79,7 +79,7 @@ public class ScrollingBackground {
         Background background1 = new Background(backgroundImage1);
         Background background2 = new Background(backgroundImage2);
         Background background3 = new Background(backgroundImage3);
-        Background background4 = new Background(backgroundImage3, backgroundImage4);
+        Background background4 = new Background(backgroundImage4);
 
         //First layer.
         backgroundRegion.setBackground(background1);
@@ -102,7 +102,8 @@ public class ScrollingBackground {
     }
 
     public void update() {
-        imageView2.relocate(imageView2PosX, 0);
+        imageView1.relocate(secondLayerPosX, 0);
+        imageView2.relocate(secondLayerPosX + Renderer.windowWidth, 0);
     }
 
     private void render(Group group) {
@@ -117,20 +118,20 @@ public class ScrollingBackground {
         this.direction = direction;
     }
 
-    public double getImageView2PosX() {
-        return imageView2PosX;
+    public double getSecondLayerPosX() {
+        return secondLayerPosX;
     }
 
-    public void setImageView2PosX(double imageView2PosX) {
-        this.imageView2PosX = imageView2PosX;
+    public void setSecondLayerPosX(double secondLayerPosX) {
+        this.secondLayerPosX = secondLayerPosX;
     }
 
-    public double getSpeedXImage2() {
-        return speedXImage2;
+    public double getSecondLayerScrollSpeed() {
+        return secondLayerScrollSpeed;
     }
 
-    public void setSpeedXImage2(double speedXImage2) {
-        this.speedXImage2 = speedXImage2;
+    public void setSecondLayerScrollSpeed(double secondLayerScrollSpeed) {
+        this.secondLayerScrollSpeed = secondLayerScrollSpeed;
     }
 }//End of class.
 

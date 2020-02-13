@@ -9,13 +9,13 @@ import se.lexicon.lars.model.Level;
 
 public class ScrollingBackground {
 
-    private Region region1 = new Region();
+    private Region backgroundRegion = new Region();
     //private Background background;
 
-    private Pane background1 = new Pane();
-    private Pane background2 = new Pane();
-    private Pane background3 = new Pane();
-    private Pane background4 = new Pane();
+    private Pane paneLayer2 = new Pane();
+    private Pane pane2 = new Pane();
+    private Pane paneLayer4 = new Pane();
+    private Pane pane4 = new Pane();
     private Image image1;
     private Image image2;
     private Image image3;
@@ -29,7 +29,6 @@ public class ScrollingBackground {
     private int direction;
 
 
-
     public ScrollingBackground() {
 
     }
@@ -41,30 +40,28 @@ public class ScrollingBackground {
     public void init(Group group) {
 
 
-
         image1 = new Image("file:Images/Backgrounds/skill-desc_0003_bg.png");
         image2 = new Image("file:Images/Backgrounds/skill-desc_0002_far-buildings.png");
         image3 = new Image("file:Images/Backgrounds/skill-desc_0001_buildings.png");
         image4 = new Image("file:Images/Backgrounds/skill-desc_0000_foreground.png");
         BackgroundImage backgroundImage1 = new BackgroundImage(image1, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(Renderer.windowWidth, Renderer.windowHeight, false, false, false, false));
         BackgroundImage backgroundImage2 = new BackgroundImage(image2, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(Renderer.windowWidth, Renderer.windowHeight, false, false, false, false));
-        BackgroundImage backgroundImage3 = new BackgroundImage(image3, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(Renderer.windowWidth * 2, Renderer.windowHeight * 2, false, false, false, false));
+        BackgroundImage backgroundImage3 = new BackgroundImage(image3, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(Renderer.windowWidth, Renderer.windowHeight, false, false, false, false));
         BackgroundImage backgroundImage4 = new BackgroundImage(image4, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(Renderer.windowWidth, Renderer.windowHeight, false, false, false, false));
 
-        imageView1.setImage(image1);
+        imageView1.setImage(image2);
         imageView1.setFitHeight(Renderer.windowHeight);
         imageView1.setFitWidth(Renderer.windowWidth);
         //imageView1.setOpacity(1);
         imageView1.setVisible(true);
-        background1.setPrefSize(Renderer.windowWidth, Renderer.windowHeight);
-        background1.getChildren().add(imageView1);
+
 
         imageView2.setImage(image2);
         imageView2.setFitHeight(Renderer.windowHeight);
         imageView2.setFitWidth(Renderer.windowWidth);
         //imageView2.setOpacity(0.5);
         imageView2.setVisible(true);
-        background2.getChildren().add(imageView2);
+
 
         imageView3.setImage(image3);
         imageView3.setFitHeight(Renderer.windowHeight);
@@ -79,17 +76,29 @@ public class ScrollingBackground {
         //imageView4.setOpacity(0.5);
         imageView4.setVisible(true);
 
-        //group.getChildren().addAll(background1, background2, background3, background4);
-        //background = new Background(backgroundImage1, backgroundImage2, backgroundImage3, backgroundImage4);
+        Background background1 = new Background(backgroundImage1);
+        Background background2 = new Background(backgroundImage2);
+        Background background3 = new Background(backgroundImage3);
+        Background background4 = new Background(backgroundImage3, backgroundImage4);
 
-        Background background = new Background(backgroundImage1);
-        region1.setBackground(background);
-        region1.setPrefSize(Level.levelW * Level.TILESIZE, Level.levelH * Level.TILESIZE);
-        region1.setVisible(true);
+        //First layer.
+        backgroundRegion.setBackground(background1);
+        backgroundRegion.setPrefSize(Level.levelW * Level.TILESIZE, Level.levelH * Level.TILESIZE);
+        backgroundRegion.setVisible(true);
+
+        //Second layer.
+        paneLayer2.setPrefSize(Level.levelW * Level.TILESIZE, Level.levelH * Level.TILESIZE);
+        paneLayer2.setVisible(true);
+        paneLayer2.getChildren().addAll(imageView1, imageView2);
+
+        //Fourth layer.
+        paneLayer4.setBackground(background4);
+        paneLayer4.setPrefSize(Level.levelW * Level.TILESIZE, Level.levelH * Level.TILESIZE);
+        paneLayer4.setVisible(true);
 
 
-        group.getChildren().addAll(region1, imageView2);
-        //group.getChildren().addAll(imageView2);
+        group.getChildren().addAll(backgroundRegion, paneLayer2, paneLayer4);
+
     }
 
     public void update() {
@@ -100,7 +109,7 @@ public class ScrollingBackground {
 
     }
 
-     public int getDirection() {
+    public int getDirection() {
         return direction;
     }
 

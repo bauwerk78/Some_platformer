@@ -5,7 +5,6 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.ImageView;
 import se.lexicon.lars.graphics.ScrollingBackground;
 import se.lexicon.lars.model.Camera;
 import se.lexicon.lars.model.Level;
@@ -72,13 +71,13 @@ public class MainGame implements Randomize {
     private void updateScrollingBackground() {
         if(isPlayerGoingRight() && !isPlayerStandingStill()) {
             //scrollingBackground.setImageView2PosX(scrollingBackground.getImageView2PosX() - scrollingBackground.getSpeedXImage2() * elapsedTime);
-            scrollingBackground.setImageView2PosX((scrollingBackground.getImageView2PosX()) - scrollingBackground.getSpeedXImage2() * elapsedTime);
+            scrollingBackground.setSecondLayerPosX((scrollingBackground.getSecondLayerPosX()) - scrollingBackground.getSecondLayerScrollSpeed() * elapsedTime);
             //System.out.println(scrollingBackground.getSpeedXImage2() * elapsedTime);
             scrollingBackground.update();
         }
         if(!isPlayerGoingRight() && !isPlayerStandingStill()) {
             //scrollingBackground.setImageView2PosX(scrollingBackground.getImageView2PosX() + scrollingBackground.getSpeedXImage2() * elapsedTime);
-            scrollingBackground.setImageView2PosX(scrollingBackground.getImageView2PosX() + scrollingBackground.getSpeedXImage2() * elapsedTime);
+            scrollingBackground.setSecondLayerPosX(scrollingBackground.getSecondLayerPosX() + scrollingBackground.getSecondLayerScrollSpeed() * elapsedTime);
             scrollingBackground.update();
         }
 
