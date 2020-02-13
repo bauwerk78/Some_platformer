@@ -98,8 +98,7 @@ public class ScrollingBackground {
 
 
         group.getChildren().addAll(backgroundRegion, paneLayer2, paneLayer4);
-        //group.getChildren().addAll(region1);
-        //group.getChildren().addAll(imageView2);
+
     }
 
     public void update() {
