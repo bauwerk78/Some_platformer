@@ -65,4 +65,19 @@ public class Camera {
         camera.relocate(camX, camY);
     }
 
+    public double getCamX() {
+        return camX;
+    }
+
+    public double getCamY() {
+        return camY;
+    }
+
+    public double getTargetX() {
+        return targetX;
+    }
+
+    public double getTargetY() {
+        return targetY;
+    }
 }//End of class.

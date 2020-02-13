@@ -71,10 +71,13 @@ public class MainGame implements Randomize {
 
     private void updateScrollingBackground() {
         if(isPlayerGoingRight() && !isPlayerStandingStill()) {
-            scrollingBackground.setImageView2PosX(scrollingBackground.getImageView2PosX() - scrollingBackground.getSpeedXImage2() * elapsedTime);
+            //scrollingBackground.setImageView2PosX(scrollingBackground.getImageView2PosX() - scrollingBackground.getSpeedXImage2() * elapsedTime);
+            scrollingBackground.setImageView2PosX((scrollingBackground.getImageView2PosX()) - scrollingBackground.getSpeedXImage2() * elapsedTime);
+            //System.out.println(scrollingBackground.getSpeedXImage2() * elapsedTime);
             scrollingBackground.update();
         }
         if(!isPlayerGoingRight() && !isPlayerStandingStill()) {
+            //scrollingBackground.setImageView2PosX(scrollingBackground.getImageView2PosX() + scrollingBackground.getSpeedXImage2() * elapsedTime);
             scrollingBackground.setImageView2PosX(scrollingBackground.getImageView2PosX() + scrollingBackground.getSpeedXImage2() * elapsedTime);
             scrollingBackground.update();
         }
@@ -82,7 +85,7 @@ public class MainGame implements Randomize {
     }
 
     private void renderGame(Scene scene) {
-        System.out.println(player.getPositionX());
+        //System.out.println(player.getPositionX());
         gc.clearRect(0, 0, levelW * TILESIZE, levelH * TILESIZE);
         level.renderLevel(gc);
         player.render(gc, scene, this);
@@ -90,8 +93,8 @@ public class MainGame implements Randomize {
             sant.render(gc, scene, this);
         }
         //santa.render(gc, scene, this);
-        updateScrollingBackground();
         camera.update(player);
+        updateScrollingBackground();
         //System.out.println(player.getTileX() + " : " + player.getTileY());
     }
 
