@@ -5,7 +5,8 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import se.lexicon.lars.graphics.ScrollingBackground;
+import se.lexicon.lars.graphics.BackgroundAndForeground;
+import se.lexicon.lars.graphics.ScrollingLayer;
 import se.lexicon.lars.model.Camera;
 import se.lexicon.lars.model.Level;
 import se.lexicon.lars.model.PlayerCharacter;
@@ -15,7 +16,6 @@ import se.lexicon.lars.tools.Randomize;
 import java.util.ArrayList;
 import java.util.List;
 
-import static se.lexicon.lars.graphics.Renderer.*;
 import static se.lexicon.lars.model.Level.*;
 
 public class MainGame implements Randomize {
@@ -24,12 +24,13 @@ public class MainGame implements Randomize {
 
     private Level level;
     private PlayerCharacter player;
-    private Santa santa;
     private Camera camera;
     private Canvas canvas;
     private GraphicsContext gc;
-    private ScrollingBackground scrollingBackground = new ScrollingBackground();
-    private boolean newLevel = true;
+    private BackgroundAndForeground backgroundAndForeground;
+    private ScrollingLayer backgroundLayer1;
+    private ScrollingLayer backgroundLayer2;
+    //private boolean newLevel = true;
 
     private double collidedPosX;
     private double collidedPosY;
@@ -47,6 +48,9 @@ public class MainGame implements Randomize {
             santas.add(new Santa(Randomize.randPositionX(2, 10), 2, Randomize.randBoolean()));
         }
         //santa = new Santa(320, 256);
+        backgroundLayer1 = new ScrollingLayer("file:Images/Backgrounds/skill-desc_0002_far-buildings.png", 5);
+        backgroundLayer2 = new ScrollingLayer("file:Images/Backgrounds/skill-desc_0001_buildings.png", 10);
+        backgroundAndForeground = new BackgroundAndForeground("file:Images/Backgrounds/skill-desc_0003_bg.png", "file:Images/Backgrounds/skill-desc_0000_foreground.png");
         initGraphics(group);
     }
 
@@ -69,26 +73,39 @@ public class MainGame implements Randomize {
     }
 
     private void updateScrollingBackground() {
-        if(isPlayerGoingRight() && !isPlayerStandingStill()) {
-            //scrollingBackground.setImageView2PosX(scrollingBackground.getImageView2PosX() - scrollingBackground.getSpeedXImage2() * elapsedTime);
-            scrollingBackground.setSecondLayerPosX((scrollingBackground.getSecondLayerPosX()) - scrollingBackground.getSecondLayerScrollSpeed() * elapsedTime);
-            //System.out.println(scrollingBackground.getSpeedXImage2() * elapsedTime);
-            scrollingBackground.update();
-        }
-        if(!isPlayerGoingRight() && !isPlayerStandingStill()) {
-            //scrollingBackground.setImageView2PosX(scrollingBackground.getImageView2PosX() + scrollingBackground.getSpeedXImage2() * elapsedTime);
-            scrollingBackground.setSecondLayerPosX(scrollingBackground.getSecondLayerPosX() + scrollingBackground.getSecondLayerScrollSpeed() * elapsedTime);
-            scrollingBackground.update();
-        }
+/*        if (player.isGoingRight() && !player.isStandingStill() && player.getOffX() > 0) {
+            if (scrollingBackground.getImageView1PosX() < scrollingBackground.getImageView2PosX() && player.getPositionX() > scrollingBackground.getImageView1PosX() + scrollingBackground.getImageViewWidth(1) + windowWidth / 2d) {
+                scrollingBackground.setImageView1PosX(scrollingBackground.getImageView1PosX() + scrollingBackground.getImageViewWidth(1) * 2);
+            } else if (scrollingBackground.getImageView2PosX() < scrollingBackground.getImageView1PosX() && player.getPositionX() > scrollingBackground.getImageView2PosX() + scrollingBackground.getImageViewWidth(2) + windowWidth / 2d) {
+                scrollingBackground.setImageView2PosX(scrollingBackground.getImageView2PosX() + scrollingBackground.getImageViewWidth(2) * 2);
+            }
 
+            scrollingBackground.setImageView1PosX(scrollingBackground.getImageView1PosX() - scrollingBackground.getSecondLayerScrollSpeed() * elapsedTime);
+            scrollingBackground.setImageView2PosX(scrollingBackground.getImageView2PosX() - scrollingBackground.getSecondLayerScrollSpeed() * elapsedTime);
+            scrollingBackground.update();
+        }
+        if (!player.isGoingRight() && !player.isStandingStill() && player.getOffX() < 0) {
+            if (scrollingBackground.getImageView1PosX() > scrollingBackground.getImageView2PosX() && player.getPositionX() < scrollingBackground.getImageView1PosX() - scrollingBackground.getImageViewWidth(1) - windowWidth / 2d) {
+                scrollingBackground.setImageView1PosX(scrollingBackground.getImageView1PosX() - scrollingBackground.getImageViewWidth(1) * 2);
+            } else if (scrollingBackground.getImageView2PosX() > scrollingBackground.getImageView1PosX() && player.getPositionX() < scrollingBackground.getImageView2PosX() - scrollingBackground.getImageViewWidth(2) - windowWidth / 2d) {
+                scrollingBackground.setImageView2PosX(scrollingBackground.getImageView2PosX() - scrollingBackground.getImageViewWidth(2) * 2);
+            }
+            scrollingBackground.setImageView1PosX(scrollingBackground.getImageView1PosX() + scrollingBackground.getSecondLayerScrollSpeed() * elapsedTime);
+            scrollingBackground.setImageView2PosX(scrollingBackground.getImageView2PosX() + scrollingBackground.getSecondLayerScrollSpeed() * elapsedTime);
+            scrollingBackground.update();
+        }*/
+
+        backgroundLayer1.update(player.isGoingRight(), player.isStandingStill(), player.getOffX(), player.getPositionX());
+        backgroundLayer2.update(player.isGoingRight(), player.isStandingStill(), player.getOffX(), player.getPositionX());
+        //backgroundLayer2.update(player.isGoingRight(), player.isStandingStill(), player.getPositionX());
     }
 
     private void renderGame(Scene scene) {
-        //System.out.println(player.getPositionX());
+        System.out.println(player.getPositionX());
         gc.clearRect(0, 0, levelW * TILESIZE, levelH * TILESIZE);
         level.renderLevel(gc);
         player.render(gc, scene, this);
-        for(Santa sant : santas) {
+        for (Santa sant : santas) {
             sant.render(gc, scene, this);
         }
         //santa.render(gc, scene, this);
@@ -102,19 +119,11 @@ public class MainGame implements Randomize {
     }
 
     public void initGraphics(Group group) {
-        scrollingBackground.init(group);
         canvas = new Canvas(levelW * TILESIZE, levelH * TILESIZE);
-        group.getChildren().add(canvas);
+        //group.getChildren().add(canvas);
         gc = canvas.getGraphicsContext2D();
+        group.getChildren().addAll(backgroundAndForeground.getBackgroundRegion(), backgroundLayer1.getLayerPane(), backgroundLayer2.getLayerPane(), backgroundAndForeground.getForegroundPane(), canvas);
 
-    }
-
-    public boolean isPlayerGoingRight() {
-        return player.isGoingRight();
-    }
-
-    public boolean isPlayerStandingStill() {
-        return player.isStandingStill();
     }
 
     public double getCollidedPosX() {
