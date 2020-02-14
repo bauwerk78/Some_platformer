@@ -19,6 +19,8 @@ public class ScrollingLayer {
     private double imageViewWidth;
     private double layerScrollSpeed;
     private String fileLocationAndName;
+    private boolean switched;
+    private double scrollCounter;
 
 
     //"file:Images/Backgrounds/skill-desc_0003_bg.png" as an example for fileLocation.
@@ -33,13 +35,13 @@ public class ScrollingLayer {
 
         imageView1.setImage(image);
         imageView1.setFitHeight(Renderer.windowHeight);
-        imageView1.setFitWidth(Renderer.windowWidth);
+        imageView1.setFitWidth(Renderer.windowWidth * 2);
         //imageView1.setOpacity(1);
         imageView1.setVisible(true);
 
         imageView2.setImage(image);
         imageView2.setFitHeight(Renderer.windowHeight);
-        imageView2.setFitWidth(Renderer.windowWidth);
+        imageView2.setFitWidth(Renderer.windowWidth * 2);
         //imageView2.setOpacity(0.5);
         imageView2.setVisible(true);
 
@@ -57,22 +59,25 @@ public class ScrollingLayer {
     public void update(boolean isPlayerGoingRight, boolean isPlayerStandingStill, double playerOffX, double playerPosX) {
 
         if (isPlayerGoingRight && !isPlayerStandingStill && playerOffX > 0) {
-            if (imageView1PosX < imageView2PosX && playerPosX > imageView1PosX + imageViewWidth + windowWidth / 2d) {
+            if (imageView1PosX < imageView2PosX && playerPosX > imageView1PosX + imageViewWidth + (imageViewWidth / 2)) {
+                System.out.println(imageView1PosX + imageViewWidth + 300 + " : " + playerPosX);
                 setImageView1PosX(imageView1PosX + imageViewWidth * 2);
-            } else if (imageView2PosX < imageView1PosX && playerPosX > imageView2PosX + imageViewWidth + windowWidth / 2d) {
+            } else if (imageView2PosX < imageView1PosX && playerPosX > imageView2PosX + imageViewWidth + (imageViewWidth / 2)) {
                 setImageView2PosX(imageView2PosX + imageViewWidth * 2);
             }
             setImageView1PosX(imageView1PosX - getLayerScrollSpeed() * elapsedTime);
             setImageView2PosX(imageView2PosX - getLayerScrollSpeed() * elapsedTime);
+            scrollCounter = -(getLayerScrollSpeed() * elapsedTime);
         }
         if (!isPlayerGoingRight && !isPlayerStandingStill && playerOffX < 0) {
-            if (imageView1PosX > imageView2PosX && playerPosX < imageView1PosX - imageViewWidth + windowWidth / 2d) {
+            if (imageView1PosX > imageView2PosX && playerPosX < imageView1PosX - imageViewWidth + (imageViewWidth / 2d)) {
                 setImageView1PosX(imageView1PosX - imageViewWidth * 2);
-            } else if (imageView2PosX > imageView1PosX && playerPosX < imageView2PosX - imageViewWidth + windowWidth / 2d) {
+            } else if (imageView2PosX > imageView1PosX && playerPosX < imageView2PosX - imageViewWidth + (imageViewWidth / 2d)) {
                 setImageView2PosX(imageView2PosX - imageViewWidth * 2);
             }
             setImageView1PosX(imageView1PosX + getLayerScrollSpeed() * elapsedTime);
             setImageView2PosX(imageView2PosX + getLayerScrollSpeed() * elapsedTime);
+            scrollCounter = -(getLayerScrollSpeed() * elapsedTime);
         }
         imageView1.relocate(imageView1PosX, 0);
         imageView2.relocate(imageView2PosX, 0);

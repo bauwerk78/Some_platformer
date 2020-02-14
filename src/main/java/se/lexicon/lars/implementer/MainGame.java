@@ -48,8 +48,8 @@ public class MainGame implements Randomize {
             santas.add(new Santa(Randomize.randPositionX(2, 10), 2, Randomize.randBoolean()));
         }
         //santa = new Santa(320, 256);
-        backgroundLayer1 = new ScrollingLayer("file:Images/Backgrounds/skill-desc_0002_far-buildings.png", 5);
-        backgroundLayer2 = new ScrollingLayer("file:Images/Backgrounds/skill-desc_0001_buildings.png", 10);
+        backgroundLayer1 = new ScrollingLayer("file:Images/Backgrounds/far_buildings.png", 10);
+        backgroundLayer2 = new ScrollingLayer("file:Images/Backgrounds/closer_buildings.png", 20);
         backgroundAndForeground = new BackgroundAndForeground("file:Images/Backgrounds/skill-desc_0003_bg.png", "file:Images/Backgrounds/skill-desc_0000_foreground.png");
         initGraphics(group);
     }
@@ -101,7 +101,7 @@ public class MainGame implements Randomize {
     }
 
     private void renderGame(Scene scene) {
-        System.out.println(player.getPositionX());
+        //System.out.println(player.getPositionX());
         gc.clearRect(0, 0, levelW * TILESIZE, levelH * TILESIZE);
         level.renderLevel(gc);
         player.render(gc, scene, this);
