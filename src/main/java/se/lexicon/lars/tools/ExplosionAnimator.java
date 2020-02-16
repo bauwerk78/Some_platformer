@@ -2,7 +2,7 @@ package se.lexicon.lars.tools;
 
 import javafx.scene.image.Image;
 
-public class Animator {
+public class ExplosionAnimator {
 
     private double positionX;
     private double positionY;
@@ -10,7 +10,7 @@ public class Animator {
     private Delayer delayer;
 
     private Image image;
-    private String imageName;
+    private String imagePathAndName;
     private int srcFrameWidth;
     private int srcFrameHeight;
     private int dstFrameWidth;
@@ -21,11 +21,11 @@ public class Animator {
     private int currentFrame;
     private int[] imageSrcPos;
 
-    public Animator() {
+    public ExplosionAnimator() {
 
     }
 
-    public Animator(double positionX, double positionY, int srcFrameWidth, int srcFrameHeight, int dstFrameWidth, int dstFrameHeight, double frameDelay, String imageName) {
+    public ExplosionAnimator(double positionX, double positionY, int srcFrameWidth, int srcFrameHeight, int dstFrameWidth, int dstFrameHeight, double frameDelay, String imagePathAndName) {
         this.positionX = positionX;
         this.positionY = positionY;
         this.srcFrameWidth = srcFrameWidth;
@@ -33,13 +33,13 @@ public class Animator {
         this.dstFrameWidth = dstFrameWidth;
         this.dstFrameHeight = dstFrameHeight;
         this.frameDelay = frameDelay;
-        this.imageName = imageName;
+        this.imagePathAndName = imagePathAndName;
         init();
 
     }
 
     public void init() {
-        image = new Image("file:/Images/" + imageName);
+        image = new Image(imagePathAndName);
         imageWidth = image.getWidth();
         imageSrcPos = new int[(int) imageWidth / srcFrameWidth];
         setFrameSrcPositions();

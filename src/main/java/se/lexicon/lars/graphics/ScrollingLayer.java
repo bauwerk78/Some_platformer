@@ -19,9 +19,6 @@ public class ScrollingLayer {
     private double imageViewWidth;
     private double layerScrollSpeed;
     private String fileLocationAndName;
-    private boolean switched;
-    private double scrollCounter;
-
 
     //"file:Images/Backgrounds/skill-desc_0003_bg.png" as an example for fileLocation.
     public ScrollingLayer(String fileLocationAndName, double layerScrollSpeed) {
@@ -60,14 +57,12 @@ public class ScrollingLayer {
 
         if (isPlayerGoingRight && !isPlayerStandingStill && playerOffX > 0) {
             if (imageView1PosX < imageView2PosX && playerPosX > imageView1PosX + imageViewWidth + (imageViewWidth / 2)) {
-                System.out.println(imageView1PosX + imageViewWidth + 300 + " : " + playerPosX);
                 setImageView1PosX(imageView1PosX + imageViewWidth * 2);
             } else if (imageView2PosX < imageView1PosX && playerPosX > imageView2PosX + imageViewWidth + (imageViewWidth / 2)) {
                 setImageView2PosX(imageView2PosX + imageViewWidth * 2);
             }
             setImageView1PosX(imageView1PosX - getLayerScrollSpeed() * elapsedTime);
             setImageView2PosX(imageView2PosX - getLayerScrollSpeed() * elapsedTime);
-            scrollCounter = -(getLayerScrollSpeed() * elapsedTime);
         }
         if (!isPlayerGoingRight && !isPlayerStandingStill && playerOffX < 0) {
             if (imageView1PosX > imageView2PosX && playerPosX < imageView1PosX - imageViewWidth + (imageViewWidth / 2d)) {
@@ -77,7 +72,6 @@ public class ScrollingLayer {
             }
             setImageView1PosX(imageView1PosX + getLayerScrollSpeed() * elapsedTime);
             setImageView2PosX(imageView2PosX + getLayerScrollSpeed() * elapsedTime);
-            scrollCounter = -(getLayerScrollSpeed() * elapsedTime);
         }
         imageView1.relocate(imageView1PosX, 0);
         imageView2.relocate(imageView2PosX, 0);

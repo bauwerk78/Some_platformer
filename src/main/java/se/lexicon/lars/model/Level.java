@@ -1,8 +1,14 @@
 package se.lexicon.lars.model;
 
+import javafx.scene.Group;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Level {
 
@@ -10,8 +16,11 @@ public class Level {
     public static int levelW;
     public static final int TILESIZE = 64;
 
+    private List<Rectangle> rectangles = new ArrayList<>();
     private Image levelImage;
-
+    private Rectangle rectangle;
+    private Group levelGroup = new Group();
+    private Color color;
     private int imageWidth;
     private int imageHeight;
     private boolean[] collideAble;
@@ -27,8 +36,8 @@ public class Level {
 
     public void init() {
         setLevelImage();
-        setCollideAble();
         setCollideAbles();
+        renderStaticLevel();
     }
 
     private void setLevelImage() {
@@ -38,7 +47,7 @@ public class Level {
         imageHeight = (int) levelImage.getHeight();
     }
 
-    public void renderLevel(GraphicsContext gc) {
+/*    public void renderLevel(GraphicsContext gc) {
         for (int y = 0; y < levelH; y++) {
             for (int x = 0; x < levelW; x++) {
                 if (collideAble[(int) ((y * levelW) + x)]) {
@@ -49,24 +58,21 @@ public class Level {
                 gc.fillRect(x * TILESIZE, y * TILESIZE, TILESIZE, TILESIZE);
             }
         }
-    }
+    }*/
 
-    private void setCollideAble() {
-
-        levelW = imageWidth;
-        levelH = imageHeight;
-
-        collideAble = new boolean[levelW * levelH];
-
-        for (int y = 0; y < levelImage.getHeight(); y++) {
-            for (int x = 0; x < levelImage.getWidth(); x++) {
-
-                if ((levelImage.getPixelReader().getArgb(x, y)) == 0xff000000) {
-                    collideAble[(int) ((y * levelImage.getWidth()) + x)] = true;
-                } else
-                    collideAble[(int) ((y * levelImage.getWidth()) + x)] = false;
+    public void renderStaticLevel() {
+        for (int y = 0; y < levelH; y++) {
+            for (int x = 0; x < levelW; x++) {
+                if (collideAbles[y][x]) {
+                    color = Color.LIGHTGRAY;
+                } else {
+                    color = Color.TRANSPARENT;
+                }
+                rectangle = new Rectangle(x * TILESIZE, y * TILESIZE, TILESIZE, TILESIZE);
+                rectangle.setFill(color);
+                levelGroup.getChildren().add(rectangle);
+                rectangles.add(rectangle);
             }
-
         }
     }
 
@@ -87,6 +93,10 @@ public class Level {
             }
 
         }
+    }
+
+    public Group getGroup() {
+        return levelGroup;
     }
 
     public boolean getCollideAble(double x, double y) {
