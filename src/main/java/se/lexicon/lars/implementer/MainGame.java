@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import se.lexicon.lars.graphics.BackgroundAndForeground;
+import se.lexicon.lars.graphics.Renderer;
 import se.lexicon.lars.graphics.ScrollingLayer;
 import se.lexicon.lars.model.Camera;
 import se.lexicon.lars.model.Level;
@@ -42,7 +43,7 @@ public class MainGame implements Randomize {
 
     public void init(Group group, Scene scene) {
         level = new Level();
-        player = new PlayerCharacter();
+        player = new PlayerCharacter(level.getPlayerStartingX(), level.getPlayerStartingY());
         camera = new Camera(scene);
         for (int i = 1; i <= 10; i++) {
             santas.add(new Santa(Randomize.randPositionX(2, 10), 2, Randomize.randBoolean()));
@@ -57,12 +58,13 @@ public class MainGame implements Randomize {
         canvas = new Canvas(levelW * TILESIZE, levelH * TILESIZE);
         //group.getChildren().add(canvas);
         gc = canvas.getGraphicsContext2D();
-        group.getChildren().addAll(backgroundAndForeground.getBackgroundRegion(), backgroundLayer1.getLayerPane(), backgroundLayer2.getLayerPane(), backgroundAndForeground.getForegroundPane(), level.getGroup(), canvas);
+        group.getChildren().addAll(backgroundAndForeground.getBackgroundRegion(), backgroundLayer1.getLayerPane(), backgroundLayer2.getLayerPane(),
+                backgroundAndForeground.getForegroundPane(), level.getGroup(), canvas);
 
     }
 
     public boolean getCollision(double tileX, double tileY) {
-        return level.getCollideAble(tileX, tileY);
+        return level.getCollideAbles(tileX, tileY);
     }
 
     public boolean getCollisions(double tileX, double tileY) {
@@ -86,7 +88,8 @@ public class MainGame implements Randomize {
 
     private void renderGame(Scene scene) {
         //System.out.println(player.getPositionX());
-        gc.clearRect(0, 0, levelW * TILESIZE, levelH * TILESIZE);
+        //gc.clearRect(0, 0, levelW * TILESIZE, levelH * TILESIZE);
+        gc.clearRect(player.getPositionX() - Renderer.windowWidth, 0, Renderer.windowWidth * 2, Renderer.windowHeight);
         //level.renderLevel(gc);
         player.render(gc, scene, this);
         for (Santa sant : santas) {

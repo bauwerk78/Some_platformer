@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import se.lexicon.lars.graphics.Renderer;
 import se.lexicon.lars.implementer.MainGame;
 import se.lexicon.lars.tools.Delayer;
 
@@ -123,7 +124,7 @@ public class Grenade extends GameObject {
         checkCollideAbles(mg);
 
         if (goingRight) {
-            if ((boolean) collideAbles[1][0] && getPositionX() + getObjectWidth() > (double) collideAbles[1][1] - 5) {
+            if ((boolean) collideAbles[1][0] && getPositionX() + getObjectWidth() > (double) collideAbles[1][1] - 5 || getPositionX() + getObjectWidth() > Level.levelW * Level.TILESIZE - Level.TILESIZE) {
                 //setPositionX((double) collideAbles[1][1] - getObjectWidth() - 10);
                 goingRight = false;
             } else {
@@ -132,7 +133,7 @@ public class Grenade extends GameObject {
         }
 
         if (!goingRight) {
-            if ((boolean) collideAbles[0][0] && getPositionX() < (double) collideAbles[0][1] + 5) {
+            if ((boolean) collideAbles[0][0] && getPositionX() < (double) collideAbles[0][1] + 5  || getPositionX() < Level.TILESIZE) {
                 goingRight = true;
             } else {
                 setPositionX(getPositionX() - (getObjectSpeedX() * fakeDeltaTime));

@@ -53,6 +53,8 @@ public class PlayerCharacter extends GameObject {
 
     public PlayerCharacter(double positionX, double positionY) {
         super(positionX, positionY);
+        setTileX(positionX / TILESIZE);
+        setTileY(positionY / TILESIZE);
         init();
     }
 
@@ -61,10 +63,6 @@ public class PlayerCharacter extends GameObject {
         setID("Player1");
         setObjectWidth(TILESIZE);
         setObjectHeight(TILESIZE);
-        setTileX(4);
-        setTileY(6);
-        setPositionX(getTileX() * TILESIZE);
-        setPositionY(getTileY() * TILESIZE);
         setObjectSpeedX(300);
         setObjectSpeedY(0);
         setImage();
@@ -156,7 +154,7 @@ public class PlayerCharacter extends GameObject {
             goingRight = false;
             offX -= (getObjectSpeedX() * elapsedTime);
             standingStill = false;
-            if (mg.getCollision(tileX - 1, tileY) && offX < 0) {
+            if (mg.getCollision(tileX - 1, tileY) && offX < 0 || tileX - 1 == 0 && offX < 0) {
                 //System.out.println("colliding left: ");
                 offX = 0;
             }
@@ -164,7 +162,7 @@ public class PlayerCharacter extends GameObject {
             goingRight = true;
             offX += (getObjectSpeedX() * elapsedTime);
             standingStill = false;
-            if (mg.getCollision(tileX + 1, tileY) && offX > 0) {
+            if (mg.getCollision(tileX + 1, tileY) && offX > 0 || tileX + 1 == 0 && offX > 0) {
                 //System.out.println("colliding right: ");
                 offX = 0;
             }

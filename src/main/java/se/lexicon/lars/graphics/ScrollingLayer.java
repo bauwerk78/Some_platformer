@@ -1,13 +1,11 @@
 package se.lexicon.lars.graphics;
 
-import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Pane;
 import se.lexicon.lars.model.Level;
 
 import static se.lexicon.lars.graphics.Renderer.elapsedTime;
-import static se.lexicon.lars.graphics.Renderer.windowWidth;
 
 public class ScrollingLayer {
 
@@ -19,6 +17,7 @@ public class ScrollingLayer {
     private double imageViewWidth;
     private double layerScrollSpeed;
     private String fileLocationAndName;
+
 
     //"file:Images/Backgrounds/skill-desc_0003_bg.png" as an example for fileLocation.
     public ScrollingLayer(String fileLocationAndName, double layerScrollSpeed) {
