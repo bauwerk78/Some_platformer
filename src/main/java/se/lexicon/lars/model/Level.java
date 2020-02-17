@@ -20,6 +20,10 @@ public class Level {
     //private List<ImageView> imageViews = new ArrayList<>();
     private Image levelImage;
     private Image streetImage;
+    private Image pillarTopImage;
+    private Image pillarMiddleImage;
+    private Image pillarBottomImage;
+    private Image stoneBlock;
     private ImageView imageView;
     private Group levelGroup = new Group();
     private Pane pane;
@@ -40,6 +44,10 @@ public class Level {
         pane = new Pane();
         pane.setPrefSize(levelW * TILESIZE, levelH * TILESIZE);
         streetImage = new Image("file:Images/Level/acera.png");
+        pillarTopImage = new Image("file:Images/Level/Pillars/castle_pillar_top_32x32.png");
+        pillarMiddleImage = new Image("file:Images/Level/Pillars/castle_pillar_middle_32x32.png");
+        pillarBottomImage = new Image("file:Images/Level/Pillars/castle_pillar_bottom_32x32.png");
+        stoneBlock = new Image("file:Images/Level/StoneBlocks/grey_stoneblock_32x32.png");
         renderStaticLevel();
 
     }
@@ -96,27 +104,69 @@ public class Level {
                     imageView.setFitWidth(TILESIZE);
                     imageView.setFitHeight(TILESIZE);
                     imageView.setX(x * TILESIZE);
-                    imageView.setY(y* TILESIZE);
-                    //imageViews.add(imageView);
+                    imageView.setY(y * TILESIZE);
                     pane.getChildren().add(imageView);
                     collideAbles[y][x] = true;
 
                 } else
-                //Get player spawn position.
-                if (levelImage.getPixelReader().getArgb(x, y) == 0xff00c300) {
-                    playerStartingX = x * TILESIZE;
-                    playerStartingY = y * TILESIZE;
-                    collideAbles[y][x] = false;
-                } else
-                //Render the rest of the colliedables for now.
-                if(levelImage.getPixelReader().getArgb(x, y) == 0xff000cc3) {
+                    //Get player spawn position.
+                    if (levelImage.getPixelReader().getArgb(x, y) == 0xff00c300) {
+                        playerStartingX = x * TILESIZE;
+                        playerStartingY = y * TILESIZE;
+                        collideAbles[y][x] = false;
+                    } else
+                        //Render the rest of the collideables for now.
+/*                if(levelImage.getPixelReader().getArgb(x, y) == 0xff000cc3) {
                     Rectangle rectangle = new Rectangle(x * TILESIZE, y * TILESIZE, TILESIZE, TILESIZE);
                     rectangle.setFill(Color.LIGHTGRAY);
                     levelGroup.getChildren().add(rectangle);
                     collideAbles[y][x] = true;
-                } else {
-                    collideAbles[y][x] = false;
-                }
+
+                } */
+                        //Render top of pillars.
+                        if (levelImage.getPixelReader().getArgb(x, y) == 0xff000c93) {
+                            imageView = new ImageView(pillarTopImage);
+                            imageView.setFitWidth(TILESIZE);
+                            imageView.setFitHeight(TILESIZE);
+                            imageView.setX(x * TILESIZE);
+                            imageView.setY(y * TILESIZE);
+                            pane.getChildren().add(imageView);
+                            collideAbles[y][x] = true;
+                        } else
+                            //Render middle of pillars.
+                            if (levelImage.getPixelReader().getArgb(x, y) == 0xff000cc3) {
+                                imageView = new ImageView(pillarMiddleImage);
+                                imageView.setFitWidth(TILESIZE);
+                                imageView.setFitHeight(TILESIZE);
+                                imageView.setX(x * TILESIZE);
+                                imageView.setY(y * TILESIZE);
+                                pane.getChildren().add(imageView);
+                                collideAbles[y][x] = true;
+
+                            } else
+                                //Render bottom of pillars.
+                                if(levelImage.getPixelReader().getArgb(x, y) == 0xff000cff) {
+                                    imageView = new ImageView(pillarBottomImage);
+                                    imageView.setFitWidth(TILESIZE);
+                                    imageView.setFitHeight(TILESIZE);
+                                    imageView.setX(x * TILESIZE);
+                                    imageView.setY(y * TILESIZE);
+                                    pane.getChildren().add(imageView);
+                                    collideAbles[y][x] = true;
+                            } else
+                                //Render stoneblock.
+                                if(levelImage.getPixelReader().getArgb(x, y) == 0xff000c4d) {
+                                    imageView = new ImageView(stoneBlock);
+                                    imageView.setFitWidth(TILESIZE);
+                                    imageView.setFitHeight(TILESIZE);
+                                    imageView.setX(x * TILESIZE);
+                                    imageView.setY(y * TILESIZE);
+                                    pane.getChildren().add(imageView);
+                                    collideAbles[y][x] = true;
+                                }
+                                else {
+                                collideAbles[y][x] = false;
+                            }
 
             }
         }
