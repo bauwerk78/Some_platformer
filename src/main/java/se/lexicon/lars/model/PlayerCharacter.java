@@ -35,7 +35,7 @@ public class PlayerCharacter extends GameObject {
     private Image image;
     private Delayer bulletDelayer = new Delayer();
     private Delayer grenadeDelayer = new Delayer();
-    private CharacterAnimation walkingAnimation = new CharacterAnimation("Images/Enemies/MidgetSanta/Walking", "", "png", 13);
+
     private boolean bulletReady = true;
     private boolean grenadeReady = true;
 
@@ -68,7 +68,6 @@ public class PlayerCharacter extends GameObject {
         setObjectSpeedX(300);
         setObjectSpeedY(0);
         setImage();
-        walkingAnimation.importImages();
     }
 
     private void getPlayerInput(Scene scene) {

@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import se.lexicon.lars.implementer.MainGame;
 import se.lexicon.lars.model.GameObject;
 import se.lexicon.lars.model.Level;
+import se.lexicon.lars.tools.CharacterAnimation;
 import se.lexicon.lars.tools.Delayer;
 import se.lexicon.lars.tools.Randomize;
 
@@ -25,7 +26,9 @@ public class Santa extends GameObject implements Randomize {
 
     private Delayer delayer;
 
-    private Image image;
+    //private Image image;
+    private CharacterAnimation walkingAnimation = new CharacterAnimation("Images/Enemies/MidgetSanta/Walking/", "", "png", 13);
+    private CharacterAnimation jumpingAnimation = new CharacterAnimation("Images/Enemies/MidgetSanta/Jumping/", "", "png", 16);
     private int frameHeight = 72;
     private int frameWidth = 64;
     private int imageWidth = 704;
@@ -33,6 +36,7 @@ public class Santa extends GameObject implements Randomize {
     private int[] imageSrcPos = new int[imageWidth / frameWidth];
 
     private boolean goingRight = true;
+    private boolean standingStill = false;
     private boolean charJumping = false;
     private boolean charGrounded = false;
     private double tileX;
@@ -63,7 +67,7 @@ public class Santa extends GameObject implements Randomize {
 
     @Override
     protected void init() {
-        image = new Image("file:Images/Santa.png");
+        //image = new Image("file:Images/Santa.png");
         setFrameSrcPositions();
         setObjectSpeedX(100);
         setObjectSpeedY(0);
@@ -212,11 +216,18 @@ public class Santa extends GameObject implements Randomize {
     @Override
     public void render(GraphicsContext gc, Scene scene, MainGame mg) {
         update(scene, mg);
-        if (goingRight) {
+/*        if (goingRight) {
             gc.drawImage(image, imageSrcPos[0], 0, frameWidth, frameHeight, getPositionX(), getPositionY(), Level.TILESIZE, Level.TILESIZE);
         } else {
             gc.drawImage(image, imageSrcPos[0], 0, frameWidth, frameHeight, getPositionX() + frameWidth, getPositionY(), -Level.TILESIZE, Level.TILESIZE);
+        }*/
+        if(charGrounded) {
+            walkingAnimation.walking(goingRight, gc, getPositionX(), getPositionY());
         }
+        if(charJumping) {
+            jumpingAnimation.jumping(goingRight, charJumping, gc, getPositionX(), getPositionY());
+        }
+
 
     }
 

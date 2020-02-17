@@ -59,38 +59,6 @@ public class Level {
         imageHeight = (int) levelImage.getHeight();
     }
 
-/*    public void renderLevel(GraphicsContext gc) {
-        for (int y = 0; y < levelH; y++) {
-            for (int x = 0; x < levelW; x++) {
-                if (collideAble[(int) ((y * levelW) + x)]) {
-                    gc.setFill(Color.LIGHTGRAY);
-                } else {
-                    gc.setFill(Color.TRANSPARENT);
-                }
-                gc.fillRect(x * TILESIZE, y * TILESIZE, TILESIZE, TILESIZE);
-            }
-        }
-    }*/
-
-/*
-    public void renderStaticLevel() {
-        for (int y = 0; y < levelH; y++) {
-            for (int x = 0; x < levelW; x++) {
-                Color color;
-                if (collideAbles[y][x]) {
-                    color = Color.LIGHTGRAY;
-                } else {
-                    color = Color.TRANSPARENT;
-                }
-                Rectangle rectangle = new Rectangle(x * TILESIZE, y * TILESIZE, TILESIZE, TILESIZE);
-                rectangle.setFill(color);
-                levelGroup.getChildren().add(rectangle);
-                rectangles.add(rectangle);
-            }
-        }
-    }
-*/
-
     public void renderStaticLevel() {
         levelW = imageWidth;
         levelH = imageHeight;
@@ -115,14 +83,6 @@ public class Level {
                         playerStartingY = y * TILESIZE;
                         collideAbles[y][x] = false;
                     } else
-                        //Render the rest of the collideables for now.
-/*                if(levelImage.getPixelReader().getArgb(x, y) == 0xff000cc3) {
-                    Rectangle rectangle = new Rectangle(x * TILESIZE, y * TILESIZE, TILESIZE, TILESIZE);
-                    rectangle.setFill(Color.LIGHTGRAY);
-                    levelGroup.getChildren().add(rectangle);
-                    collideAbles[y][x] = true;
-
-                } */
                         //Render top of pillars.
                         if (levelImage.getPixelReader().getArgb(x, y) == 0xff000c93) {
                             imageView = new ImageView(pillarTopImage);
@@ -145,7 +105,7 @@ public class Level {
 
                             } else
                                 //Render bottom of pillars.
-                                if(levelImage.getPixelReader().getArgb(x, y) == 0xff000cff) {
+                                if (levelImage.getPixelReader().getArgb(x, y) == 0xff000cff) {
                                     imageView = new ImageView(pillarBottomImage);
                                     imageView.setFitWidth(TILESIZE);
                                     imageView.setFitHeight(TILESIZE);
@@ -153,20 +113,19 @@ public class Level {
                                     imageView.setY(y * TILESIZE);
                                     pane.getChildren().add(imageView);
                                     collideAbles[y][x] = true;
-                            } else
-                                //Render stoneblock.
-                                if(levelImage.getPixelReader().getArgb(x, y) == 0xff000c4d) {
-                                    imageView = new ImageView(stoneBlock);
-                                    imageView.setFitWidth(TILESIZE);
-                                    imageView.setFitHeight(TILESIZE);
-                                    imageView.setX(x * TILESIZE);
-                                    imageView.setY(y * TILESIZE);
-                                    pane.getChildren().add(imageView);
-                                    collideAbles[y][x] = true;
-                                }
-                                else {
-                                collideAbles[y][x] = false;
-                            }
+                                } else
+                                    //Render stoneblock.
+                                    if (levelImage.getPixelReader().getArgb(x, y) == 0xff000c4d) {
+                                        imageView = new ImageView(stoneBlock);
+                                        imageView.setFitWidth(TILESIZE);
+                                        imageView.setFitHeight(TILESIZE);
+                                        imageView.setX(x * TILESIZE);
+                                        imageView.setY(y * TILESIZE);
+                                        pane.getChildren().add(imageView);
+                                        collideAbles[y][x] = true;
+                                    } else {
+                                        collideAbles[y][x] = false;
+                                    }
 
             }
         }
