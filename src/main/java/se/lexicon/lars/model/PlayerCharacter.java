@@ -35,6 +35,17 @@ public class PlayerCharacter extends GameObject {
     private Image image;
     private Delayer bulletDelayer = new Delayer();
     private Delayer grenadeDelayer = new Delayer();
+    private CharacterAnimation walkingRightAnimation = new CharacterAnimation("Images/PlayerCharacter/Cowboy/walking_right_128x128_9_frames.png", 9, 128, 128, 0.1, 64, 64);
+    private CharacterAnimation walkingLeftAnimation = new CharacterAnimation("Images/PlayerCharacter/Cowboy/walking_left_128x128_9_frames.png", 9, 128, 128, 0.1, 64, 64);
+
+    //private CharacterAnimation jumpingAnimation;
+    private CharacterAnimation shootingRightAnimation = new CharacterAnimation("Images/PlayerCharacter/Cowboy/shooting_right_128x128_3_frames.png", 3, 128, 128, 0.1, 64, 64);
+    private CharacterAnimation shootingLeftAnimation = new CharacterAnimation("Images/PlayerCharacter/Cowboy/shooting_left_128x128_3_frames.png", 3, 128, 128, 0.1, 64, 64);
+
+    private Image playerIdleRightImage = new Image("file:Images/PlayerCharacter/Cowboy/idle_right_128x128.png");
+    private Image playerIdleLeftImage = new Image("file:Images/PlayerCharacter/Cowboy/idle_left_128x128.png");
+    private Image playerJumpingRightImage = new Image("file:Images/PlayerCharacter/Cowboy/jumping_right_128x128.png");
+    private Image playerJumpingLeftImage = new Image("file:Images/PlayerCharacter/Cowboy/jumping_left_128x128.png");
 
     private boolean bulletReady = true;
     private boolean grenadeReady = true;
@@ -274,11 +285,33 @@ public class PlayerCharacter extends GameObject {
 
 /*        gc.setFill(Color.RED);
         gc.fillRect(getPositionX(), getPositionY(), TILESIZE, TILESIZE);*/
-        if (goingRight) {
+/*        if (goingRight) {
             gc.drawImage(image, getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
         } else {
             gc.drawImage(image, getPositionX() + getObjectWidth(), getPositionY(), -getObjectWidth(), getObjectHeight());
+        }*/
+        if (playerGrounded) {
+            if (goingRight && !standingStill) {
+                walkingRightAnimation.walking(true, gc, getPositionX(), getPositionY());
+            }
+            if (!goingRight && !standingStill) {
+                walkingLeftAnimation.walking(true, gc, getPositionX(), getPositionY());
+            }
+            if(goingRight && standingStill) {
+                gc.drawImage(playerIdleRightImage, getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
+            }
+            if(!goingRight && standingStill) {
+                gc.drawImage(playerIdleLeftImage, getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
+            }
         }
+        if (playerJumping || !playerGrounded) {
+            if (goingRight) {
+                gc.drawImage(playerJumpingRightImage, getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
+            } else {
+                gc.drawImage(playerJumpingLeftImage, getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
+            }
+        }
+
 
     }
 
