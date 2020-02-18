@@ -29,7 +29,6 @@ public class CharacterAnimation {
     private double drawSizeHeight;
 
 
-
     public CharacterAnimation(String path, String fileName, String fileExtension, int numberOfFrames, double timeToDelay) {
         this.path = path;
         this.fileName = fileName;
@@ -90,10 +89,10 @@ public class CharacterAnimation {
                         currentFrame = 0;
                     }
                 }
-                if(renderingImages) {
+                if (renderingImages) {
                     gc.drawImage(imageList.get(currentFrame), posX, posY, Level.TILESIZE, Level.TILESIZE);
                 }
-                if(renderingFrames) {
+                if (renderingFrames) {
                     gc.drawImage(image, imageSrcPosX[currentFrame], 0, widthOfFrame, heightOfFrame,
                             posX, posY, drawSizeWidth, drawSizeHeight);
                 }
@@ -111,15 +110,38 @@ public class CharacterAnimation {
                         currentFrame = 0;
                     }
                 }
-                if(renderingImages) {
+                if (renderingImages) {
                     gc.drawImage(imageList.get(currentFrame), posX + Level.TILESIZE, posY, -Level.TILESIZE, Level.TILESIZE);
                 }
 
-                if(renderingFrames) {
+                if (renderingFrames) {
                     gc.drawImage(image, imageSrcPosX[currentFrame], 0, widthOfFrame, heightOfFrame,
                             posX, posY, drawSizeWidth, drawSizeHeight);
                 }
 
+            }
+        }
+    }
+
+    public void shooting(GraphicsContext gc, double posX, double posY) {
+        if (!renderNextFrame) {
+            System.out.println(currentFrame);
+            renderNextFrame = delayer.delayTimer(timeToDelay);
+            if (renderNextFrame) {
+                renderNextFrame = false;
+                currentFrame++;
+
+                if (currentFrame == numberOfFrames - 1) {
+                    currentFrame = 0;
+                }
+            }
+            if (renderingImages) {
+                gc.drawImage(imageList.get(currentFrame), posX, posY, Level.TILESIZE, Level.TILESIZE);
+            }
+
+            if (renderingFrames) {
+                gc.drawImage(image, imageSrcPosX[currentFrame], 0, widthOfFrame, heightOfFrame,
+                        posX, posY, drawSizeWidth, drawSizeHeight);
             }
         }
     }
@@ -135,11 +157,11 @@ public class CharacterAnimation {
                         currentFrame = 0;
                     }
                 }
-                if(renderingImages) {
+                if (renderingImages) {
                     gc.drawImage(imageList.get(currentFrame), posX, posY, Level.TILESIZE, Level.TILESIZE);
                 }
 
-                if(renderingFrames) {
+                if (renderingFrames) {
                     gc.drawImage(image, imageSrcPosX[currentFrame], 0, widthOfFrame, heightOfFrame,
                             posX, posY, drawSizeWidth, drawSizeHeight);
                 }
@@ -157,10 +179,10 @@ public class CharacterAnimation {
                         currentFrame = 0;
                     }
                 }
-                if(renderingImages) {
+                if (renderingImages) {
                     gc.drawImage(imageList.get(currentFrame), posX + Level.TILESIZE, posY, -Level.TILESIZE, Level.TILESIZE);
                 }
-                if(renderingFrames) {
+                if (renderingFrames) {
                     gc.drawImage(image, imageSrcPosX[currentFrame], 0, widthOfFrame, heightOfFrame,
                             posX, posY, drawSizeWidth, drawSizeHeight);
                 }
@@ -175,5 +197,7 @@ public class CharacterAnimation {
 
     }
 
-
+    public void setCurrentFrame(int currentFrame) {
+        this.currentFrame = currentFrame;
+    }
 }//End of class

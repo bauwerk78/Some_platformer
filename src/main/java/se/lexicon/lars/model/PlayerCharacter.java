@@ -35,12 +35,14 @@ public class PlayerCharacter extends GameObject {
     private Image image;
     private Delayer bulletDelayer = new Delayer();
     private Delayer grenadeDelayer = new Delayer();
-    private CharacterAnimation walkingRightAnimation = new CharacterAnimation("Images/PlayerCharacter/Cowboy/walking_right_128x128_9_frames.png", 9, 128, 128, 0.1, 64, 64);
-    private CharacterAnimation walkingLeftAnimation = new CharacterAnimation("Images/PlayerCharacter/Cowboy/walking_left_128x128_9_frames.png", 9, 128, 128, 0.1, 64, 64);
+    private int playerDrawWidth = 64;
+    private int playerDrawHeight = 64;
+    private CharacterAnimation walkingRightAnimation = new CharacterAnimation("Images/PlayerCharacter/Cowboy/walking_right_128x128_9_frames.png", 9, 128, 128, 0.1, playerDrawWidth, playerDrawHeight);
+    private CharacterAnimation walkingLeftAnimation = new CharacterAnimation("Images/PlayerCharacter/Cowboy/walking_left_128x128_9_frames.png", 9, 128, 128, 0.1, playerDrawWidth, playerDrawHeight);
 
     //private CharacterAnimation jumpingAnimation;
-    private CharacterAnimation shootingRightAnimation = new CharacterAnimation("Images/PlayerCharacter/Cowboy/shooting_right_128x128_3_frames.png", 3, 128, 128, 0.1, 64, 64);
-    private CharacterAnimation shootingLeftAnimation = new CharacterAnimation("Images/PlayerCharacter/Cowboy/shooting_left_128x128_3_frames.png", 3, 128, 128, 0.1, 64, 64);
+    private CharacterAnimation shootingRightAnimation = new CharacterAnimation("Images/PlayerCharacter/Cowboy/shooting_right_128x128_3_frames.png", 3, 128, 128, 0.1, playerDrawWidth, playerDrawHeight);
+    private CharacterAnimation shootingLeftAnimation = new CharacterAnimation("Images/PlayerCharacter/Cowboy/shooting_left_128x128_3_frames.png", 3, 128, 128, 0.1, playerDrawWidth, playerDrawHeight);
 
     private Image playerIdleRightImage = new Image("file:Images/PlayerCharacter/Cowboy/idle_right_128x128.png");
     private Image playerIdleLeftImage = new Image("file:Images/PlayerCharacter/Cowboy/idle_left_128x128.png");
@@ -54,6 +56,7 @@ public class PlayerCharacter extends GameObject {
     private boolean standingStill;
     private boolean playerJumping = false;
     private boolean playerGrounded = false;
+    private boolean bulletFired;
     private double tileX;
     private double tileY;
     private double offX = 0;
@@ -219,11 +222,17 @@ public class PlayerCharacter extends GameObject {
             } else {
                 bullets.add(new Bullet(getPositionX() - 3, getPositionY() + 15, false));
             }
+            bulletFired = true;
             bulletReady = false;
         }
 
         if (!bulletReady) {
             bulletReady = bulletDelayer.delayTimer(0.2);
+            if(bulletReady) {
+                bulletFired = false;
+                shootingLeftAnimation.setCurrentFrame(0);
+                shootingRightAnimation.setCurrentFrame(0);
+            }
         }
         //End of bullets.
 
@@ -297,18 +306,24 @@ public class PlayerCharacter extends GameObject {
             if (!goingRight && !standingStill) {
                 walkingLeftAnimation.walking(true, gc, getPositionX(), getPositionY());
             }
-            if(goingRight && standingStill) {
-                gc.drawImage(playerIdleRightImage, getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
+            if(goingRight && standingStill && !bulletFired) {
+                gc.drawImage(playerIdleRightImage, getPositionX(), getPositionY(), playerDrawWidth, playerDrawHeight);
             }
-            if(!goingRight && standingStill) {
-                gc.drawImage(playerIdleLeftImage, getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
+            if(!goingRight && standingStill && !bulletFired) {
+                gc.drawImage(playerIdleLeftImage, getPositionX(), getPositionY(), playerDrawWidth, playerDrawHeight);
+            }
+            if(goingRight && bulletFired) {
+                shootingRightAnimation.shooting(gc, getPositionX(), getPositionY());
+            }
+            if(!goingRight && bulletFired) {
+                shootingLeftAnimation.shooting(gc, getPositionX(), getPositionY());
             }
         }
         if (playerJumping || !playerGrounded) {
             if (goingRight) {
-                gc.drawImage(playerJumpingRightImage, getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
+                gc.drawImage(playerJumpingRightImage, getPositionX(), getPositionY(), playerDrawWidth, playerDrawHeight);
             } else {
-                gc.drawImage(playerJumpingLeftImage, getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
+                gc.drawImage(playerJumpingLeftImage, getPositionX(), getPositionY(), playerDrawWidth, playerDrawHeight);
             }
         }
 
