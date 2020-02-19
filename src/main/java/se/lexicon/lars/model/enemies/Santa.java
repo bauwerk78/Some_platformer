@@ -27,8 +27,8 @@ public class Santa extends GameObject implements Randomize {
     private Delayer delayer;
 
     //private Image image;
-    private CharacterAnimation walkingAnimation = new CharacterAnimation("Images/Enemies/MidgetSanta/Walking/", "", "png", 13, 0.1);
-    private CharacterAnimation jumpingAnimation = new CharacterAnimation("Images/Enemies/MidgetSanta/Jumping/", "", "png", 16, 0.1);
+    private CharacterAnimation walkingAnimation = new CharacterAnimation("Images/Enemies/MidgetSanta/Walking/", "", "png", 13, 0.1, 64, 64);
+    private CharacterAnimation jumpingAnimation = new CharacterAnimation("Images/Enemies/MidgetSanta/Jumping/", "", "png", 16, 0.1, 64, 64);
     private int frameHeight = 72;
     private int frameWidth = 64;
     private int imageWidth = 704;

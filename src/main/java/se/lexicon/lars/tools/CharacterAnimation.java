@@ -2,6 +2,7 @@ package se.lexicon.lars.tools;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import se.lexicon.lars.model.Level;
 
 import java.util.ArrayList;
@@ -9,8 +10,9 @@ import java.util.List;
 
 public class CharacterAnimation {
 
-    List<Image> imageList = new ArrayList<>();
-    Image image;
+    private List<Image> imageList = new ArrayList<>();
+    private Image image;
+    private ImageView imageView;
     private Delayer delayer = new Delayer();
     private String path;
     private String fileName;
@@ -29,12 +31,14 @@ public class CharacterAnimation {
     private double drawSizeHeight;
 
 
-    public CharacterAnimation(String path, String fileName, String fileExtension, int numberOfFrames, double timeToDelay) {
+    public CharacterAnimation(String path, String fileName, String fileExtension, int numberOfFrames, double timeToDelay, double drawSizeWidth, double drawSizeHeight) {
         this.path = path;
         this.fileName = fileName;
         this.numberOfFrames = numberOfFrames;
         this.fileExtension = fileExtension;
         this.timeToDelay = timeToDelay;
+        this.drawSizeWidth = drawSizeWidth;
+        this.drawSizeHeight = drawSizeHeight;
         renderingImages = true;
         importImages();
 
@@ -50,6 +54,7 @@ public class CharacterAnimation {
         this.drawSizeHeight = drawSizeHeight;
         renderingFrames = true;
         image = new Image("file:" + pathAndFileName);
+        imageView = new ImageView(image);
         setFrameSrcPositions();
 
 
@@ -90,9 +95,10 @@ public class CharacterAnimation {
                     }
                 }
                 if (renderingImages) {
-                    gc.drawImage(imageList.get(currentFrame), posX, posY, Level.TILESIZE, Level.TILESIZE);
+                    gc.drawImage(imageList.get(currentFrame), posX, posY, drawSizeWidth, drawSizeHeight);
                 }
                 if (renderingFrames) {
+
                     gc.drawImage(image, imageSrcPosX[currentFrame], 0, widthOfFrame, heightOfFrame,
                             posX, posY, drawSizeWidth, drawSizeHeight);
                 }
@@ -111,7 +117,7 @@ public class CharacterAnimation {
                     }
                 }
                 if (renderingImages) {
-                    gc.drawImage(imageList.get(currentFrame), posX + Level.TILESIZE, posY, -Level.TILESIZE, Level.TILESIZE);
+                    gc.drawImage(imageList.get(currentFrame), posX + Level.TILESIZE, posY, -drawSizeWidth, drawSizeHeight);
                 }
 
                 if (renderingFrames) {
@@ -136,7 +142,7 @@ public class CharacterAnimation {
                 }
             }
             if (renderingImages) {
-                gc.drawImage(imageList.get(currentFrame), posX, posY, Level.TILESIZE, Level.TILESIZE);
+                gc.drawImage(imageList.get(currentFrame), posX, posY, drawSizeWidth, drawSizeHeight);
             }
 
             if (renderingFrames) {
@@ -158,7 +164,7 @@ public class CharacterAnimation {
                     }
                 }
                 if (renderingImages) {
-                    gc.drawImage(imageList.get(currentFrame), posX, posY, Level.TILESIZE, Level.TILESIZE);
+                    gc.drawImage(imageList.get(currentFrame), posX, posY, drawSizeWidth, drawSizeHeight);
                 }
 
                 if (renderingFrames) {
@@ -180,7 +186,7 @@ public class CharacterAnimation {
                     }
                 }
                 if (renderingImages) {
-                    gc.drawImage(imageList.get(currentFrame), posX + Level.TILESIZE, posY, -Level.TILESIZE, Level.TILESIZE);
+                    gc.drawImage(imageList.get(currentFrame), posX + Level.TILESIZE, posY, -drawSizeWidth, drawSizeHeight);
                 }
                 if (renderingFrames) {
                     gc.drawImage(image, imageSrcPosX[currentFrame], 0, widthOfFrame, heightOfFrame,

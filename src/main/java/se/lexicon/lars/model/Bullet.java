@@ -2,6 +2,7 @@ package se.lexicon.lars.model;
 
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import se.lexicon.lars.implementer.MainGame;
 import se.lexicon.lars.tools.Delayer;
@@ -10,6 +11,7 @@ public class Bullet extends GameObject {
 
     private static int bulletId = 0;
 
+    private Image bullet = new Image("file:Images/Weapons/Bullets/bullet1.png");
     private boolean goingRight;
     private boolean collided;
     private boolean collidedRight;
@@ -75,9 +77,9 @@ public class Bullet extends GameObject {
     @Override
     protected void render(GraphicsContext gc, Scene scene, MainGame mg) {
         update(scene, mg);
-
-        gc.setFill(Color.GREENYELLOW);
-        gc.fillRect(getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
+        gc.drawImage(bullet, getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());
+        /*gc.setFill(Color.GREENYELLOW);
+        gc.fillRect(getPositionX(), getPositionY(), getObjectWidth(), getObjectHeight());*/
     }
 
     public static int getBulletId() {

@@ -3,7 +3,9 @@ package se.lexicon.lars.model;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.MotionBlur;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import se.lexicon.lars.implementer.MainGame;
 import se.lexicon.lars.tools.CharacterAnimation;
@@ -24,13 +26,13 @@ public class PlayerCharacter extends GameObject {
     //Using a constant since elapsed time resulted in jerky movement.
     private final double elapsedTime = 0.015;
 
-    List<Bullet> bullets = new ArrayList<>();
-    Iterator<Bullet> bulletIterator;
-    List<Grenade> grenades = new ArrayList<>();
-    Iterator<Grenade> grenadeIterator;
+    private List<Bullet> bullets = new ArrayList<>();
+    private Iterator<Bullet> bulletIterator;
+    private List<Grenade> grenades = new ArrayList<>();
+    private Iterator<Grenade> grenadeIterator;
 
     //Player input.
-    List<String> input = new ArrayList<>();
+    private List<String> input = new ArrayList<>();
 
     private Image image;
     private Delayer bulletDelayer = new Delayer();
@@ -39,16 +41,13 @@ public class PlayerCharacter extends GameObject {
     private int playerDrawHeight = 64;
     private CharacterAnimation walkingRightAnimation = new CharacterAnimation("Images/PlayerCharacter/Cowboy/walking_right_128x128_9_frames.png", 9, 128, 128, 0.1, playerDrawWidth, playerDrawHeight);
     private CharacterAnimation walkingLeftAnimation = new CharacterAnimation("Images/PlayerCharacter/Cowboy/walking_left_128x128_9_frames.png", 9, 128, 128, 0.1, playerDrawWidth, playerDrawHeight);
-
-    //private CharacterAnimation jumpingAnimation;
     private CharacterAnimation shootingRightAnimation = new CharacterAnimation("Images/PlayerCharacter/Cowboy/shooting_right_128x128_3_frames.png", 3, 128, 128, 0.1, playerDrawWidth, playerDrawHeight);
     private CharacterAnimation shootingLeftAnimation = new CharacterAnimation("Images/PlayerCharacter/Cowboy/shooting_left_128x128_3_frames.png", 3, 128, 128, 0.1, playerDrawWidth, playerDrawHeight);
-
     private Image playerIdleRightImage = new Image("file:Images/PlayerCharacter/Cowboy/idle_right_128x128.png");
     private Image playerIdleLeftImage = new Image("file:Images/PlayerCharacter/Cowboy/idle_left_128x128.png");
     private Image playerJumpingRightImage = new Image("file:Images/PlayerCharacter/Cowboy/jumping_right_128x128.png");
     private Image playerJumpingLeftImage = new Image("file:Images/PlayerCharacter/Cowboy/jumping_left_128x128.png");
-
+    private ImageView imageView = new ImageView(playerJumpingRightImage);
     private boolean bulletReady = true;
     private boolean grenadeReady = true;
 
@@ -61,6 +60,8 @@ public class PlayerCharacter extends GameObject {
     private double tileY;
     private double offX = 0;
     private double offY = 0;
+
+    MotionBlur motionBlur = new MotionBlur();
 
 
     public PlayerCharacter() {
@@ -77,10 +78,14 @@ public class PlayerCharacter extends GameObject {
     @Override
     protected void init() {
         setID("Player1");
-        setObjectWidth(TILESIZE);
-        setObjectHeight(TILESIZE);
+        setObjectWidth(playerDrawWidth);
+        setObjectHeight(playerDrawHeight);
         setObjectSpeedX(300);
         setObjectSpeedY(0);
+        //TODO just testing
+        motionBlur.setRadius(10);
+        motionBlur.setAngle(-15);
+
         setImage();
     }
 
