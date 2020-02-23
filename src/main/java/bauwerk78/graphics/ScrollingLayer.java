@@ -1,11 +1,11 @@
-package se.lexicon.lars.graphics;
+package bauwerk78.graphics;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import se.lexicon.lars.model.Level;
+import bauwerk78.model.Level;
 
-import static se.lexicon.lars.graphics.Renderer.elapsedTime;
+import static bauwerk78.graphics.Renderer.elapsedTime;
 
 public class ScrollingLayer {
 

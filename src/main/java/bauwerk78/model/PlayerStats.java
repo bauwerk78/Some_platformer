@@ -1,4 +1,4 @@
-package se.lexicon.lars.model;
+package bauwerk78.model;
 
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;

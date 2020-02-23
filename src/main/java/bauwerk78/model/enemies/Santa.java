@@ -1,16 +1,15 @@
-package se.lexicon.lars.model.enemies;
+package bauwerk78.model.enemies;
 
+import bauwerk78.implementer.MainGame;
+import bauwerk78.tools.CharacterAnimation;
+import bauwerk78.tools.Delayer;
+import bauwerk78.tools.Randomize;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import se.lexicon.lars.implementer.MainGame;
-import se.lexicon.lars.model.GameObject;
-import se.lexicon.lars.model.Level;
-import se.lexicon.lars.tools.CharacterAnimation;
-import se.lexicon.lars.tools.Delayer;
-import se.lexicon.lars.tools.Randomize;
+import bauwerk78.model.GameObject;
+import bauwerk78.model.Level;
 
-import static se.lexicon.lars.model.Level.TILESIZE;
+import static bauwerk78.model.Level.TILESIZE;
 
 public class Santa extends GameObject implements Randomize {
 

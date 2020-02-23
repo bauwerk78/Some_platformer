@@ -1,8 +1,8 @@
-package se.lexicon.lars.model;
+package bauwerk78.model;
 
+import bauwerk78.implementer.MainGame;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
-import se.lexicon.lars.implementer.MainGame;
 
 public abstract class GameObject {
 

@@ -1,13 +1,12 @@
-package se.lexicon.lars.model;
+package bauwerk78.model;
 
+import bauwerk78.implementer.MainGame;
+import bauwerk78.tools.Delayer;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import se.lexicon.lars.graphics.Renderer;
-import se.lexicon.lars.implementer.MainGame;
-import se.lexicon.lars.tools.Delayer;
 
 public class Grenade extends GameObject {
 

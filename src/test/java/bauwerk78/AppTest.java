@@ -1,4 +1,4 @@
-package se.lexicon.lars;
+package bauwerk78;
 
 import static org.junit.Assert.assertTrue;
 

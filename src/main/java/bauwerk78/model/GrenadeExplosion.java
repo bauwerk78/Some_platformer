@@ -1,10 +1,10 @@
-package se.lexicon.lars.model;
+package bauwerk78.model;
 
+import bauwerk78.implementer.MainGame;
+import bauwerk78.tools.Delayer;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import se.lexicon.lars.implementer.MainGame;
-import se.lexicon.lars.tools.Delayer;
 
 public class GrenadeExplosion {
 

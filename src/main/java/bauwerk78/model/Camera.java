@@ -1,8 +1,8 @@
-package se.lexicon.lars.model;
+package bauwerk78.model;
 
+import bauwerk78.graphics.Renderer;
 import javafx.scene.ParallelCamera;
 import javafx.scene.Scene;
-import se.lexicon.lars.graphics.Renderer;
 
 public class Camera {
 

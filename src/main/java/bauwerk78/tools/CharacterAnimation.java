@@ -1,9 +1,9 @@
-package se.lexicon.lars.tools;
+package bauwerk78.tools;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import se.lexicon.lars.model.Level;
+import bauwerk78.model.Level;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
-package se.lexicon.lars;
+package bauwerk78;
 
-import se.lexicon.lars.graphics.Renderer;
+import bauwerk78.graphics.Renderer;
 
 public class App extends Renderer
 {

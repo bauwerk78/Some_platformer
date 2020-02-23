@@ -1,11 +1,11 @@
-package se.lexicon.lars.graphics;
+package bauwerk78.graphics;
 
+import bauwerk78.implementer.MainGame;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import se.lexicon.lars.implementer.MainGame;
 
 public class Renderer extends Application {
 

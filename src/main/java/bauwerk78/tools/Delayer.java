@@ -1,6 +1,6 @@
-package se.lexicon.lars.tools;
+package bauwerk78.tools;
 
-import static se.lexicon.lars.graphics.Renderer.elapsedTime;
+import bauwerk78.graphics.Renderer;
 
 public class Delayer {
 
@@ -20,7 +20,7 @@ public class Delayer {
     }
 
     public boolean delayTimer(double timeToDelay) {
-        counter += elapsedTime;
+        counter += Renderer.elapsedTime;
         //System.out.println("counter: " + counter + " timeToDelay: " + timeToDelay);
         if (counter < timeToDelay) {
             return false;

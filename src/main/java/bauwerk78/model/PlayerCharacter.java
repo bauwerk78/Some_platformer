@@ -1,5 +1,8 @@
-package se.lexicon.lars.model;
+package bauwerk78.model;
 
+import bauwerk78.implementer.MainGame;
+import bauwerk78.tools.CharacterAnimation;
+import bauwerk78.tools.Delayer;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
@@ -7,16 +10,13 @@ import javafx.scene.effect.MotionBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import se.lexicon.lars.implementer.MainGame;
-import se.lexicon.lars.tools.CharacterAnimation;
-import se.lexicon.lars.tools.Delayer;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 //import static se.lexicon.lars.graphics.Renderer.elapsedTime;
-import static se.lexicon.lars.model.Level.TILESIZE;
+
 
 public class PlayerCharacter extends GameObject {
 
@@ -70,8 +70,8 @@ public class PlayerCharacter extends GameObject {
 
     public PlayerCharacter(double positionX, double positionY) {
         super(positionX, positionY);
-        setTileX(positionX / TILESIZE);
-        setTileY(positionY / TILESIZE);
+        setTileX(positionX / Level.TILESIZE);
+        setTileY(positionY / Level.TILESIZE);
         init();
     }
 
@@ -136,8 +136,8 @@ public class PlayerCharacter extends GameObject {
         if (getObjectSpeedY() < 0) {
             if (isPlayerJumping()) {
                 /*if (mg.getCollision(tileX, tileY - 1) && offY <= 0) {*/
-                if ((mg.getCollision(Math.floor(getPositionX() / TILESIZE), Math.floor(getPositionY() / TILESIZE) - 1) && offY >= 0) ||
-                        (mg.getCollision(Math.ceil(getPositionX() / TILESIZE), Math.floor(getPositionY() / TILESIZE) - 1) && offY >= 0)) {
+                if ((mg.getCollision(Math.floor(getPositionX() / Level.TILESIZE), Math.floor(getPositionY() / Level.TILESIZE) - 1) && offY >= 0) ||
+                        (mg.getCollision(Math.ceil(getPositionX() / Level.TILESIZE), Math.floor(getPositionY() / Level.TILESIZE) - 1) && offY >= 0)) {
                     offY = 0;
                     setObjectSpeedY(0);
                 }
@@ -146,8 +146,8 @@ public class PlayerCharacter extends GameObject {
 
         //Colliding with tile beneath player.
         if (getObjectSpeedY() >= 0) {
-            if ((mg.getCollision(Math.floor((getPositionX()) / TILESIZE), tileY + 1)) ||
-                    (mg.getCollision(Math.ceil((getPositionX()) / TILESIZE), tileY + 1))) {
+            if ((mg.getCollision(Math.floor((getPositionX()) / Level.TILESIZE), tileY + 1)) ||
+                    (mg.getCollision(Math.ceil((getPositionX()) / Level.TILESIZE), tileY + 1))) {
 
                 setObjectSpeedY(0);
                 playerGrounded = true;
@@ -195,28 +195,28 @@ public class PlayerCharacter extends GameObject {
         //Update player position.
 
         //Down
-        if (offY > TILESIZE / 2f) {
+        if (offY > Level.TILESIZE / 2f) {
             tileY++;
-            offY -= TILESIZE;
+            offY -= Level.TILESIZE;
         }
         //Up
-        if (offY < -TILESIZE / 2f) {
+        if (offY < -Level.TILESIZE / 2f) {
             tileY--;
-            offY += TILESIZE;
+            offY += Level.TILESIZE;
         }
         // Left
-        if (offX < -TILESIZE / 2f) {
+        if (offX < -Level.TILESIZE / 2f) {
             tileX--;
-            offX += TILESIZE;
+            offX += Level.TILESIZE;
         }
         //Right
-        if (offX > TILESIZE / 2f) {
+        if (offX > Level.TILESIZE / 2f) {
             tileX++;
-            offX -= TILESIZE;
+            offX -= Level.TILESIZE;
         }
 
-        setPositionX((tileX * TILESIZE) + offX);
-        setPositionY((tileY * TILESIZE) + offY);
+        setPositionX((tileX * Level.TILESIZE) + offX);
+        setPositionY((tileY * Level.TILESIZE) + offY);
 
         //Start of player firing weapons.
 

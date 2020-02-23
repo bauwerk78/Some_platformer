@@ -1,23 +1,23 @@
-package se.lexicon.lars.implementer;
+package bauwerk78.implementer;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import se.lexicon.lars.graphics.BackgroundAndForeground;
-import se.lexicon.lars.graphics.Renderer;
-import se.lexicon.lars.graphics.ScrollingLayer;
-import se.lexicon.lars.model.Camera;
-import se.lexicon.lars.model.Level;
-import se.lexicon.lars.model.PlayerCharacter;
-import se.lexicon.lars.model.enemies.Santa;
-import se.lexicon.lars.tools.Randomize;
+import bauwerk78.graphics.BackgroundAndForeground;
+import bauwerk78.graphics.Renderer;
+import bauwerk78.graphics.ScrollingLayer;
+import bauwerk78.model.Camera;
+import bauwerk78.model.Level;
+import bauwerk78.model.PlayerCharacter;
+import bauwerk78.model.enemies.Santa;
+import bauwerk78.tools.Randomize;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static se.lexicon.lars.model.Level.*;
+import static bauwerk78.model.Level.*;
 
 public class MainGame implements Randomize {
 

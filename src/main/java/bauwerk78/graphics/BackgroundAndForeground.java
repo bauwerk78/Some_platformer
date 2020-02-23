@@ -1,8 +1,8 @@
-package se.lexicon.lars.graphics;
+package bauwerk78.graphics;
 
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-import se.lexicon.lars.model.Level;
+import bauwerk78.model.Level;
 
 
 public class BackgroundAndForeground {
