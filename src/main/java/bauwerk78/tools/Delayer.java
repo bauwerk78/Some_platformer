@@ -1,6 +1,6 @@
 package bauwerk78.tools;
 
-import bauwerk78.graphics.Renderer;
+import bauwerk78.implementer.MainGame;
 
 public class Delayer {
 
@@ -20,7 +20,7 @@ public class Delayer {
     }
 
     public boolean delayTimer(double timeToDelay) {
-        counter += Renderer.elapsedTime;
+        counter += MainGame.elapsedTime;
         //System.out.println("counter: " + counter + " timeToDelay: " + timeToDelay);
         if (counter < timeToDelay) {
             return false;

@@ -1,8 +1,8 @@
 package bauwerk78;
 
-import bauwerk78.graphics.Renderer;
+import bauwerk78.implementer.MainGame;
 
-public class App extends Renderer
+public class App extends MainGame
 {
     public static void main( String[] args )
     {

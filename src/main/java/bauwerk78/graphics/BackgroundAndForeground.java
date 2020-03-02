@@ -1,5 +1,6 @@
 package bauwerk78.graphics;
 
+import bauwerk78.implementer.MainGame;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import bauwerk78.model.Level;
@@ -23,8 +24,8 @@ public class BackgroundAndForeground {
 
         Image backgroundImage = new Image(backgroundImagePathAndName);
         Image foregroundImage = new Image(foregroundImagePathAndName);
-        BackgroundImage backgroundImage1 = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(Renderer.windowWidth, Renderer.windowHeight, false, false, false, false));
-        BackgroundImage foregroundImage1 = new BackgroundImage(foregroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(Renderer.windowWidth, Renderer.windowHeight, false, false, false, false));
+        BackgroundImage backgroundImage1 = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(MainGame.windowWidth, MainGame.windowHeight, false, false, false, false));
+        BackgroundImage foregroundImage1 = new BackgroundImage(foregroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(MainGame.windowWidth, MainGame.windowHeight, false, false, false, false));
 
         //The background.
         Background background = new Background(backgroundImage1);

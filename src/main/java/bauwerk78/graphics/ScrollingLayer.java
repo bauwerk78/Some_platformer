@@ -1,11 +1,12 @@
 package bauwerk78.graphics;
 
+import bauwerk78.implementer.MainGame;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import bauwerk78.model.Level;
 
-import static bauwerk78.graphics.Renderer.elapsedTime;
+import static bauwerk78.implementer.MainGame.elapsedTime;
 
 public class ScrollingLayer {
 
@@ -30,14 +31,14 @@ public class ScrollingLayer {
         Image image = new Image(fileLocationAndName);
 
         imageView1.setImage(image);
-        imageView1.setFitHeight(Renderer.windowHeight);
-        imageView1.setFitWidth(Renderer.windowWidth * 2);
+        imageView1.setFitHeight(MainGame.windowHeight);
+        imageView1.setFitWidth(MainGame.windowWidth * 2);
         //imageView1.setOpacity(1);
         imageView1.setVisible(true);
 
         imageView2.setImage(image);
-        imageView2.setFitHeight(Renderer.windowHeight);
-        imageView2.setFitWidth(Renderer.windowWidth * 2);
+        imageView2.setFitHeight(MainGame.windowHeight);
+        imageView2.setFitWidth(MainGame.windowWidth * 2);
         //imageView2.setOpacity(0.5);
         imageView2.setVisible(true);
 

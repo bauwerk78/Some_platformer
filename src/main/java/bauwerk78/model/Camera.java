@@ -1,6 +1,6 @@
 package bauwerk78.model;
 
-import bauwerk78.graphics.Renderer;
+import bauwerk78.implementer.MainGame;
 import javafx.scene.ParallelCamera;
 import javafx.scene.Scene;
 
@@ -10,8 +10,8 @@ public class Camera {
     private ParallelCamera camera;
     /*    private double fovX = (Level.levelW * Level.TILESIZE) / 2d;
         private double fovY = (Level.levelH * Level.TILESIZE) / 2d;*/
-    private double fovX = (Renderer.windowWidth) / 2d;
-    private double fovY = (Renderer.windowHeight) / 2d;
+    private double fovX = (MainGame.windowWidth) / 2d;
+    private double fovY = (MainGame.windowHeight) / 2d;
     private double camX = 0;
     private double camY = 0;
     private double targetX;
@@ -46,15 +46,15 @@ public class Camera {
         if(targetX < 0) {
             targetX = 0;
         }
-        if(targetX > (Level.levelW * Level.TILESIZE) - Renderer.windowWidth) {
-            targetX = (Level.levelW * Level.TILESIZE) - Renderer.windowWidth;
+        if(targetX > (Level.levelW * Level.TILESIZE) - MainGame.windowWidth) {
+            targetX = (Level.levelW * Level.TILESIZE) - MainGame.windowWidth;
         }
 
         if(targetY < 0) {
             targetY = 0;
         }
-        if(targetY > (Level.levelH * Level.TILESIZE) - Renderer.windowHeight) {
-            targetY = (Level.levelH * Level.TILESIZE) - Renderer.windowHeight;
+        if(targetY > (Level.levelH * Level.TILESIZE) - MainGame.windowHeight) {
+            targetY = (Level.levelH * Level.TILESIZE) - MainGame.windowHeight;
         }
 
         //Lerp calculation for smoother camera movement.
