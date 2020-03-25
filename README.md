@@ -18,4 +18,7 @@ graphics just don't fit with each other for the scenarios.
 But once again this is about learning.
 
 Game is played using the arrow keys and using F for fire and G for
-grenades atm. Want to test to integrate controllers as well.
+grenades atm. I also want to test to integrate controllers as well.
+
+Game grenades and bullets don't kill enemies yet. Other things to
+add is bullet and grenade drops as well as a health bar and so on.
